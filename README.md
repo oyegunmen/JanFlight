@@ -8,33 +8,11 @@ Documentation -
 * **RC Receiver:** FlySky FS-iA6B or any receiver capable of outputting a standard PPM, PWM, or SBUS stream.
 
 ## Software Requirements
-JanFlight is compiled and flashed using the standard Arduino IDE. Follow these steps to configure your environment:
-
-1. Setting up Arduino IDE for STM32
-By default, the Arduino IDE does not support STM32 chips. You need to add the official STM32duino core package:
-    1. Open the Arduino IDE and navigate to **File > Preferences**.
-    2. Locate the **Additional Boards Manager URLs** field and paste the following link:
-    `https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json`
-    3. Click **OK**, then go to **Tools > Board > Boards Manager...**
-    4. Search for **STM32** and install the package titled **STM32 MCU based boards** by STMicroelectronics.
-
-2. Selecting Your Board Configurations
-Before compiling, ensure your target hardware parameters are set correctly under the \*\*Tools\*\* menu:
-* **Board:** "Generic STM32F4 series"
-
-3. Compiling and Uploading
-    1. Open the `JanFlight_v1.0.0.ino` file in the IDE.
-    2. Connect your STM32F405 board to your computer via USB.
-    3. Select the correct COM port under **Tools > Port**.
-    4. Click the **Upload** arrow to compile and flash the code directly to the hardware.
+JanFlight is compiled and flashed using the standard Arduino IDE. Detailed steps are included in the JanFlight Documentation website.
 
 ## Performance
 
-The code is highly optimized and written at a low level to minimize memory usage, ensuring low latency and maximum compute space for custom modifications.
-
-* **Flash Memory (ROM Headroom):** Uses roughly 37 KB out of 1024 KB available. You have over **96% of free space remaining** for complex automation, additional control modes, or logging scripts.
-
-* **Dynamic Memory (RAM Headroom):** Uses roughly 2.1 KB out of 128 KB allocated. Nearly the entire memory capacity (**over 98% free space**) is completely open for local workspace and operational variables.
+The code is highly optimized and written at a low level to minimize memory usage, ensuring low latency and maximum compute space for custom modifications. With only 37 KB of 1024 KB Flash and 2.1 KB of 128 KB RAM in use, you retain over 96% and 98% free space respectively, leaving massive headroom for complex automation, additional control modes, logging scripts, and operational variables.
 
 ## License
 This project is open-source and distributed under the [GPL-3.0 License](https://github.com/oyegunmen/JanFlight?tab=GPL-3.0-1-ov-file#readme).
