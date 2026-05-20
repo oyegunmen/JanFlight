@@ -1,14 +1,13 @@
-### JanFlight
 JanFlight is a lightweight, high-performance flight controller designed to run natively on the STM32F405 development board. The code is written in single clean flat-file structure, so it's  highly intuitive and readable. It handles a 2kHz control loop and state estimation without the overhead of external libraries.
 
 Documentation -
 
-### Hardware Requirements
+## Hardware Requirements
 * **MCU Development Board:** STM32F405RGT6 (Approx. 1000 INR)
 * **IMU Sensor:** MPU6500 I2C/SPI Module (Approx. 130 INR)
 * **RC Receiver:** FlySky FS-iA6B or any receiver capable of outputting a standard PPM, PWM, or SBUS stream.
 
-### Software Requirements
+## Software Requirements
 JanFlight is compiled and flashed using the standard Arduino IDE. Follow these steps to configure your environment:
 
 1. Setting up Arduino IDE for STM32
@@ -29,7 +28,7 @@ Before compiling, ensure your target hardware parameters are set correctly under
     3. Select the correct COM port under **Tools > Port**.
     4. Click the **Upload** arrow to compile and flash the code directly to the hardware.
 
-### Performance
+## Performance
 
 The code is highly optimized and written at a low level to minimize memory usage, ensuring low latency and maximum compute space for custom modifications.
 
@@ -37,10 +36,10 @@ The code is highly optimized and written at a low level to minimize memory usage
 
 * **Dynamic Memory (RAM Headroom):** Uses roughly 2.1 KB out of 128 KB allocated. Nearly the entire memory capacity (**over 98% free space**) is completely open for local workspace and operational variables.
 
-### License
+## License
 This project is open-source and distributed under the [GPL-3.0 License](https://github.com/oyegunmen/JanFlight?tab=GPL-3.0-1-ov-file#readme).
 
-### Acknowledgement
+## Acknowledgement
 Special thanks to Nicholas Rehm and his [dRehmFlight](https://github.com/nickrehm/dRehmFlight) project.
 
 ## Disclaimer
