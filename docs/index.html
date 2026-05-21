@@ -8,18 +8,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
   <link rel="stylesheet" href="src/oat.min.css">
+  <script src="src/oat.min.js"></script>
+
+  <style>
+    @media screen and (max-width: 768px) {
+      .content {
+        left: 0 ;
+        position: static;
+        max-width: 100% ;
+      }
+
+      .markdown-section {
+        padding: 0 6% 0 6%;
+        max-width: 100%;
+      }
+    }
+  </style>
+
 </head>
 <body data-theme="light">
-  <div id="app">Loading documentation...</div>
+  <div id="app">Loading...</div>
   <script>
     window.$docsify = {
       name: 'Janflight',
       loadSidebar: true,
-      subMaxLevel: 2
+      subMaxLevel: 2,
+      auto2top: true,
+      themeColor: '#2B7ADB',
+
+      search: {
+              maxAge: 86400000,
+              paths: 'auto',
+              placeholder: 'Type to search',
+              noData: 'No Results!',
+              depth: 6
+            },
+
+        pagination: {
+          crossChapter: true,
+          crossChapterText: false,
+        },
+
+      plugins: [
+        function (hook, vm) {
+          hook.beforeEach(function (html) {
+            var url;
+            if (vm.route.file === 'README.md') {
+              url = 'https://github.com/oyegunmen/JanFlight/blob/main/docs/README.md';
+            } else {
+              var cleanPath = vm.route.file.replace(/^docs\//, '');
+              url = 'https://github.com/oyegunmen/JanFlight/blob/main/docs/' + cleanPath;
+            }
+            var editHtml = '\n\n:memo:[Edit this Page](' + url + ')';
+
+            return html + editHtml;
+          });
+
+          hook.afterEach(function (html, next) {
+      var footerHtml = 
+        '<footer style="margin-top: 50px; padding: 20px 0; text-align: center; color: #999;">\n' +
+        '  Copyright © 2026 JanFlight.\n' +
+        '</footer>\n';
+
+      next(html + footerHtml);
+      });
+        }
+      ]
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
-  <script src="src/oat.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
   <script type="module">
     import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
     mermaid.initialize({ startOnLoad: true });

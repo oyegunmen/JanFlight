@@ -41,3 +41,5 @@ Here is a high-level overview of how each function keeps the vehicle stable:
 * `loopRate()`: Monitors the system clock at the bottom of the loop, holding the processor in a microsecond-accurate loop until exactly 500 microseconds have elapsed, ensuring a stable 2kHz loop frequency.
 
 * `getPPM()`: An asynchronous Interrupt Service Routine (ISR) that runs in the background, measuring the physical time between incoming radio pulses to decode your control stick channels.
+
+*Last Updated: 21st May 2026*
