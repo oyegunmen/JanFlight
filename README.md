@@ -1,8 +1,10 @@
-JanFlight is a lightweight, high-performance flight controller designed to run natively on the STM32F405 development board. The code is written in single clean flat-file structure, so it's  highly intuitive and readable. It handles a 2kHz control loop and state estimation without the overhead of external libraries.
+JanFlight is a STM32F405RGT6 based arduino compatible flight stabilizer (controller?).
+
+Documentation - https://oyegunmen.github.io/JanFlight/#/
 
 ## Hardware Requirements
-* **MCU Development Board:** STM32F405RGT6 (Approx. 1000 INR)
-* **IMU Sensor:** MPU6500 I2C/SPI Module (Approx. 130 INR)
+* **MCU Development Board:** STM32F405RGT6 (₹ 1000)
+* **IMU Sensor:** MPU6500 I2C/SPI Module (₹ 130)
 * **RC Receiver:** FlySky FS-iA6B or any receiver capable of outputting a standard PPM, PWM, or SBUS stream.
 
 ## Software Requirements

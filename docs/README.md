@@ -1,7 +1,7 @@
 # Janflight Documentation
 
 ## Overview
-JanFlight is a **STM32F405RGT6** based **arduino** compatible **flight stabilizer**, completely free of external runtime libraries or RTOS overhead.
+JanFlight is a **STM32F405RGT6** based **arduino** compatible **flight stabilizer (controller?)**.
 
 ## Highlights
 
