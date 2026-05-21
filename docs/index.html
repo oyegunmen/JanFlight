@@ -22,15 +22,40 @@
         padding: 0 6% 0 6%;
         max-width: 100%;
       }
+
+      .navbar{
+        padding: 0 6% 0 6%;
+        max-width: 100%;
+      }
     }
+@media screen and (min-width: 768px) {
+  .sidebar {
+    top: 60px;
+    height: calc(100vh - 60px);
+  }
+}
   </style>
 
 </head>
 <body data-theme="light">
+  <nav>
+<div class= "navbar" style="position: fixed; top: 0; left: 0; width: 100vw; height: 60px; padding: 0 4%; background-color: #ffffff; border-bottom: 1px solid #eeeeee; z-index: 99999; display: flex; align-items: center; justify-content: space-between;">
+  <div>
+    <a href="#/" style="color: #2B7ADB; font-size: 1.25em;"><b>JanFlight</b></a>
+  </div>
+  
+  <div style="display: flex; align-items: center;">
+    <a href="https://github.com/oyegunmen/JanFlight" target="_blank">
+      <span>GitHub</span>
+    </a>
+  </div>
+  </nav>   
+  
+</div>
   <div id="app">Loading...</div>
   <script>
     window.$docsify = {
-      name: 'Janflight',
+      topMargin: 100,
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
