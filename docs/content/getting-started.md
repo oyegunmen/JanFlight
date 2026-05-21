@@ -1,4 +1,4 @@
-# Janflight
+# Getting Started
 
 1. Get the required hardware
 2. Setup Arduino IDE development environment

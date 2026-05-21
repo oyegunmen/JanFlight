@@ -1,4 +1,4 @@
-# Janflight
+# Software
 
 The codebase depends strictly on native hardware peripherals to keep execution tight. The only required inclusion is the default `<Wire.h>` library for I2C and the basic `<Servo.h>` package for handling auxiliary servo outputs. No third-party filtering or register-management libraries are needed. Ensure your computer has the necessary STM32 Virtual COM Port drivers installed so the board can print data cleanly at a high baud rate (500000 bps).
 
