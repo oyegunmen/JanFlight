@@ -19,27 +19,32 @@
       }
 
       .markdown-section {
-        padding: 0 6% 0 6%;
+        padding: 0 5% 0 5%;
         max-width: 100%;
       }
 
       .navbar{
-        padding: 0 6% 0 6%;
+        padding: 0 5%;
         max-width: 100%;
       }
     }
-@media screen and (min-width: 768px) {
-  .sidebar {
-    top: 60px;
-    height: calc(100vh - 60px);
-  }
+
+    main{
+      padding-top: 60px
+    }
+
+    @media screen and (min-width: 768px) {
+      .sidebar {
+        top: 60px;
+        height: calc(100vh - 60px);
+      }
 }
   </style>
 
 </head>
 <body data-theme="light">
   <nav>
-<div class= "navbar" style="position: fixed; top: 0; left: 0; width: 100vw; height: 60px; padding: 0 4%; background-color: #ffffff; border-bottom: 1px solid #eeeeee; z-index: 99999; display: flex; align-items: center; justify-content: space-between;">
+<div class= "navbar" style="position: fixed; top: 0; left: 0; width: 100vw; height: 60px; padding: 0 5%; background-color: #ffffff; border-bottom: 1px solid #eeeeee; z-index: 99999; display: flex; align-items: center; justify-content: space-between;">
   <div>
     <a href="#/" style="color: #2B7ADB; font-size: 1.25em;"><b>JanFlight</b></a>
   </div>
@@ -55,7 +60,7 @@
   <div id="app">Loading...</div>
   <script>
     window.$docsify = {
-      topMargin: 100,
+      topMargin: 80,
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
