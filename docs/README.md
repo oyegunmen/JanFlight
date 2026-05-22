@@ -1,5 +1,5 @@
 ## Overview
-JanFlight is a **STM32F405RGT6** based **arduino** compatible **flight stabilizer (controller?)**.
+JanFlight is free and open source **STM32F405RGT6** based **arduino** compatible **flight stabilizer (controller?)**.
 
 ## Highlights
 
@@ -46,7 +46,7 @@ JanFlight is a **STM32F405RGT6** based **arduino** compatible **flight stabilize
 
 ## Problem
 
-Ever since I started tinkering around drones, my understanding of drone firmware was
+Ever since I started tinkering around drones, my understanding of drone firmware was:
 ```mermaid
 flowchart TD
     Code["`Flight Controller
@@ -56,13 +56,18 @@ flowchart TD
     User --> Code
     Code --> D(Stable Drone)
 ```
-Production-grade open-source autopilot are highly capable, but their codebases are massive, deeply nested, and structurally abstract. For hobbyist like me, attempting to understand the fundamental mechanics of flight stabilization, these can easily turn into nightmare. The actual **"magic"** of how a vehicle stabilizes is obscured by software complexity, making lower-level learning, custom configuration, or rapid prototyping incredibly difficult.
+
+Production-grade open source autopilots are highly capable, but their massive, complex codebase hides the core physics & Maths of flight stabilization.
+
+For hobbyists, this software complexity makes it incredibly difficult to learn the basics, make custom tweaks, or quickly prototype ideas.
 
 ## Why?
+There exists production grade autopilots, then why [re-invent the wheel](https://programmerhumor.io/memes/reinventing-the-wheel)?
 
 * To understand exactly what mathematical magic happens inside that silicon chip.
-* It's fun building your own flight controller.
 * It **looks cool** to fly a aircraft powered by your own flight controller.
+* It's fun building your own flight controller.
+
 
 ## Example
 
@@ -85,4 +90,4 @@ This code is a shared, open source flight controller for small micro aerial vehi
 
 THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-*Last Updated: 21st May 2026*
+*Last Updated: 22nd May 2026*

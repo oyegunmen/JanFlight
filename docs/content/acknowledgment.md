@@ -1,11 +1,7 @@
 # Acknowledgment
 
-This project is licensed under the **GPL-3.0 License**.
+This project is licensed under the [GPL-3.0 License](https://github.com/oyegunmen/JanFlight?tab=GPL-3.0-1-ov-file#readme).
 
-Special thanks to **Nicholas Rehm** and his [dRehmFlight](https://github.com/nickrehm/dRehmFlight) project. The core architecture of this project is inspired by his excellent work in demystifying flight dynamics for the open-source community.
+Special thanks to **Nicholas Rehm** and his [dRehmFlight](https://github.com/nickrehm/dRehmFlight) project. You and your project both are awesome, thanks for sharing your work.
 
-## Similar Projects
-
-* [MadFlight](https://madflight.com/)
-
-*Last Updated: 21st May 2026*
+*Last Updated: 22nd May 2026*

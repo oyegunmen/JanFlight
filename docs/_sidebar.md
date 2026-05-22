@@ -1,5 +1,6 @@
 * **Home**
   * [Introduction](README.md)
+  * [Basics](content/basics.md)
 
 * **JanFlight**
   * [Getting Started](content/getting-started.md)
