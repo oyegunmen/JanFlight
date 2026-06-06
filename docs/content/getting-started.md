@@ -37,6 +37,7 @@ https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectron
 
 5. Go to **Tools > U(S)ART support** and change the setting to **Enabled (generic 'Serial')**. This activates USB CDC support so you can stream raw telemetry directly through your USB cable.
 
+!> **Info**: Your laptop might need the [Virtual COM Port driver](https://www.st.com/en/development-tools/stsw-stm32102.html) installed if it doesn't automatically detect the board when flashing via DFU.
 
 ## 3. Configure the Control Mixer
 Download `src/JanFlight_v1.0.0/JanFlight_v1.0.0.ino` from [GitHub](https://github.com/oyegunmen/JanFlight/blob/main/src/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) and locate the `controlMixer()` function. This is where your control inputs map to the motor pins.
@@ -54,4 +55,4 @@ Reconnect your board via USB and Upload the code once more with calibrated IMU o
 ## 6. FLY!
 Disconnect from your computer, double-check your failsafe and throttle cut switches with propellers off, verify the orientation, mount your gears, and head out for a test flight.
 
-*Last Updated: 22nd May 2026*
+*Last Updated: 5Th June 2026*

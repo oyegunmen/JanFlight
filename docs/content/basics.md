@@ -9,14 +9,14 @@
 1. [How to Read This Guide](#how-to-read-this-guide)
 2. [Glossary of Key Terms](#glossary-of-key-terms)
 3. [How a Drone Works](#how-a-drone-works)
-4. [Physics & Aerodynamics](#1-physics--aerodynamics)
-5. [Motors, ESCs & Props](#2-motors-escs--props)
-6. [Batteries](#3-batteries)
-7. [Flight Controller & Frame](#4-flight-controller--frame)
-8. [Radio Link & Communication](#5-radio-link--communication)
-9. [Ground Control Stations](#6-ground-control-stations)
-10. [Specialized Sensors & Payloads](#7-specialized-sensors--payloads)
-11. [Build Workflow](#8-build-workflow)
+4. [Physics & Aerodynamics](#_1-physics-amp-aerodynamics)
+5. [Motors, ESCs & Props](#_2-motors-escs-amp-props)
+6. [Batteries](#_3-batteries)
+7. [Flight Controller & Frame](#_4-flight-controller-amp-frame)
+8. [Radio Link & Communication](#_5-radio-link-amp-communication)
+9. [Ground Control Stations](#_6-ground-control-stations)
+10. [Specialized Sensors & Payloads](#_7-specialized-sensors-amp-payloads)
+11. [Build Workflow](#_8-build-workflow)
 
 ---
 
