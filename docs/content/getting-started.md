@@ -12,9 +12,6 @@ For additional help see [JanFlight Discussions](https://github.com/oyegunmen/Jan
 ## 1. Get the required hardware
 * STM32F405RGT6 development board (₹1000)
 * MPU6500 IMU module (₹130)
-* RC Receiver: PPM
-* BEC or DC-DC converter to power your board from a battery
-* ESC (OneShot125) and/or servos (PWM)
 
 and other compatible drone related components.
 
@@ -29,6 +26,8 @@ Open your Arduino IDE and follow these steps to add STM32 support:
 https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json
 ```
 
+![Image](../static/img-pref.png)
+
 2. Open **Tools > Board > Boards Manager**. In the search bar, type **STM32**. Locate STM32 MCU based boards by **STMicroelectronics** and click **Install**.
 
 3. Go to **Tools > Board > STM32 Boards (STM32Duino)** and select **Generic STM32F4** series.
@@ -36,6 +35,8 @@ https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectron
 4. Go to **Tools > Board part number** and select **Generic F405RGTx**.
 
 5. Go to **Tools > U(S)ART support** and change the setting to **Enabled (generic 'Serial')**. This activates USB CDC support so you can stream raw telemetry directly through your USB cable.
+
+![Image](../static/img-tools.png)
 
 !> **Info**: Your laptop might need the [Virtual COM Port driver](https://www.st.com/en/development-tools/stsw-stm32102.html) installed if it doesn't automatically detect the board when flashing via DFU.
 
@@ -55,4 +56,4 @@ Reconnect your board via USB and Upload the code once more with calibrated IMU o
 ## 6. FLY!
 Disconnect from your computer, double-check your failsafe and throttle cut switches with propellers off, verify the orientation, mount your gears, and head out for a test flight.
 
-*Last Updated: 5Th June 2026*
+*Last Updated: 30Th June 2026*

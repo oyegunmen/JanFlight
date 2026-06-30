@@ -1,22 +1,8 @@
 # Basic Guide
 
-> Who is this for? Anyone who has heard the word "drone" and wants to understand how to build one from scratch. No prior knowledge is assumed. Every term is explained the first time it appears.
+This guide walks you through few of the fundamentals of the drones like how it works, physics and maths behind it, the parts and what each of those parameters mean and how you should choose for your specific build.
 
----
-
-## Table of Contents
-
-1. [How to Read This Guide](#how-to-read-this-guide)
-2. [Glossary of Key Terms](#glossary-of-key-terms)
-3. [How a Drone Works](#how-a-drone-works)
-4. [Physics & Aerodynamics](#_1-physics-amp-aerodynamics)
-5. [Motors, ESCs & Props](#_2-motors-escs-amp-props)
-6. [Batteries](#_3-batteries)
-7. [Flight Controller & Frame](#_4-flight-controller-amp-frame)
-8. [Radio Link & Communication](#_5-radio-link-amp-communication)
-9. [Ground Control Stations](#_6-ground-control-stations)
-10. [Specialized Sensors & Payloads](#_7-specialized-sensors-amp-payloads)
-11. [Build Workflow](#_8-build-workflow)
+This guide is for anyone who has heard the word "drone" and wants to understand how to build one from scratch. No prior knowledge is assumed. Every term is explained the first time it appears.
 
 ---
 
@@ -638,3 +624,5 @@ flowchart TD
 ```
 
 Good Luck !
+
+*Last Updated: 30th June 2026*

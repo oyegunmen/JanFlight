@@ -1,6 +1,6 @@
 # Software
 
-This firmware turns your **STM32F405** into a high-performance flight controller by organizing the code into a few simple blocks. Instead of using massive, complex background systems, it loops on a tight schedule to keep the vehicle stable.
+This firmware turns your **STM32** into a high-performance flight controller by organizing the code into a few simple blocks. Instead of using massive, complex background systems, it loops on a tight schedule to keep the vehicle stable.
 
 Here is how the main system pieces interact to achieve stable flight:
 

@@ -1,5 +1,5 @@
 ## Overview
-JanFlight is free and open source **STM32** based **arduino** compatible **flight stabilizer**.
+JanFlight is arduino compatible **Flight Controller** for **STM32** Chip.
 
 ## Problem
 
@@ -14,9 +14,7 @@ flowchart TD
     Code --> D(Stable Drone)
 ```
 
-Production-grade open source autopilots are highly capable, but their massive, complex codebase hides the core physics & Maths of flight stabilization.
-
-For hobbyists, this software complexity makes it incredibly difficult to learn the basics, make custom tweaks, or quickly prototype ideas.
+For hobbyists, the massiv codebases and complexity makes it incredibly difficult to learn the basics, make custom tweaks, or quickly prototype ideas.
 
 ## Why?
 There exists production grade autopilots, then why [re-invent the wheel](https://programmerhumor.io/memes/reinventing-the-wheel)?
@@ -46,4 +44,4 @@ This code is a shared, open source flight controller for small micro aerial vehi
 
 !> THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-*Last Updated: 5th June 2026*
+*Last Updated: 30th June 2026*
