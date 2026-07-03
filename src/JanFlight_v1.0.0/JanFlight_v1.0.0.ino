@@ -1,7 +1,7 @@
 /*
 Author: Dikshit Makwana
 Project Start: 19/05/2026
-Last Updated: 06/06/2026
+Last Updated: 26/06/2026
 Licence: GPL-3.0
 Version: v1.0.0
 */
@@ -28,7 +28,12 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //#define USE_IBUS_RX //Implementation Pending
 
 // Choose IMU
-#define USE_MPU6500_I2C 
+#define USE_MPU6500_I2C
+//#define USE_MPU6500_SPI //Implementation Pending
+
+// Choose ESC Communication Protocol
+#define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
+//#define USE_ONESHOT_PC // Signal Length from 125-250 us; Relatively Faster by 8 times
 
 // Choose full scale gyro range (deg/sec)
 #define GYRO_250DPS // Default
@@ -42,20 +47,20 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //#define ACCEL_8G
 //#define ACCEL_16G
 
-// Channel Mapping (Default to FSi6 Mode 2)
-#define CHAN_THROTTLE  channel_3_pwm  // CH3 = Left stick up/down
-#define CHAN_ROLL      channel_1_pwm  // CH1 = Right stick left/right
-#define CHAN_PITCH     channel_2_pwm  // CH2 = Right stick up/down
-#define CHAN_YAW       channel_4_pwm  // CH4 = Left stick left/right
-#define CHAN_KILL      channel_5_pwm  // CH5 = SwC
-#define CHAN_ARM       channel_6_pwm  // CH6 = SwB
+// Channel Mapping (Default to FSi6 Radio; Mode 2)
+#define CHAN_THROTTLE  channel_3_pc  // CH3 = Left stick up/down
+#define CHAN_ROLL      channel_1_pc  // CH1 = Right stick left/right
+#define CHAN_PITCH     channel_2_pc  // CH2 = Right stick up/down
+#define CHAN_YAW       channel_4_pc  // CH4 = Left stick left/right
+#define CHAN_KILL      channel_5_pc  // CH5 = SwC
+#define CHAN_ARM       channel_6_pc  // CH6 = SwB
 
 //========================================================================================================================//
 //                                                  2. REQUIRED LIBRARIES                                                 //
 //========================================================================================================================//
 
 #include <Wire.h>  //I2c communication
-#include <Servo.h> 
+#include <Servo.h> //Controlling Servos
 
 //========================================================================================================================//
 //                                         3. USER-SPECIFIED VARIABLE DECLARATION                                         //
@@ -66,17 +71,17 @@ unsigned long channel_1_fs = 1500; // Roll
 unsigned long channel_2_fs = 1500; // Pitch
 unsigned long channel_3_fs = 1000; // Throttle
 unsigned long channel_4_fs = 1500; // Yaw
-unsigned long channel_5_fs = 2000; // SwC
+unsigned long channel_5_fs = 1000; // SwC
 unsigned long channel_6_fs = 1000; // SwB
 
-// IMU Filter Parameters (Tuned for 1.2kHz)
+// IMU Filter Parameters (Tuned for looprate frequency)
 
 // Takes value between 0 and 1. A value of 0.10 means, 10% value from current loop & 90% from previous loop is applied to IMU Variables.
 float B_accel = 0.14; // Accel Low-pass filter 
 float B_gyro = 0.10;  // Gyro Low-pass filter
 
-float twoKp = 2.0f * 0.5f; // Mahony proportional gain; dictates how heavily the accelerometer is trusted to correct gyroscope drift over time
-float twoKi = 2.0f * 0.0f; // Mahony integral gain; handles long-term steady-state errors
+float twoKp = 2.0f * 0.4f; // Kp = 0.4; Mahony proportional gain; dictates how heavily the accelerometer is trusted to correct gyroscope drift over time
+float twoKi = 2.0f * 0.0f; // Ki = 0.0; Mahony integral gain; handles long-term steady-state errors
 
 // Controller Limits; Max tilt angles in degrees. (Basically When the radio stick is pushed to 100%, the drone will pitch/roll exactly this many degrees.)
 float i_limit = 25.0;  // Maximum integrator error buildup
@@ -84,17 +89,17 @@ float maxRoll = 30.0;  // Angle mode max roll (degrees)
 float maxPitch = 30.0; // Angle mode max pitch (degrees)
 float maxYaw = 120.0;  // Yaw max rate (deg/sec)
 
-// PID Gains (Kp is the immediate reaction to an error. Ki builds up over time to fix continuous sagging (like uneven weight). Kd dampens the reaction to stop oscillations.)
-float Kp_roll_angle = 0.2, Ki_roll_angle = 0.3, Kd_roll_angle = 0.05;
-float Kp_pitch_angle = 0.2, Ki_pitch_angle = 0.3, Kd_pitch_angle = 0.05;
-float Kp_yaw = 0.3, Ki_yaw = 0.05, Kd_yaw = 0.00015;
+// PID Gains (Kp is the immediate reaction to an error. Ki builds up over time. Kd dampens the reaction to stop oscillations.)
+float Kp_roll_angle = 0.15, Ki_roll_angle = 0.05, Kd_roll_angle = 0.005;
+float Kp_pitch_angle = 0.15, Ki_pitch_angle = 0.05, Kd_pitch_angle = 0.005;
+float Kp_yaw = 0.3, Ki_yaw = 0.03, Kd_yaw = 0.00015;
 
 // IMU Error Offsets (Run calculate_IMU_error() once to get these, then hardcode)
-float AccErrorX = -0.22, AccErrorY = 0.26, AccErrorZ = 0.03;
-float GyroErrorX = -0.07, GyroErrorY = 4.85, GyroErrorZ = 1.41;
+float AccErrorX = 0.01, AccErrorY = 0.00, AccErrorZ = 0.08;
+float GyroErrorX = -1.46, GyroErrorY = 4.97, GyroErrorZ = 1.76;
 
 // Data Logging frequency for troubleshooting (Higher the value, higher the stress on your MCU)
-const int data_print_rate = 5;
+const int data_print_rate = 25;
 
 //========================================================================================================================//
 //                                                   4. PIN DECLARATION                                                   //
@@ -102,24 +107,24 @@ const int data_print_rate = 5;
 
 // Based on STM32F405 Nomenclature (WeAct Studio Dev Board)
 
-// Receiver Pins
+// Radio Receiver Pins
 const int PPM_Pin = PA8; // PPM Input
 
 // LED Pin
 const int ledPin = PB2; // The Blue LED
 
-// ESC Pins (OneShot125)
+// ESC Pins
 const int m1Pin = PA0;
 const int m2Pin = PA2;
 const int m3Pin = PA6;
-const int m4Pin = PA3;
+const int m4Pin = PB0;
 
-// Servo Pins (Standard PWM)
-const int servo1Pin = PB0;
-const int servo2Pin = PB1;
+// Servo Pins
+//const int servo1Pin = PA3;
+//const int servo2Pin = PB1;
 
-Servo servo1;
-Servo servo2;
+//Servo servo1;
+//Servo servo2;
 
 //========================================================================================================================//
 //                                               5. GLOBAL VARIABLE DECLARATION                                           //
@@ -131,14 +136,15 @@ unsigned long current_time, prev_time;
 unsigned long print_counter;
 
 // Radio Data
-unsigned long channel_1_pwm, channel_2_pwm, channel_3_pwm, channel_4_pwm, channel_5_pwm, channel_6_pwm;
-unsigned long channel_1_raw, channel_2_raw, channel_3_raw, channel_4_raw, channel_5_raw, channel_6_raw; // Background hardware routines write to these variables continously. The main loop safely copies and filters them into respective channel_x_pwm variable.
-unsigned long channel_1_pwm_prev, channel_2_pwm_prev, channel_3_pwm_prev, channel_4_pwm_prev;
-int ppm_counter = 0;
-unsigned long time_ms = 0;
+unsigned long channel_1_pc, channel_2_pc, channel_3_pc, channel_4_pc, channel_5_pc, channel_6_pc;
+volatile unsigned long channel_1_raw, channel_2_raw, channel_3_raw, channel_4_raw, channel_5_raw, channel_6_raw; // Background hardware routines write to these variables continously. The main loop safely copies and filters them into respective channel_x_pwm variable.
+unsigned long channel_1_pc_prev, channel_2_pc_prev, channel_3_pc_prev, channel_4_pc_prev;
+volatile int ppm_counter = 0;
+volatile unsigned long time_ms = 0;
 
-// Flight State
-bool armedFly = false;
+// LED State Tracking
+unsigned long blink_counter = 0;
+bool led_state = false;
 
 // IMU & Mahony Data
 float AccX, AccY, AccZ, AccX_prev, AccY_prev, AccZ_prev;
@@ -155,9 +161,18 @@ float error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw
 
 // Command pulses
 
+// ESC Communication Protocol Upper and Lower threshold values
+#if defined USE_PWM_PC
+  #define ESC_COMMAND_LT 1000.0
+  #define ESC_COMMAND_UT 2000.0
+#elif defined USE_ONESHOT_PC
+  #define ESC_COMMAND_LT 125.0
+  #define ESC_COMMAND_UT 250.0
+#endif
+
 //ESCs
 float m1_command_scaled, m2_command_scaled, m3_command_scaled, m4_command_scaled;
-int m1_command_PWM, m2_command_PWM, m3_command_PWM, m4_command_PWM;
+int m1_command_pc, m2_command_pc, m3_command_pc, m4_command_pc;
 
 //SERVOs
 float s1_command_scaled, s2_command_scaled;
@@ -180,7 +195,7 @@ int s1_command_PWM, s2_command_PWM;
   #define ACCEL_SCALE_FACTOR 8192.0
 #elif defined ACCEL_8G
   #define ACCEL_SCALE_FACTOR 4096.0
-#elif defined ACCEL_8G
+#elif defined ACCEL_16G
   #define ACCEL_SCALE_FACTOR 2048.0
 #endif
 
@@ -192,95 +207,101 @@ int s1_command_PWM, s2_command_PWM;
 void setup() {
   // Establish serial connection to onboard USB
   Serial.begin(500000);
-  while (!Serial) {
-    delay(10);
-  }
-  delay(2000);
+  //while (!Serial) {
+  //  delay(10);
+  //}
+  delay(1000);
 
   //Indicate entering setup loop with 3 blinks
   pinMode(ledPin, OUTPUT);
-  Serial.println("--- Boot Begins ---");
-  ledBlink(3,250,250);
+  ledBlink(3,250,150);
+  //Serial.println("--- Boot Begins ---");
   
   // Initialize all pins
-  Serial.print("Initializing Pins... ");
+  //Serial.print("Initializing Pins... ");
   pinMode(m1Pin, OUTPUT);
   pinMode(m2Pin, OUTPUT);
   pinMode(m3Pin, OUTPUT);
   pinMode(m4Pin, OUTPUT);
-  servo1.attach(servo1Pin, 900, 2100);
-  servo2.attach(servo2Pin, 900, 2100);
-  Serial.println("Done.");
+  //servo1.attach(servo1Pin, 900, 2100);
+  //servo2.attach(servo2Pin, 900, 2100);
+  //Serial.println("Done.");
 
   // Initialize communication with desired radio type
-  Serial.print("Configuring Radio... ");
+  //Serial.print("Configuring Radio... ");
   radioSetup();
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Failsafe setup: Default to safe values before main loop starts
-  channel_1_pwm = channel_1_fs;
-  channel_2_pwm = channel_2_fs;
-  channel_3_pwm = channel_3_fs;
-  channel_4_pwm = channel_4_fs;
-  channel_5_pwm = channel_5_fs;
-  channel_6_pwm = channel_6_fs;
+  channel_1_pc = channel_1_fs;
+  channel_2_pc = channel_2_fs;
+  channel_3_pc = channel_3_fs;
+  channel_4_pc = channel_4_fs;
+  channel_5_pc = channel_5_fs;
+  channel_6_pc = channel_6_fs;
 
   // Initialize IMU
-  Serial.print("Initializing IMU... ");
+  //Serial.print("Initializing IMU... ");
   IMUinit();
-  Serial.println("Done.");
+  //Serial.println("Done.");
   delay(50);
 
-  // Get IMU error offset (Uncomment to calibrate, then write them into section 3 under IMU Error Offsets and re-comment) (Keep IMU on Flat Surface during Calibration)
-  //calculate_IMU_error(); 
+  // Get IMU error offset (Uncomment to calibrate, then write them into section 3 under IMU Error Offsets and re-comment)
+  // Keep IMU on Flat Surface during Calibration
+  // calculate_IMU_error(); 
 
-  // Arm servo/PWM channels (write low)
-  Serial.print("Arming Servos... ");
-  servo1.write(90); 
-  servo2.write(90);
-  delay(5);
-  Serial.println("Done.");
+  // Arm servo channels (write low)
+  //Serial.print("Arming Servos... ");
+  //servo1.write(90); 
+  //servo2.write(90);
+  //delay(5);
+  //Serial.println("Done.");
 
-  // Arm OneShot125 channels (Write lowest valid pulse: 125us)
-  Serial.print("Arming ESCs... ");
-  m1_command_PWM = 125;
-  m2_command_PWM = 125;
-  m3_command_PWM = 125;
-  m4_command_PWM = 125;
+  // Arm Motors (Write lowest valid pulse)
+  //Serial.print("Arming ESCs... ");
+  m1_command_pc = ESC_COMMAND_LT;
+  m2_command_pc = ESC_COMMAND_LT;
+  m3_command_pc = ESC_COMMAND_LT;
+  m4_command_pc = ESC_COMMAND_LT;
   for (int i = 0; i < 50; i++) {
     commandMotors();
     delay(2);
   }
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Warms up IMU filter before entering main loop
-  Serial.print("Calibrating Attitude... ");
+  //Serial.print("Calibrating Attitude... ");
   calibrateAttitude();
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   //Indicate entering main loop with 2 quick blinks
-  Serial.print("--- Entering Main Loop ---");
-  ledBlink(2,150,150);
+  //Serial.print("--- Entering Main Loop ---");
+  ledBlink(2,250,150);
+  delay(800);
+  current_time = micros();
 }
 
 //========================================================================================================================//
 //                                                        7. VOID LOOP                                                    //
 //========================================================================================================================//
 
-// MCU runs these functions on repeat at 1.2 kHZ frequency
+// MCU runs these functions on repeat at looprate frequency
 void loop() {
   // Track timing
   prev_time = current_time;
   current_time = micros();      
   dt = (current_time - prev_time) / 1000000.0;
+  loopBlink(200, 1300);
 
-  // Print Data at 5hz (Uncomment one for troubleshooting)
-  // printRadioData();
-  // printDesiredState();
-  // printRollPitchYaw();
-  // printMotorCommands();
-  // printServoCommands();
-  // printLoopRate();
+  // Print Data at 25hz (Uncomment for troubleshooting)
+  // printRadioData(); // print Variables: channel_x_pc; Value Range: 1000-2000
+  // printDesiredState(); // print Variables: thro_des. roll_des, pitch_des, yaw_des; Value Range: 0-1, -30 to 30, -30 to 30 and -120 to 120 
+  // printRollPitchYaw(); // print Variables : roll_IMU, pitch_IMU, yaw_IMU; Value Range: gives absolute angle relative to gravity vector
+  // printScaledCommands(); // print Variables : mx_command_scaled; Value Range: Combination of throttle, roll, pitch and yaw PID value
+  // printMotorCommands(); // print Variables : mx_command_pc; Value Range: 1000-2000 or 125-250
+  // printServoCommands(); // print Variables : sx_command_scaled; Value Range: Combination of throttle, roll, pitch and yaw PID value
+  // printLoopRate(); // print Variables : channel_x_pc
+  // printPIDoutput(); // print Variables : roll_PID, pitch_PID, yaw_PID; Value Range: Individual PID value of roll, pitch and yaw axis
 
   // Pulls raw gyro/accel data and applies low-pass filter
   getIMUdata();
@@ -297,7 +318,7 @@ void loop() {
   // Mixes PID controller outputs to scaled actuator commands
   controlMixer();
 
-  // Scale motor/actuator commands to required ranges (OneShot125 & Servo)
+  // Scale motor/actuator commands to required ranges
   scaleCommands();
 
   // Set motor commands to minimum if kill switch is engaged
@@ -305,8 +326,8 @@ void loop() {
 
   // Send exact pulse widths to ESCs and Servos
   commandMotors();
-  servo1.write(s1_command_PWM);
-  servo2.write(s2_command_PWM);
+  //servo1.write(s1_command_PWM);
+  //servo2.write(s2_command_PWM);
 
   // Get current radio commands to be used in next loop iteration
   getCommands();
@@ -314,8 +335,8 @@ void loop() {
   // Check validity of radio commands and overwrite with failsafe if bad
   failSafe();
 
-  // Idle until 1.2kHz loop boundary is reached
-  loopRate(1200); 
+  // Idle until loop boundary is reached
+  loopRate(400); 
 }
 
 //========================================================================================================================//
@@ -335,16 +356,32 @@ void IMUinit() {
   Wire.write(0x00);
   Wire.endTransmission();
   
-  // Set Gyro Config (250 DPS)
+  // Set Gyro Config
   Wire.beginTransmission(0x68);
   Wire.write(0x1B);
-  Wire.write(0x00);
+  #if defined GYRO_250DPS
+    Wire.write(0x00);
+  #elif defined GYRO_500DPS
+    Wire.write(0x08);
+  #elif defined GYRO_1000DPS
+    Wire.write(0x10);
+  #elif defined GYRO_2000DPS
+    Wire.write(0x18);
+  #endif
   Wire.endTransmission();
   
   // Set Accel Config (2G)
   Wire.beginTransmission(0x68);
   Wire.write(0x1C);
-  Wire.write(0x00);
+  #if defined ACCEL_2G
+    Wire.write(0x00);
+  #elif defined ACCEL_4G
+    Wire.write(0x08);
+  #elif defined ACCEL_8G
+    Wire.write(0x10);
+  #elif defined ACCEL_16G
+    Wire.write(0x18);
+  #endif
   Wire.endTransmission();
 }
 
@@ -384,35 +421,11 @@ void getIMUdata() {
   GyroX_prev = GyroX; GyroY_prev = GyroY; GyroZ_prev = GyroZ;
 }
 
-// Run this on a flat surface to get your specific IMU biases; averages 5,000 readings to find that exact baseline offset so it can be subtracted during flight.
-void calculate_IMU_error() {
-  float sumAccX = 0, sumAccY = 0, sumAccZ = 0;
-  float sumGyroX = 0, sumGyroY = 0, sumGyroZ = 0;
-  int c = 0;
-  
-  while (c < 5000) {
-    getIMUdata();
-    sumAccX += AccX; sumAccY += AccY; sumAccZ += AccZ;
-    sumGyroX += GyroX; sumGyroY += GyroY; sumGyroZ += GyroZ;
-    c++;
-    delay(1);
-  }
-  
-  Serial.print("AccErrorX: "); Serial.println(sumAccX / c);
-  Serial.print("AccErrorY: "); Serial.println(sumAccY / c);
-  Serial.print("AccErrorZ: "); Serial.println((sumAccZ / c) - 1.0); // Gravity offset
-  Serial.print("GyroErrorX: "); Serial.println(sumGyroX / c);
-  Serial.print("GyroErrorY: "); Serial.println(sumGyroY / c);
-  Serial.print("GyroErrorZ: "); Serial.println(sumGyroZ / c);
-  
-  while(1); // Halt execution so you can copy the values
-}
-
-// Mahony filter for 6DOF (Gyro + Accel) Computes absolute orientation based on gravity vector. Don't worry if you don't understand the code, it's very high tech ;)
+// Mahony filter for 6DOF IMU (Gyro + Accel) Computes orientation based on gravity vector.
 void Mahony(float gx, float gy, float gz, float ax, float ay, float az, float invSampleFreq) {
   float recipNorm;
-  float halfvx, halfvy, halfvz;
-  float halfex, halfey, halfez;
+  float half_vx, half_vy, half_vz;
+  float half_ex, half_ey, half_ez;
   float qa, qb, qc;
 
   // Convert gyro to radians
@@ -423,27 +436,27 @@ void Mahony(float gx, float gy, float gz, float ax, float ay, float az, float in
     recipNorm = 1.0f / sqrt(ax * ax + ay * ay + az * az);
     ax *= recipNorm; ay *= recipNorm; az *= recipNorm;
 
-    // Estimated direction of gravity
-    halfvx = q1 * q3 - q0 * q2;
-    halfvy = q0 * q1 + q2 * q3;
-    halfvz = q0 * q0 - 0.5f + q3 * q3;
+    // Estimated direction of gravity (You get following value by multiplying rotation matrix of quaternion with column gravity vector)
+    half_vx = q1 * q3 - q0 * q2;
+    half_vy = q0 * q1 + q2 * q3;
+    half_vz = q0 * q0 - 0.5f + q3 * q3;
 
     // Error is cross product between estimated and measured direction of gravity
-    halfex = (ay * halfvz - az * halfvy);
-    halfey = (az * halfvx - ax * halfvz);
-    halfez = (ax * halfvy - ay * halfvx);
+    half_ex = (ay * half_vz - az * half_vy);
+    half_ey = (az * half_vx - ax * half_vz);
+    half_ez = (ax * half_vy - ay * half_vx);
 
     if(twoKi > 0.0f) {
-      integralFBx += twoKi * halfex * invSampleFreq;
-      integralFBy += twoKi * halfey * invSampleFreq;
-      integralFBz += twoKi * halfez * invSampleFreq;
+      integralFBx += twoKi * half_ex * invSampleFreq;
+      integralFBy += twoKi * half_ey * invSampleFreq;
+      integralFBz += twoKi * half_ez * invSampleFreq;
       gx += integralFBx; gy += integralFBy; gz += integralFBz;
     }
 
     // Apply proportional feedback
-    gx += twoKp * halfex;
-    gy += twoKp * halfey;
-    gz += twoKp * halfez;
+    gx += twoKp * half_ex;
+    gy += twoKp * half_ey;
+    gz += twoKp * half_ez;
   }
 
   // Integrate rate of change of quaternion
@@ -460,22 +473,10 @@ void Mahony(float gx, float gy, float gz, float ax, float ay, float az, float in
   recipNorm = 1.0f / sqrt(q0 * q0 + q1 * q1 + q2 * q2 + q3 * q3);
   q0 *= recipNorm; q1 *= recipNorm; q2 *= recipNorm; q3 *= recipNorm;
 
-  // Compute roll, pitch, yaw from quaternions
+  // Compute roll, pitch, yaw from quaternions in degrees
   roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2) * 57.29577951;
   pitch_IMU = -asin(constrain(-2.0f * (q1*q3 - q0*q2), -0.999999, 0.999999)) * 57.29577951;
   yaw_IMU = -atan2(q1*q2 + q0*q3, 0.5f - q2*q2 - q3*q3) * 57.29577951;
-}
-
-// Let the Mahony filter get some data for a few seconds so orientation is stable before arming.
-void calibrateAttitude() {
-  for (int i = 0; i <= 5000; i++) {
-    prev_time = current_time;
-    current_time = micros();      
-    dt = (current_time - prev_time)/1000000.0; 
-    getIMUdata();
-    Mahony(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt);
-    loopRate(2000);
-  }
 }
 
 // Convert RC microsecond inputs (1000-2000) to normalized limits
@@ -523,16 +524,16 @@ void controlMixer() {
   m3_command_scaled = thro_des + pitch_PID - roll_PID + yaw_PID; // Back Right
   m4_command_scaled = thro_des + pitch_PID + roll_PID - yaw_PID; // Back Left
 
-  s1_command_scaled = 0.5; // Centered
+  s1_command_scaled = 0.5; // Centered  (Not yet implemented properly)
   s2_command_scaled = 0.5; // Centered
 }
 
 // Scale motor mixer outputs into OneShot125 microsecond ranges
 void scaleCommands() {
-  m1_command_PWM = constrain(m1_command_scaled*125 + 125, 125, 250);
-  m2_command_PWM = constrain(m2_command_scaled*125 + 125, 125, 250);
-  m3_command_PWM = constrain(m3_command_scaled*125 + 125, 125, 250);
-  m4_command_PWM = constrain(m4_command_scaled*125 + 125, 125, 250);
+  m1_command_pc = constrain(m1_command_scaled*ESC_COMMAND_LT + ESC_COMMAND_LT, ESC_COMMAND_LT, ESC_COMMAND_UT);
+  m2_command_pc = constrain(m2_command_scaled*ESC_COMMAND_LT + ESC_COMMAND_LT, ESC_COMMAND_LT, ESC_COMMAND_UT);
+  m3_command_pc = constrain(m3_command_scaled*ESC_COMMAND_LT + ESC_COMMAND_LT, ESC_COMMAND_LT, ESC_COMMAND_UT);
+  m4_command_pc = constrain(m4_command_scaled*ESC_COMMAND_LT + ESC_COMMAND_LT, ESC_COMMAND_LT, ESC_COMMAND_UT);
 
   // Scale servos to 0-180 degrees
   s1_command_PWM = constrain(s1_command_scaled*180, 0, 180);
@@ -542,21 +543,21 @@ void scaleCommands() {
 // Arming, disarming and Kill Switch
 void throttleCut() {
   if (CHAN_KILL < 1250) {
-    m1_command_PWM = 120;
-    m2_command_PWM = 120;
-    m3_command_PWM = 120;
-    m4_command_PWM = 120;
+    m1_command_pc = 950;
+    m2_command_pc = 950;
+    m3_command_pc = 950;
+    m4_command_pc = 950;
   } else if (CHAN_KILL > 1750) {
-    m1_command_PWM = 120;
-    m2_command_PWM = 120;
-    m3_command_PWM = 120;
-    m4_command_PWM = 120;
+    m1_command_pc = 950;
+    m2_command_pc = 950;
+    m3_command_pc = 950;
+    m4_command_pc = 950;
   } else {
     if (CHAN_THROTTLE < 1050) {
-      m1_command_PWM = 130;
-      m2_command_PWM = 130;
-      m3_command_PWM = 130;
-      m4_command_PWM = 130;
+      m1_command_pc = 1000;
+      m2_command_pc = 1000;
+      m3_command_pc = 1000;
+      m4_command_pc = 1000;
     }
   }
 }
@@ -575,46 +576,39 @@ void commandMotors() {
 
   while (wentLow < 4) { 
     timer = micros();
-    if ((m1_command_PWM <= timer - pulseStart) && (flagM1==0)) { digitalWrite(m1Pin, LOW); wentLow++; flagM1 = 1; }
-    if ((m2_command_PWM <= timer - pulseStart) && (flagM2==0)) { digitalWrite(m2Pin, LOW); wentLow++; flagM2 = 1; }
-    if ((m3_command_PWM <= timer - pulseStart) && (flagM3==0)) { digitalWrite(m3Pin, LOW); wentLow++; flagM3 = 1; }
-    if ((m4_command_PWM <= timer - pulseStart) && (flagM4==0)) { digitalWrite(m4Pin, LOW); wentLow++; flagM4 = 1; }
+    if ((m1_command_pc <= timer - pulseStart) && (flagM1==0)) { digitalWrite(m1Pin, LOW); wentLow++; flagM1 = 1; }
+    if ((m2_command_pc <= timer - pulseStart) && (flagM2==0)) { digitalWrite(m2Pin, LOW); wentLow++; flagM2 = 1; }
+    if ((m3_command_pc <= timer - pulseStart) && (flagM3==0)) { digitalWrite(m3Pin, LOW); wentLow++; flagM3 = 1; }
+    if ((m4_command_pc <= timer - pulseStart) && (flagM4==0)) { digitalWrite(m4Pin, LOW); wentLow++; flagM4 = 1; }
   }
-}
-
-void radioSetup() {
-  #if defined USE_PPM_RX
-    pinMode(PPM_Pin, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(PPM_Pin), getPPM, CHANGE);
-  #endif
 }
 
 // Low-pass filter for the radio commands to iron out jitter
 void getCommands() {
   float b = 0.7; 
-  channel_1_pwm = (1.0 - b)*channel_1_pwm_prev + b*channel_1_raw;
-  channel_2_pwm = (1.0 - b)*channel_2_pwm_prev + b*channel_2_raw;
-  channel_3_pwm = (1.0 - b)*channel_3_pwm_prev + b*channel_3_raw;
-  channel_4_pwm = (1.0 - b)*channel_4_pwm_prev + b*channel_4_raw;
-  channel_5_pwm = channel_5_raw; // Switches Don't require filter ;)
-  channel_6_pwm = channel_6_raw;
+  channel_1_pc = (1.0 - b)*channel_1_pc_prev + b*channel_1_raw;
+  channel_2_pc = (1.0 - b)*channel_2_pc_prev + b*channel_2_raw;
+  channel_3_pc = (1.0 - b)*channel_3_pc_prev + b*channel_3_raw;
+  channel_4_pc = (1.0 - b)*channel_4_pc_prev + b*channel_4_raw;
+  channel_5_pc = channel_5_raw; // Switches Don't require filter ;)
+  channel_6_pc = channel_6_raw;
 
-  channel_1_pwm_prev = channel_1_pwm;
-  channel_2_pwm_prev = channel_2_pwm;
-  channel_3_pwm_prev = channel_3_pwm;
-  channel_4_pwm_prev = channel_4_pwm;
+  channel_1_pc_prev = channel_1_pc;
+  channel_2_pc_prev = channel_2_pc;
+  channel_3_pc_prev = channel_3_pc;
+  channel_4_pc_prev = channel_4_pc;
 }
 
 // Checks if radio link sends absolute garbage and overwrites with defaults
 void failSafe() {
   if (CHAN_THROTTLE < 800 || CHAN_THROTTLE > 2200 || 
       CHAN_ROLL < 800 || CHAN_ROLL > 2200) {
-    channel_1_pwm = channel_1_fs;
-    channel_2_pwm = channel_2_fs;
-    channel_3_pwm = channel_3_fs;
-    channel_4_pwm = channel_4_fs;
-    channel_5_pwm = channel_5_fs;
-    channel_6_pwm = channel_6_fs;
+    channel_1_pc = channel_1_fs;
+    channel_2_pc = channel_2_fs;
+    channel_3_pc = channel_3_fs;
+    channel_4_pc = channel_4_fs;
+    channel_5_pc = channel_5_fs;
+    channel_6_pc = channel_6_fs;
   }
 }
 
@@ -625,6 +619,14 @@ void loopRate(int freq) {
   while (invFreq > (checker - current_time)) {
     checker = micros();
   }
+}
+
+// Initialize communication with Radio
+void radioSetup() {
+  #if defined USE_PPM_RX
+    pinMode(PPM_Pin, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(PPM_Pin), getPPM, CHANGE);
+  #endif
 }
 
 //----------------------------------------------------------
@@ -655,15 +657,68 @@ void getPPM() {
   }
 }
 
-//----------------------------------------------------------------
-// Function to visually tell if we are in main loop or setup loop
-//----------------------------------------------------------------
+//-----------------------------------------------------
+// Functions used for calibration and error calculation
+//-----------------------------------------------------
+// Let the Mahony filter get some data for a few seconds so orientation is stable before arming.
+void calibrateAttitude() {
+  for (int i = 0; i < 1600; i++) {
+    prev_time = current_time;
+    current_time = micros();      
+    dt = (current_time - prev_time)/1000000.0; 
+    getIMUdata();
+    Mahony(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt);
+  }
+}
+
+// Run this on a flat surface to get your specific IMU biases; averages 8,000 readings to find that exact baseline offset so it can be subtracted during flight.
+void calculate_IMU_error() {
+  float sumAccX = 0, sumAccY = 0, sumAccZ = 0;
+  float sumGyroX = 0, sumGyroY = 0, sumGyroZ = 0;
+  int c = 0;
+  delay(5000);
+  
+  while (c < 8000) {
+    getIMUdata();
+    sumAccX += AccX; sumAccY += AccY; sumAccZ += AccZ;
+    sumGyroX += GyroX; sumGyroY += GyroY; sumGyroZ += GyroZ;
+    c++;
+    delay(1);
+  }
+  
+  Serial.print("AccErrorX: "); Serial.println(sumAccX / c);
+  Serial.print("AccErrorY: "); Serial.println(sumAccY / c);
+  Serial.print("AccErrorZ: "); Serial.println((sumAccZ / c) - 1.0); // Gravity offset
+  Serial.print("GyroErrorX: "); Serial.println(sumGyroX / c);
+  Serial.print("GyroErrorY: "); Serial.println(sumGyroY / c);
+  Serial.print("GyroErrorZ: "); Serial.println(sumGyroZ / c);
+  
+  while(1); // Halt execution so you can copy the values
+}
+
+//---------------------------------------------------------------
+// Function to visually confirm particular Actions - LED Blinking
+//---------------------------------------------------------------
 void ledBlink(int numBlinks,int upTime, int downTime) {
   for (int j = 1; j<= numBlinks; j++) {
-    digitalWrite(ledPin, LOW);
-    delay(downTime);
     digitalWrite(ledPin, HIGH);
     delay(upTime);
+    digitalWrite(ledPin, LOW);
+    delay(downTime);
+  }
+}
+
+// LED Blink function for Main Loop
+void loopBlink(int upTime, int downTime) {
+  if (led_state == false && (current_time - blink_counter > downTime * 1000UL)) {
+    blink_counter = current_time;
+    led_state = true;
+    digitalWrite(ledPin, HIGH);
+  } 
+  else if (led_state == true && (current_time - blink_counter > upTime * 1000UL)) {
+    blink_counter = current_time;
+    led_state = false;
+    digitalWrite(ledPin, LOW);
   }
 }
 
@@ -673,12 +728,12 @@ void ledBlink(int numBlinks,int upTime, int downTime) {
 void printRadioData() {
   if (current_time - print_counter > 1000000/data_print_rate) {
     print_counter = micros();
-    Serial.print("CH1:"); Serial.print(channel_3_pwm); Serial.print(",");
-    Serial.print("CH2:"); Serial.print(channel_1_pwm); Serial.print(",");
-    Serial.print("CH3:"); Serial.print(channel_2_pwm); Serial.print(",");
-    Serial.print("CH4:"); Serial.print(channel_4_pwm); Serial.print(",");
-    Serial.print("CH5:"); Serial.print(channel_5_pwm); Serial.print(",");
-    Serial.print("CH6:"); Serial.println(channel_6_pwm);
+    Serial.print("CH1:"); Serial.print(channel_3_pc); Serial.print(",");
+    Serial.print("CH2:"); Serial.print(channel_1_pc); Serial.print(",");
+    Serial.print("CH3:"); Serial.print(channel_2_pc); Serial.print(",");
+    Serial.print("CH4:"); Serial.print(channel_4_pc); Serial.print(",");
+    Serial.print("CH5:"); Serial.print(channel_5_pc); Serial.print(",");
+    Serial.print("CH6:"); Serial.println(channel_6_pc);
   }
 }
 
@@ -701,13 +756,23 @@ void printRollPitchYaw() {
   }
 }
 
+void printScaledCommands() {
+  if (current_time - print_counter > 1000000/data_print_rate) {
+    print_counter = micros();
+    Serial.print("SC_M1:"); Serial.print(m1_command_scaled); Serial.print(",");
+    Serial.print("SC_M2:"); Serial.print(m2_command_scaled); Serial.print(",");
+    Serial.print("SC_M3:"); Serial.print(m3_command_scaled); Serial.print(",");
+    Serial.print("SC_M4:"); Serial.println(m4_command_scaled);
+  }
+}
+
 void printMotorCommands() {
   if (current_time - print_counter > 1000000/data_print_rate) {
     print_counter = micros();
-    Serial.print("M1:"); Serial.print(m1_command_PWM); Serial.print(",");
-    Serial.print("M2:"); Serial.print(m2_command_PWM); Serial.print(",");
-    Serial.print("M3:"); Serial.print(m3_command_PWM); Serial.print(",");
-    Serial.print("M4:"); Serial.println(m4_command_PWM);
+    Serial.print("M1:"); Serial.print(m1_command_pc); Serial.print(",");
+    Serial.print("M2:"); Serial.print(m2_command_pc); Serial.print(",");
+    Serial.print("M3:"); Serial.print(m3_command_pc); Serial.print(",");
+    Serial.print("M4:"); Serial.println(m4_command_pc);
   }
 }
 
@@ -716,6 +781,15 @@ void printServoCommands() {
     print_counter = micros();
     Serial.print("S1: "); Serial.print(s1_command_PWM); Serial.print(",");
     Serial.print("S2: "); Serial.println(s2_command_PWM);
+  }
+}
+
+void printPIDoutput() {
+  if (current_time - print_counter > 1000000/data_print_rate) {
+    print_counter = micros();
+    Serial.print("roll_PID:"); Serial.print(roll_PID); Serial.print(",");
+    Serial.print("pitch_PID:"); Serial.print(pitch_PID); Serial.print(",");    
+    Serial.print("yaw_PID:"); Serial.println(yaw_PID);    
   }
 }
 
