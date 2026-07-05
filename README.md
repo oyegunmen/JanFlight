@@ -8,7 +8,7 @@ Read the [Documentation](https://oyegunmen.github.io/JanFlight/#/)
 * **MCU Development Board:** STM32F405RGT6 (₹1000)
 * **IMU Sensor:** MPU6500 (₹130)
 
-and other required drone related components.
+and other required drone related parts.
 
 > [!NOTE]
 > This code is compatible with any [STM32 High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) series chip. While it has been specifically tested on the STM32F405, but it should hopefully work on other series as well.
