@@ -1,6 +1,6 @@
 # Software
 
-This firmware turns your **STM32** into a high-performance flight controller by organizing the code into a few simple blocks. Instead of using massive, complex background systems, it loops on a tight schedule to keep the vehicle stable.
+This firmware turns your **STM32** into a high-performance flight controller by organizing the code into a few simple blocks.
 
 Here is how the main system pieces interact to achieve stable flight:
 
@@ -15,7 +15,7 @@ flowchart TB
 ```
 ## Core Principles
 
-* **Setup & Loop:** Prepares the hardware on startup, runs a quick sensor warmup, and then runs the main flight functions on a strict,  schedule exactly 1,200 times per second (1.2kHz).
+* **Setup & Loop:** Prepares the hardware on startup, runs a quick sensor warmup, and then runs the main flight functions on a strict, schedule exactly 1,200 times per second (1.2kHz).
 
 * **Sensor:** Board talks to the IMU sensor over I2C, handles custom baseline calibration adjustments, and filters out high-frequency motor vibrations so the drone doesn't get confused by minor shakes.
 

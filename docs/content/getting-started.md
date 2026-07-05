@@ -50,10 +50,14 @@ Connect your board via USB, select your COM port, and click Upload. Once complet
 
 Open the Serial Monitor to read your calibration offsets, data will be printed in bottom output panel, copy those numbers into the error variables at the top of your file, and then comment `calculate_IMU_error()` the function back out.
 
+!> Ensure the initial IMU offset errors in Section 3 are set to zero to allow for accurate calibration.
+
 ## 5. Compile & Upload
 Reconnect your board via USB and Upload the code once more with calibrated IMU offset data.
+
+!> You may need to tune the PID parameters in Section 3 to achieve optimal flight stability. If the drone feels sluggish or unresponsive, adjust these values to suit your specific build.
 
 ## 6. FLY!
 Disconnect from your computer, double-check your failsafe and throttle cut switches with propellers off, verify the orientation, mount your gears, and head out for a test flight.
 
-*Last Updated: 30Th June 2026*
+*Last Updated: 4th July 2026*

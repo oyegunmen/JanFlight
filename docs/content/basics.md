@@ -1,27 +1,14 @@
 # Basic Guide
 
-This guide walks you through few of the fundamentals of the drones like how it works, physics and maths behind it, the parts and what each of those parameters mean and how you should choose for your specific build.
+This guide walks you through few of the fundamentals of the drones like how it works, physics and maths behind it, and how you should choose parts for your specific build.
 
-This guide is for anyone who has heard the word "drone" and wants to understand how to build one from scratch. No prior knowledge is assumed. Every term is explained the first time it appears.
-
----
-
-## How to Read This Guide
-
-We start with basic physics, then work through every hardware component in the order you would actually select it when building. Each section has:
-
-- **What it is?** A plain explanation assuming you know nothing
-- **Why it matters?** What goes wrong if you ignore this
-- **How to choose?** Actionable decision tables and rules
-- **Visual aids:** Diagrams and Flowcharts to comprehend the concept
-
-> Read sections in order the first time. On future visits, use the Table of Contents to jump directly to what you need.
+This guide is for anyone who has heard the word "drone" and wants to understand how to build one from scratch.
 
 ---
 
 ## Glossary of Key Terms
 
-Before anything else, here is a quick-reference table. Terms are explained in full when they first appear in the guide, but this table is here whenever you need a refresher.
+This is a quick-reference table. Terms are explained in full when they first appear in the guide, but this table is here whenever you need a refresher.
 
 | Acronym | Full Name | Plain-English Meaning |
 |---------|-----------|----------------------|
@@ -32,12 +19,14 @@ Before anything else, here is a quick-reference table. Terms are explained in fu
 | **ESC** | Electronic Speed Controller | The device between the battery and the motor. It translates a "speed command" from the flight controller into actual motor rotation |
 | **FC** | Flight Controller | The circuit board that is the brain of the drone. It reads sensors and adjusts motor speeds to keep the vehicle stable |
 | **IMU** | Inertial Measurement Unit | A chip that combines a gyroscope (rotation) and accelerometer (tilt/movement) to know orientation in 3D space |
+| **INS** | Inertial Navigation System | A system tracking position and motion relative to a starting point using internal sensors, to allow operation in GPS-denied areas. |
 | **I2C** | Inter-Integrated Circuit | A two-wire communication protocol for connecting sensors at short distances |
 | **KV** | Motor Velocity Constant | How many RPM a motor spins per 1 Volt applied (with no load). Higher KV = faster but less torque |
-| **mAh** | Milliampere-hour | A measure of battery capacity, how much energy is stored. Like a fuel tank size |
+| **mAh** | Milliampere-hour | A measure of battery capacity, how much energy is stored. |
 | **MCU** | Microcontroller Unit | The main processor chip on the FC (e.g. STM32 H7). Think of it as the CPU |
 | **PDB** | Power Distribution Board | Distributes high-current power from the battery to each ESC/motor individually |
 | **Sag** | Voltage Sag | The temporary drop in battery voltage when motors demand a lot of current at once |
+| **SPI** | Serial Peripheral Interface | A high-speed, synchronous communication protocol used to connect sensors to the MCU; faster than I2C. |
 | **TWR** | Thrust-to-Weight Ratio | Total maximum thrust divided by total weight. A 2:1 TWR means the drone can produce twice its own weight in thrust |
 | **UART** | Universal Async Receiver/Transmitter | A serial communication port on the FC used to connect GPS, telemetry radios, etc |
 | **VTOL** | Vertical Take-Off and Landing | Any aircraft that can lift straight up, hover, and land straight down. Quadcopters are a common example |
@@ -46,7 +35,7 @@ Before anything else, here is a quick-reference table. Terms are explained in fu
 
 ## How a Drone Works
 
-Before selecting a single component, it helps to see how everything connects. A drone is really just a closed-loop control system: the pilot gives a command → the brain processes it → the motors react.
+A drone is really just a closed-loop control system: the pilot gives a command → the brain processes it → the motors react.
 
 ```mermaid
 flowchart TD
@@ -61,34 +50,36 @@ flowchart TD
     SENSORS --> FC
 
     subgraph PROP["⚡ Propulsion System"]
-        PDB["🔌 PDB (Power Distribution Board)\n[Receives power + DShot signals,\ndistributes to each ESC]"]
+        PDB["🔌 PDB (Power Distribution Board)\n[Receives power \ndistributes to each ESC]"]
         PDB --> ESC1["⚡ ESC 1"] --> M1["🔄 Motor 1"]
         PDB --> ESC2["⚡ ESC 2"] --> M2["🔄 Motor 2"]
         PDB --> ESC3["⚡ ESC 3"] --> M3["🔄 Motor 3"]
         PDB --> ESC4["⚡ ESC 4"] --> M4["🔄 Motor 4"]
     end
 
-    FC  -->|"DShot Speed Commands"| PDB
+    FC  -->|"Speed Commands"| PDB
     BAT -->|"High-Voltage DC Power"| PDB
 ```
 
 > **Reading the diagram:** The pilot's stick movements travel wirelessly to the drone's receiver, which forwards the intent to the Flight Controller. The FC consults its sensors to understand the drone's current orientation, then commands each of the four ESCs to adjust their motor's speed. This entire loop happens hundreds of times per second.
 
+!> **Note:** The flight controller's speed command appear to route through the PDB to ESCs. In reality, the flight controller connects directly to the ESCs to send speed commands; the diagram was simplified to avoid visual clutter.
+
 ---
 
 ## 1. Physics & Aerodynamics
 
-A drone stays in the air for exactly one reason: its motors push down on air hard enough to lift the entire weight of the drone up.
+A drone stays in the air because its motors push down on air hard enough to lift the entire weight of the drone up.
 
 ```
 Lift (Thrust) ≥ Weight
 ```
 
-If your motors cannot produce enough thrust to equal the weight, the drone cannot take off. If they can only just equal the weight, the drone hovers but has no ability to climb, maneuver, or resist wind. Practically that drone is Useless.
+If your motors cannot produce enough thrust to equal it's weight, the drone cannot take off. If they only produce equal to it's weight, the drone hovers but has no ability to climb, maneuver, or resist wind. Practically that drone is Useless.
 
 #### Thrust-to-Weight Ratio (TWR)
 
-TWR is the single most important number you will calculate. It is simply:
+TWR is the important number you will calculate. It is simply:
 
 ```
 TWR = Total Maximum Thrust ÷ Total Weight (AUW)
@@ -99,7 +90,7 @@ TWR = Total Maximum Thrust ÷ Total Weight (AUW)
 ```mermaid
 flowchart TD
     A["TWR < 1:1\n❌ Cannot Fly"] -->|Add Thrust| B
-    B["TWR = 1:1\n⚠️ Barely Hovers\nNo control margin"] -->|Add Thrust| C
+    B["TWR = 1:1\n⚠️ Barely Hovers\nNo control margin\nCan't Fly"] -->|Add Thrust| C
     C["TWR = 2:1\n✅ Stable Flight\nHovers at 50% throttle"] -->|Add More Thrust| D
     D["TWR = 4:1+\n🏎️ Racing / Freestyle\nHovers at 25% throttle\nExtreme agility"]
 ```
@@ -121,7 +112,7 @@ The propulsion system has three parts that must be selected together: the **moto
 ```mermaid
 flowchart TD
     BAT["🔋 Battery\n22.2V DC"] --> ESC["⚡ ESC\nConverts DC → 3-Phase AC\nControls speed"] --> MOT["🔄 Brushless Motor\nSpins the shaft"] --> PROP["🌀 Propeller\nPushes air downward"]
-    FC["🧠 Flight Controller"] -->|"Digital speed command\n(DShot protocol)"| ESC
+    FC["🧠 Flight Controller"] -->|"Speed commands"| ESC
 ```
 
 ### 2.1 Propellers
@@ -148,14 +139,14 @@ Example: 5045-3 = 5" diameter, 4.5" pitch, 3 blades
 | Change | Effect on Thrust | Effect on Efficiency | Effect on Speed | Best Use |
 |--------|-----------------|---------------------|-----------------|---------|
 | ↑ Diameter | ↑ More thrust | ↑ More efficient | ↓ Slower response | Endurance, heavy lifters |
-| ↑ Pitch | → Same thrust | ↓ Less efficient | ↑ Faster top speed | Racing |
+| ↑ Pitch | ↑ More thrust | ↓ Less efficient | ↑ Faster top speed | Racing |
 | ↑ Blade count | ↑ More thrust | ↓ Slightly less | ↓ Slower response | Cinematic, noise reduction |
 
 #### Material
 
 Most propellers are made from **polycarbonate plastic** (light and flexible, good for beginners since they bounce rather than shatter on crashes) or **carbon fiber** (stiffer, more efficient, and more expensive, but they shatter and the fragments are sharp and hazardous).
 
-!> **Safety Note:** Carbon fiber propellers can cause serious injuries. Never hold a powered drone where spinning carbon props could contact you. Start with plastic props.
+!> **Safety Note:** Carbon fiber propellers can cause serious injuries. Never hold armed drone where spinning props could contact you.
 
 ---
 
@@ -180,13 +171,13 @@ flowchart TD
 
 #### Understanding Motor Size
 
-Motors are named with 4 digits, e.g. **2207**:
+Motors are named with 4 digits, e.g. **2212**:
 
 ```
 First 2 digits = Stator Diameter (mm) → determines TORQUE
 Last 2 digits  = Stator Height (mm)   → determines POWER and heat capacity
 
-Example: 2207 = 22mm wide, 7mm tall
+Example: 2212 = 22mm wide, 12mm tall
 ```
 
 | Dimension | Increasing it gives you... | Best for... |
@@ -196,7 +187,7 @@ Example: 2207 = 22mm wide, 7mm tall
 
 #### Understanding KV (Motor Velocity Constant)
 
-KV is not a quality rating, it is a speed/torque tradeoff selector. It tells you how many RPM the motor turns per 1 Volt applied, with no load attached.
+KV is not a quality rating, it is a speed vs torque tradeoff selector. It tells you how many RPM the motor turns per 1 Volt applied, with no load attached. No load means props off.
 
 ```
 KV = RPM per Volt
@@ -230,7 +221,7 @@ flowchart TD
     BAT["🔋 Battery\nDC Power"]
     ESC["⚡ ESC\n• Receives digital command from FC\n• Converts DC → 3-phase AC\n• Controls motor speed precisely"]
     MOT["🔄 Motor\nNeeds 3-phase AC"]
-    FC["🧠 FC\nSends DShot command"]
+    FC["🧠 FC\nSends Speed commands"]
     FC -->|Speed Command| ESC
     BAT -->|Raw Power| ESC
     ESC -->|3-Phase AC| MOT
@@ -242,10 +233,10 @@ The protocol determines how the flight controller "talks" to the ESC.
 
 | Protocol | Type | Direction | Latency | Recommendation |
 |---------|------|-----------|---------|----------------|
-| **PWM / Oneshot125** | Analog | One-way only | High | Legacy avoid on new builds |
-| **DShot300** | Digital | Bidirectional | Low | Good for standard builds |
-| **DShot600** | Digital | Bidirectional | Very Low | Recommended best balance |
-| **DShot1200** | Digital | Bidirectional | Extremely Low | Racing and high-performance |
+| **PWM** | Analog | Unidirectional | High | Legacy avoid on new builds |
+| **OneShot** | Analog | Unidirectional | Medium | Good for standard DIY builds |
+| **MultiShot** | Analog | Unidirectional | Low | superseded by digital |
+| **DShot** | Digital | Bidirectional | Low | Good for standard builds |
 
 #### How to Choose ESC Current Rating
 
@@ -286,6 +277,8 @@ Think of a battery like a water tank:
 - **Voltage (V)** = water pressure higher pressure means more power available per unit of current
 - **Capacity (mAh)** = tank size how long it lasts
 - **C-rating** = pipe diameter how fast it can release energy
+
+!> **Note:** The "water tank" analogy is used here for conceptual clarity; ensure you understand the underlying technical principles as well.
 
 ### Battery Voltage: The "S" Count
 
@@ -366,15 +359,15 @@ Current capacity of wire depends on its thickness. The **AWG standard** is count
 
 When you plug in a LiPo, the sudden inrush of current creates a voltage spike (a spark). This spike can damage the capacitors on your ESCs and FC.
 
-Always use anti-spark connectors such as XT90-S or AS150. These have a built-in pre-charge resistor that limits the inrush current and eliminates the spark.
+Always use anti-spark connectors such as XT60 or XT90 or AS150. These have a built-in pre-charge resistor that limits the inrush current and eliminates the spark.
 
 ### Battery Summary
 
 ```mermaid
 flowchart TD
     Q{What matters most?}
-    Q -->|"Flight Time\n& Endurance"| A["Li-ion cells\nHigh mAh, lower C-rating"]
-    Q -->|"Power & Burst\nPerformance"| B["LiPo cells\nHigh C-rating, lower mAh"]
+    Q -->|"Flight Time\n& Endurance"| A["Li-ion cells\nHigh mAh, appropriate C-rating"]
+    Q -->|"Power & Burst\nPerformance"| B["LiPo cells\nHigh C-rating, appropriate mAh"]
     A --> C["Pair with low-KV motors\nand large efficient props"]
     B --> D["Pair with matched-KV motors\nand appropriate props"]
 ```
@@ -385,7 +378,7 @@ flowchart TD
 
 ### What Is a Flight Controller?
 
-The Flight Controller (FC) is a circuit board containing a processor (MCU) and sensors. It reads those sensors hundreds of times per second and adjusts motor speeds to keep the drone stable and responsive to your commands. Without an FC, a multirotor drone is **physically impossible to fly** — the pilot cannot manually balance all four motors at once.
+The Flight Controller (FC) is a circuit board containing a Microcontroller Unit (MCU) and sensors. It reads those sensors hundreds of times per second and adjusts motor speeds to keep the drone stable and responsive to your commands.
 
 ### How the FC Stabilizes the Drone
 
@@ -414,7 +407,7 @@ No single sensor is perfect. The FC uses **sensor fusion**, combining multiple i
 |--------|-----------------|-----------|
 | **Gyroscope** (in IMU) | Rotation rate (how fast it's tilting) | Drifts over time |
 | **Accelerometer** (in IMU) | Linear acceleration and gravity direction | Noisy and vibration-sensitive |
-| **Magnetometer / Compass** | Magnetic north (yaw/heading) | Affected by magnetic interference |
+| **Magnetometer / Compass** | Magnetic north (yaw/heading) | Affected by magnetic interference of ESC wires|
 | **Barometer** | Air pressure → altitude | Affected by wind and temperature |
 | **GPS** | Absolute latitude/longitude/altitude | Slow update rate; no signal indoors |
 
@@ -426,7 +419,7 @@ The MCU is the brain chip on the FC. Its speed determines how fast the PID loop 
 
 | MCU | Performance  | Recommendation |
 |-----|------------|----------------|
-| **STM32 F4** | Moderate (168 MHz) | Budget/legacy , limited features |
+| **STM32 F4** | Moderate (168 MHz) | Budget/legacy, good for DIY builds |
 | **STM32 F7** | Good (216 MHz) | Popular, good for most builds |
 | **STM32 H7** | Excellent (480 MHz) | Required for autonomous missions |
 
@@ -447,17 +440,15 @@ flowchart LR
     FC -->|"DShot"| ESCS["⚡ Standard ESCs"]
 ```
 
-> **I2C vs CAN:** I2C is cheap and simple but sensitive to electrical noise, keep those wires short and away from motor power cables. CAN is the industrial standard used in cars and aircraft: it is noise-resistant and suitable for long cable runs in large VTOL aircraft.
-
 ### Autopilot Firmware
 
 The firmware is the software loaded onto the FC. It determines what the drone can do.
 
-| Firmware | Best For | License | Key Strength |
-|---------|---------|---------|-------------|
-| **ArduPilot** | GPS missions, industrial | GPLv3 | Most mature; vast community |
-| **PX4** | Research, Enterprise | BSD (permissive) | Modular; optimal for H7 |
-| **Betaflight** | FPV racing, Freestyle | GPLv3 | Low-latency flight feel |
+| Firmware | License | Key Strength |
+|---------|---------|-------------|
+| **ArduPilot** | GPLv3 | Most mature; vast community |
+| **PX4** | BSD (permissive) | Modular and Modern |
+| **Betaflight** | GPLv3 | Low-latency FPVs |
 
 ### The Frame
 
@@ -466,7 +457,7 @@ The frame is the skeleton of the drone. Material choice affects stiffness, weigh
 **Carbon Fiber** is the dominant material for performance builds:
 - Extremely high strength-to-weight ratio
 - Stiffness can be tuned by adjusting fiber orientation layers
-- **Does not flex**, frame flex causes propellers to vibrate asynchronously, which confuses the IMU and causes motor overheating
+- Does not flex, frame flex causes propellers to vibrate asynchronously, which confuses the IMU and causes motor overheating
 
 > Avoid any frame that visibly flexes when you twist the arms. A flex-prone frame will result in oscillations that no amount of PID tuning can fix.
 
@@ -482,7 +473,7 @@ Motor vibration is the #1 enemy of the FC's sensors. Even tiny vibrations at mot
 
 ### The Two Communication Systems on a Drone
 
-Most drones have **two separate wireless links**:
+Drones can have **two separate wireless links**:
 
 ```mermaid
 flowchart TD
@@ -543,7 +534,7 @@ While the RC link carries fast, low-data stick commands, the **telemetry link** 
 
 ### Failsafe
 
-**Always configure a failsafe.** If the RC link drops (you flew out of range, battery died in the transmitter, interference), the drone must know what to do:
+**Always configure a failsafe.** If the RC link drops (you flew out of range or battery died in the transmitter or radio interference), the drone must know what to do:
 
 | Failsafe Mode | Behavior | Best For |
 |--------------|---------|---------|
@@ -559,11 +550,11 @@ While the RC link carries fast, low-data stick commands, the **telemetry link** 
 
 A **Ground Control Station (GCS)** is the software on your laptop or tablet that gives you a map view of the drone, lets you plan autonomous missions, tune the FC, and monitor live telemetry.
 
-| Software | Best For | Connection |
-|---------|---------|-----------|
-| **Mission Planner** | Deep ArduPilot tuning, mission planning | MAVLink / USB |
-| **QGroundControl** | Modern UI for PX4 and ArduPilot | MAVLink |
-| **Betaflight Configurator** | PID tuning for racing/freestyle | USB |
+| Software | Best For |
+|---------|---------|
+| **Mission Planner** | Deep ArduPilot tuning, mission planning |
+| **QGroundControl** | Modern UI for PX4 and ArduPilot |
+| **Betaflight Configurator** | PID tuning for racing/freestyle |
 
 ```mermaid
 flowchart TD
@@ -586,7 +577,7 @@ Once basic flight is working, sensors turn the drone from a flying toy into a to
 | Application | Essential Sensors | Purpose |
 |-------------|-----------------|---------|
 | **FPV Racing** | FPV Camera, VTX (Video Transmitter), Goggles | Live video feed to pilot's headset |
-| **Autonomous Navigation** | GNSS (GPS), IMU, Telemetry radio | Waypoint missions, Return-to-Home |
+| **Navigation** | GNSS (GPS), IMU, Telemetry radio | Waypoint missions, Return-to-Home |
 | **3D Mapping** | LiDAR or stereo camera, high-res RGB camera | Point clouds, terrain models |
 | **Agriculture / Spraying** | RTK GPS, LiDAR (obstacle avoidance), flow meter | Centimeter-level precision, spray control |
 | **Search & Rescue** | Thermal camera, spotlight, loudspeaker | Night vision, victim detection |
@@ -602,27 +593,6 @@ GPS gives the drone a fixed reference point in the world. Without GPS:
 
 ---
 
-## 8. Build Workflow
-
-Use this workflow as a checklist. The order matters — each step's output feeds the next step's input.
-
-```mermaid
-flowchart TD
-    S1["1. Define Requirements\nWhat will it carry?\nHow long should it fly?\nWhat environment?"]
-    S2["2. Estimate AUW\nSum: Frame + Battery + Motors + FC\n+ Payload + All electronics"]
-    S3["3. Set Target TWR\nBasic: 2:1"]
-    S4["4. Select Propeller\nLargest the frame allows\nBalance diameter vs pitch for use case"]
-    S5["5. Match Motor KV to Voltage\nHigh voltage (6S/12S) → Low KV\nLow voltage (4S) → Higher KV"]
-    S6["6. Select ESC\nRating ≥ Motor Max × 1.2–1.5\nChoose compatible protocol"]
-    S7["7. Select Battery\nLiPo for power · Li-ion for endurance\nVerify C-rating ≥ total max current draw"]
-    S8["8. Choose FC + Firmware"]
-    S9["9. Select Radio System\nELRS for control · MAVLink for telemetry\nConfigure failsafe!"]
-    S10["10. Safety & Verify"]
-    S11["11. Build & Test\nSoft-mount FC · Check wire gauges\nArm check · Maiden flight"]
-
-    S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9 --> S10 --> S11
-```
-
 Good Luck !
 
-*Last Updated: 30th June 2026*
+*Last Updated: 4th July 2026*
