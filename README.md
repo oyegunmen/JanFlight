@@ -6,7 +6,7 @@ Read the [Documentation](https://oyegunmen.github.io/JanFlight/#/)
 
 ## Hardware Requirements
 * **MCU Development Board:** STM32F405RGT6 (₹1000)
-* **IMU Sensor:** MPU6500 I2C/SPI Module (₹130)
+* **IMU Sensor:** MPU6500 (₹130)
 
 and other required drone related components.
 
