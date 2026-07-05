@@ -4,6 +4,7 @@
 
 * **JanFlight**
   * [Getting Started](content/getting-started.md)
+  * [Hardware](content/hardware-setup.md)
   * [Software](content/software-setup.md)
   * [Acknowledgement](content/acknowledgment.md)
 

@@ -96,8 +96,8 @@ float Kp_pitch_angle = 0.15, Ki_pitch_angle = 0.05, Kd_pitch_angle = 0.005;
 float Kp_yaw = 0.3, Ki_yaw = 0.03, Kd_yaw = 0.00015;
 
 // IMU Error Offsets (Run calculate_IMU_error() once to get these, then hardcode)
-float AccErrorX = 0.01, AccErrorY = 0.00, AccErrorZ = 0.08;
-float GyroErrorX = -1.46, GyroErrorY = 4.97, GyroErrorZ = 1.76;
+float AccErrorX = 0.00, AccErrorY = 0.00, AccErrorZ = 0.00;
+float GyroErrorX = 0.00, GyroErrorY = 0.00, GyroErrorZ = 0.00;
 
 // Data Logging frequency for troubleshooting (Higher the value, higher the stress on your MCU)
 const int data_print_rate = 25;

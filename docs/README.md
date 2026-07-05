@@ -1,5 +1,5 @@
 ## Overview
-JanFlight is a Guide or toolkit to build DIY Flight Controller for any [High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) STM32 MCU.
+JanFlight is a guide or toolkit to build DIY Flight Controller for any [High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) STM32 MCU.
 
 Highly readable, intutive and single file Arduino based Flight Stabilizer code is also provided to support rapid prototyping and development.
 
@@ -18,7 +18,7 @@ flowchart TD
 
 If I just wanted to fly drones, off-the-shelf stuff would have been fine. But I wanted to build drones, make custom tweaks and test by weirdest ideas cheaply (In terms of time and money); which meant I needed to understand every single detail at hardware and software level.
 
-The problem is, most mainstream autopilots are way too complex for a beginner to learn anything useful. I really needed something DIY that felt intuitive and approachable for a beginner.
+The problem is, most mainstream autopilots are way too complex for a beginner to learn anything useful cheaply. I really needed something DIY that felt intuitive and approachable for a beginner.
 
 ## Why?
 
@@ -27,9 +27,9 @@ You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why [re-in
 * To understand the physics and math at the hardware and software levels.
 * I learn way more by building than by reading.
 * Scarsity of teensy boards.
-* To increase **cool factor** for my instagram reels ;)
+* To increase **cool factor** of my content creation ;)
 
-and square wheels are better in terms of comfort, so why not re-invent them? /s 
+btw square wheels are better in terms of comfort, so why not re-invent them? /s 
 
 ## Example
 
