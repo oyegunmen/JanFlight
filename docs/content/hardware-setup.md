@@ -97,21 +97,21 @@ Connect components as outlined in the image/table below:
   </tbody>
 </table>
 
-!> Warning: Cut or remove the positive (red) power wire from all ESC signal connectors. Connecting them directly to the board will cause voltage back-feeding, potentially damaging your ESCs or the MCU.
+!> **Warning**: Cut or remove the positive (red) power wire from all ESC signal connectors. Connecting them directly to the board will cause voltage back-feeding, potentially damaging your ESCs or the MCU.
 
 ## Firmware Flash & Verification
 
 1. Connect the MCU to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight).
 
-2. LED Indicators:
-    * Three quick blue blinks.
+2. Blue LED Indicators:
+    * Three quick blinks indicating the start of the setup.
     * Two quick blinks indicating the start of the main loop.
     * Consistent 1-second interval blinking confirming the loop is running.
 
 3. Open the code in the Arduino IDE, scroll down to the main loop, and uncomment the following debug functions one by one, flashing the code each time to verify data in the Serial Monitor:
-    * printRadioData()
-    * printRollPitchYaw()
-    * printMotorCommands()
+    * `printRadioData()`
+    * `printRollPitchYaw()`
+    * `printMotorCommands()`
 
 If you are seeing data being printed in your serial monitor then your connections are fine. 
 

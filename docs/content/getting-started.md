@@ -7,8 +7,6 @@
 5. Compile & Upload
 6. FLY!
 
-For additional help see [JanFlight Discussions](https://github.com/oyegunmen/JanFlight)
-
 ## 1. Get the required hardware
 * STM32F405RGT6 development board (₹1000)
 * MPU6500 IMU module (₹130)
