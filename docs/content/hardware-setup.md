@@ -20,8 +20,7 @@ This example utilizes the [WeAct Studio STM32F405RGT6](https://github.com/WeActS
 
 2. Solder header pins to the board.
 
-![Image](../static/soldered_front.jpg)
-![Image](../static/soldered_back.jpg)
+![Image](../static/soldered_board.jpg)
 
 > Attach black header pins to provide a shared 5V/GND rail for ESCs as shown in the picture.
 
