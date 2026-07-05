@@ -15,8 +15,10 @@ For additional help see [JanFlight Discussions](https://github.com/oyegunmen/Jan
 
 and other compatible drone related components.
 
+See this [guide](content/hardware-setup.md) to build your flight controller hardware.
+
 ## 2. Development Environment
-Download the the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.
+Download the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.
 
 Open your Arduino IDE and follow these steps to add STM32 support:
 

@@ -117,3 +117,5 @@ Connect components as outlined in the image/table below:
 If you are seeing data being printed in your serial monitor then your connections are fine. 
 
 Congratulations, your custom flight controller is ready for flying!
+
+*Last Updated: 4th July 2026*
