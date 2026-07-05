@@ -1,3 +1,5 @@
+![Image](docs/static/janflight-banner.jpg)
+
 JanFlight is a guide or toolkit to build DIY Flight Controller for any [High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) STM32 MCU.
 
 Highly readable, intutive and single file Arduino based Flight Stabilizer code is also provided to support rapid prototyping and development.
