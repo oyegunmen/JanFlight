@@ -1,6 +1,6 @@
-# ESP32 ardware Setup
+# ESP32 Hardware Setup
 
-This guide covers building a custom flight controller using an ESP32 development board.
+This guide covers building a custom flight controller using an ESP32 breakout board.
 
 This example uses a generic **ESP32 DevKitC** (38-pin breakout, sometimes labeled "ESP32 DevKitC" or "ESP32-DevKitV1").
 
