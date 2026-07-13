@@ -1,19 +1,16 @@
 ![Image](docs/static/janflight-banner.jpg)
 
-JanFlight is a guide or toolkit to build DIY Flight Controller for any [High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) STM32 MCU.
+JanFlight is a guide or toolkit to build DIY Flight Controller for any [High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) STM32, ESP32 and RP2350 boards.
 
 Highly readable, intutive and single file Arduino based Flight Stabilizer code is also provided to support rapid prototyping and development.
 
 Read the [Documentation](https://oyegunmen.github.io/JanFlight/#/)
 
 ## Hardware Requirements
-* **MCU Development Board:** STM32F405RGT6 (₹1000)
-* **IMU Sensor:** MPU6500 (₹130)
+* **Development Board:** STM32/ESP32/RP2350
+* **IMU Sensor:** MPU6500
 
 and other required drone related parts.
-
-> [!NOTE]
-> This code is compatible with any [STM32 High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) series chip. While it has been specifically tested on the STM32F405, but it should hopefully work on other series as well.
 
 ## Software Requirements
 JanFlight is compiled and flashed using the standard Arduino IDE. Detailed steps are included in the JanFlight documentation website.

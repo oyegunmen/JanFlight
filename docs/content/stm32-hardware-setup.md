@@ -1,4 +1,4 @@
-# Hardware Setup
+# STM32 Hardware Setup
 
 This guide covers building a custom flight controller using a high-performance STM32 development board.
 
@@ -45,7 +45,7 @@ Connect components as outlined in the image/table below:
   </thead>
   <tbody>
     <tr>
-      <td rowspan="4"><strong>IMU</strong></td>
+      <td rowspan="10"><strong>IMU</strong></td>
       <td>3.3 V</td>
       <td>VCC</td>
       <td rowspan="4">I2C</td>
@@ -61,6 +61,31 @@ Connect components as outlined in the image/table below:
     <tr>
       <td>PB7</td>
       <td>SDA</td>
+    </tr>
+    <tr>
+      <td>3.3V</td>
+      <td>VCC</td>
+      <td rowspan="6">SPI</td>
+    </tr>
+    <tr>
+      <td>GND</td>
+      <td>GND</td>
+    </tr>
+    <tr>
+      <td>PB13</td>
+      <td>SCL</td>
+    </tr>
+    <tr>
+      <td>PB15</td>
+      <td>SDA</td>
+    </tr>
+    <tr>
+      <td>PB14</td>
+      <td>ADO</td>
+    </tr>
+    <tr>
+      <td>PB12</td>
+      <td>NCS</td>
     </tr>
     <tr>
       <td rowspan="3"><strong>Radio</strong></td>
@@ -101,7 +126,7 @@ Connect components as outlined in the image/table below:
 
 ## Firmware Flash & Verification
 
-1. Connect the MCU to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight).
+1. Connect the board to your laptop via USB and flash the [Janflight firmware](ttps://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 
 2. Blue LED Indicators:
     * Three quick blinks indicating the start of the setup.
@@ -117,4 +142,4 @@ If you are seeing data being printed in your serial monitor then your connection
 
 Congratulations, your custom flight controller is ready for flying!
 
-*Last Updated: 4th July 2026*
+*Last Updated: 13th July 2026*

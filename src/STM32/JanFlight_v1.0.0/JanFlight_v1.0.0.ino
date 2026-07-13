@@ -4,6 +4,7 @@ Project Start: 19/05/2026
 Last Updated: 03/07/2026
 Licence: GPL-3.0
 Version: v1.0.0
+Board: STM32
 */
 
 //========================================================================================================================//
@@ -28,12 +29,12 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //#define USE_IBUS_RX //Implementation Pending
 
 // Choose IMU communication protocol
-#define USE_MPU6500_I2C // Default
-//#define USE_MPU6500_SPI // Experimental Implementation
+#define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
+//#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
 
 // Choose ESC Communication Protocol
 #define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
-//#define USE_ONESHOT_PC // Signal Length from 125-250 us; Relatively Faster by 8 times
+//#define USE_ONESHOT_PC // Signal Length from 125-250 us; 8xFaster than PWM
 
 // Choose full scale gyro range (deg/sec)
 #define GYRO_250DPS // Default
@@ -59,9 +60,9 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //                                                  2. REQUIRED LIBRARIES                                                 //
 //========================================================================================================================//
 
-#include <Wire.h>  //I2c communication
+#include <Wire.h>  // I2c communication
 #include <SPI.h>   // SPI communication
-#include <Servo.h> //Controlling Servos
+#include <Servo.h> // Controlling Servos
 
 //========================================================================================================================//
 //                                         3. USER-SPECIFIED VARIABLE DECLARATION                                         //
@@ -77,9 +78,9 @@ unsigned long channel_6_fs = 1000; // SwB
 
 // IMU Filter Parameters (Tuned for looprate frequency)
 
-// Takes value between 0 and 1. A value of 0.10 means, 10% value from current loop & 90% from previous loop is applied to IMU Variables.
-float B_accel = 0.14; // Accel Low-pass filter 
-float B_gyro = 0.10;  // Gyro Low-pass filter
+// Takes value between 0 and 1. A value of 0.20 means, 20% value from current loop & 90% from previous loop is applied to IMU Variables.
+float B_accel = 0.2; // Accel Low-pass filter 
+float B_gyro = 0.16;  // Gyro Low-pass filter
 
 float twoKp = 2.0f * 0.4f; // Kp = 0.4; Mahony proportional gain; dictates how heavily the accelerometer is trusted to correct gyroscope drift over time
 float twoKi = 2.0f * 0.0f; // Ki = 0.0; Mahony integral gain; handles long-term steady-state errors
@@ -88,19 +89,19 @@ float twoKi = 2.0f * 0.0f; // Ki = 0.0; Mahony integral gain; handles long-term 
 float i_limit = 25.0;  // Maximum integrator error buildup
 float maxRoll = 30.0;  // Angle mode max roll (degrees)
 float maxPitch = 30.0; // Angle mode max pitch (degrees)
-float maxYaw = 120.0;  // Yaw max rate (deg/sec)
+float maxYaw = 150.0;  // Yaw max rate (deg/sec)
 
 // PID Gains (Kp is the immediate reaction to an error. Ki builds up over time. Kd dampens the reaction to stop oscillations.)
-float Kp_roll_angle = 0.15, Ki_roll_angle = 0.05, Kd_roll_angle = 0.005;
-float Kp_pitch_angle = 0.15, Ki_pitch_angle = 0.05, Kd_pitch_angle = 0.005;
-float Kp_yaw = 0.3, Ki_yaw = 0.03, Kd_yaw = 0.00015;
+float Kp_roll_angle = 0.2, Ki_roll_angle = 0.3, Kd_roll_angle = 0.05;
+float Kp_pitch_angle = 0.2, Ki_pitch_angle = 0.3, Kd_pitch_angle = 0.05;
+float Kp_yaw = 0.3, Ki_yaw = 0.05, Kd_yaw = 0.00015;
 
 // IMU Error Offsets (Run calculate_IMU_error() once to get these, then hardcode)
 float AccErrorX = 0.00, AccErrorY = 0.00, AccErrorZ = 0.00;
 float GyroErrorX = 0.00, GyroErrorY = 0.00, GyroErrorZ = 0.00;
 
 // Data Logging frequency for troubleshooting (Higher the value, higher the stress on your MCU)
-const int data_print_rate = 25;
+const int data_print_rate = 50;
 
 //========================================================================================================================//
 //                                                   4. PIN DECLARATION                                                   //
@@ -115,9 +116,9 @@ const int PPM_Pin = PA8; // PPM Input
 const int ledPin = PB2; // The Blue LED
 
 // Pin for SPI
-const int MPU_CS_PIN = PB12;
+const int MPU_CS_PIN = PB12; // SCL: PB13, SDA: PB15, ADO: PB14 and NCS: PB12
 
-// ESC Pins
+// ESC Pins (More Servo and Motor pins will be defined in coming release)
 const int m1Pin = PA0;
 const int m2Pin = PA2;
 const int m3Pin = PA6;
@@ -172,9 +173,11 @@ SPIClass mySPI(PB15, PB14, PB13); // MOSI, MISO, SCK
 #if defined USE_PWM_PC
   #define ESC_COMMAND_LT 1000.0
   #define ESC_COMMAND_UT 2000.0
+  #define ESC_COMMAND_UNARMED 950.0
 #elif defined USE_ONESHOT_PC
   #define ESC_COMMAND_LT 125.0
   #define ESC_COMMAND_UT 250.0
+  #define ESC_COMMAND_UNARMED 120.0
 #endif
 
 //ESCs
@@ -206,6 +209,13 @@ int s1_command_PWM, s2_command_PWM;
   #define ACCEL_SCALE_FACTOR 2048.0
 #endif
 
+// Loop Cycle
+#if defined USE_PWM_PC
+  #define loopcycle 400
+#elif defined USE_ONESHOT_PC
+  #define loopcycle 1200
+#endif
+
 //========================================================================================================================//
 //                                                       6. VOID SETUP                                                    //
 //========================================================================================================================//
@@ -222,22 +232,22 @@ void setup() {
   //Indicate entering setup loop with 3 blinks
   pinMode(ledPin, OUTPUT);
   ledBlink(3,250,150);
-  Serial.println("--- Boot Begins ---");
+  //Serial.println("--- Boot Begins ---");
   
   // Initialize all pins
-  Serial.print("Initializing Pins... ");
+  //Serial.print("Initializing Pins... ");
   pinMode(m1Pin, OUTPUT);
   pinMode(m2Pin, OUTPUT);
   pinMode(m3Pin, OUTPUT);
   pinMode(m4Pin, OUTPUT);
   //servo1.attach(servo1Pin, 900, 2100);
   //servo2.attach(servo2Pin, 900, 2100);
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Initialize communication with desired radio type
-  Serial.print("Configuring Radio... ");
+  //Serial.print("Configuring Radio... ");
   radioSetup();
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Failsafe setup: Default to safe values before main loop starts
   channel_1_pc = channel_1_fs;
@@ -248,9 +258,9 @@ void setup() {
   channel_6_pc = channel_6_fs;
 
   // Initialize IMU
-  Serial.print("Initializing IMU... ");
+  //Serial.print("Initializing IMU... ");
   IMUinit();
-  Serial.println("Done.");
+  //Serial.println("Done.");
   delay(50);
 
   // Get IMU error offset (Uncomment to calibrate, then write them into section 3 under IMU Error Offsets and re-comment)
@@ -265,7 +275,7 @@ void setup() {
   //Serial.println("Done.");
 
   // Arm Motors (Write lowest valid pulse)
-  Serial.print("Arming ESCs... ");
+  //Serial.print("Arming ESCs... ");
   m1_command_pc = ESC_COMMAND_LT;
   m2_command_pc = ESC_COMMAND_LT;
   m3_command_pc = ESC_COMMAND_LT;
@@ -274,15 +284,15 @@ void setup() {
     commandMotors();
     delay(2);
   }
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Warms up IMU filter before entering main loop
-  Serial.print("Calibrating Attitude... ");
+  //Serial.print("Calibrating Attitude... ");
   calibrateAttitude();
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   //Indicate entering main loop with 2 quick blinks
-  Serial.print("--- Entering Main Loop ---");
+  //Serial.print("--- Entering Main Loop ---");
   ledBlink(2,250,150);
   delay(800);
   current_time = micros();
@@ -298,9 +308,9 @@ void loop() {
   prev_time = current_time;
   current_time = micros();      
   dt = (current_time - prev_time) / 1000000.0;
-  loopBlink(200, 1300);
+  loopBlink(100, 1400);
 
-  // Print Data at 25hz (Uncomment for troubleshooting)
+  // Print Data at 50hz (Uncomment one by one for troubleshooting)
   // printRadioData(); // print Variables: channel_x_pc; Value Range: 1000-2000
   // printDesiredState(); // print Variables: thro_des. roll_des, pitch_des, yaw_des; Value Range: 0-1, -30 to 30, -30 to 30 and -120 to 120 
   // printRollPitchYaw(); // print Variables : roll_IMU, pitch_IMU, yaw_IMU; Value Range: gives absolute angle relative to gravity vector
@@ -343,7 +353,7 @@ void loop() {
   failSafe();
 
   // Idle until loop boundary is reached
-  loopRate(400); 
+  loopRate(loopcycle); 
 }
 
 //========================================================================================================================//
@@ -461,18 +471,18 @@ void getIMUdata() {
     GyZ = Wire.read() << 8 | Wire.read();
 
   #elif defined USE_MPU6500_SPI
-    mySPI.beginTransaction(SPISettings(8000000, MSBFIRST, SPI_MODE3));
+    mySPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE3));
     digitalWrite(MPU_CS_PIN, LOW);
     
     mySPI.transfer(0x3B | 0x80);
     
-    AcX = SPI.transfer(0x00) << 8 | SPI.transfer(0x00);
-    AcY = SPI.transfer(0x00) << 8 | SPI.transfer(0x00);
-    AcZ = SPI.transfer(0x00) << 8 | SPI.transfer(0x00);
-    Temp = SPI.transfer(0x00) << 8 | SPI.transfer(0x00);
-    GyX = SPI.transfer(0x00) << 8 | SPI.transfer(0x00);
-    GyY = SPI.transfer(0x00) << 8 | SPI.transfer(0x00);
-    GyZ = SPI.transfer(0x00) << 8 | SPI.transfer(0x00);
+    AcX = mySPI.transfer(0x00) << 8 | mySPI.transfer(0x00);
+    AcY = mySPI.transfer(0x00) << 8 | mySPI.transfer(0x00);
+    AcZ = mySPI.transfer(0x00) << 8 | mySPI.transfer(0x00);
+    Temp = mySPI.transfer(0x00) << 8 | mySPI.transfer(0x00);
+    GyX = mySPI.transfer(0x00) << 8 | mySPI.transfer(0x00);
+    GyY = mySPI.transfer(0x00) << 8 | mySPI.transfer(0x00);
+    GyZ = mySPI.transfer(0x00) << 8 | mySPI.transfer(0x00);
 
     digitalWrite(MPU_CS_PIN, HIGH);
     mySPI.endTransaction();
@@ -621,21 +631,21 @@ void scaleCommands() {
 // Arming, disarming and Kill Switch
 void throttleCut() {
   if (CHAN_KILL < 1250) {
-    m1_command_pc = 950;
-    m2_command_pc = 950;
-    m3_command_pc = 950;
-    m4_command_pc = 950;
+    m1_command_pc = ESC_COMMAND_UNARMED;
+    m2_command_pc = ESC_COMMAND_UNARMED;
+    m3_command_pc = ESC_COMMAND_UNARMED;
+    m4_command_pc = ESC_COMMAND_UNARMED;
   } else if (CHAN_KILL > 1750) {
-    m1_command_pc = 950;
-    m2_command_pc = 950;
-    m3_command_pc = 950;
-    m4_command_pc = 950;
+    m1_command_pc = ESC_COMMAND_UNARMED;
+    m2_command_pc = ESC_COMMAND_UNARMED;
+    m3_command_pc = ESC_COMMAND_UNARMED;
+    m4_command_pc = ESC_COMMAND_UNARMED;
   } else {
     if (CHAN_THROTTLE < 1050) {
-      m1_command_pc = 1000;
-      m2_command_pc = 1000;
-      m3_command_pc = 1000;
-      m4_command_pc = 1000;
+      m1_command_pc = ESC_COMMAND_LT;
+      m2_command_pc = ESC_COMMAND_LT;
+      m3_command_pc = ESC_COMMAND_LT;
+      m4_command_pc = ESC_COMMAND_LT;
     }
   }
 }
@@ -740,7 +750,7 @@ void getPPM() {
 //-----------------------------------------------------
 // Let the Mahony filter get some data for a few seconds so orientation is stable before arming.
 void calibrateAttitude() {
-  for (int i = 0; i < 1600; i++) {
+  for (int i = 0; i < 4000; i++) {
     prev_time = current_time;
     current_time = micros();      
     dt = (current_time - prev_time)/1000000.0; 
@@ -774,9 +784,9 @@ void calculate_IMU_error() {
   while(1); // Halt execution so you can copy the values
 }
 
-//---------------------------------------------------------------
-// Function to visually confirm particular Actions - LED Blinking
-//---------------------------------------------------------------
+//----------------------------------------------------------------
+// Function to visually confirm particular Actions by LED Blinking
+//----------------------------------------------------------------
 void ledBlink(int numBlinks,int upTime, int downTime) {
   for (int j = 1; j<= numBlinks; j++) {
     digitalWrite(ledPin, HIGH);
