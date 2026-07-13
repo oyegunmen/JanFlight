@@ -7,7 +7,7 @@ Highly readable, intutive and single file Arduino based Flight Stabilizer code i
 Read the [Documentation](https://oyegunmen.github.io/JanFlight/#/)
 
 ## Hardware Requirements
-* **Development Board:** STM32/ESP32/RP2350
+* **Breakout Board:** STM32/ESP32/RP2350
 * **IMU Sensor:** MPU6500
 
 and other required drone related parts.
