@@ -12,7 +12,7 @@ Read the [Documentation](https://oyegunmen.github.io/JanFlight/#/)
 
 and other drone related parts.
 
-> [!Info]
+> [!INFO]
 > This firmware is tested on the following boards, but should support the broader STM32, ESP32, and Raspberry Pi microcontroller families. Update the pin definitions in the code to match your specific board's hardware datasheet.
 
 | MCU Family | Breakout Board | Clock | Flash | RAM | Price |
