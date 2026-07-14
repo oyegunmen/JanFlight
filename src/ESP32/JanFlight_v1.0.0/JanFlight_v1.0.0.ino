@@ -308,7 +308,7 @@ void loop() {
   prev_time = current_time;
   current_time = micros();      
   dt = (current_time - prev_time) / 1000000.0;
-  loopBlink(1200, 300);
+  loopBlink(1300, 200);
 
   // Print Data at 50hz (Uncomment one by one for troubleshooting)
   // printRadioData(); // print Variables: channel_x_pc; Value Range: 1000-2000

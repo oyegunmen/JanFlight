@@ -4,9 +4,12 @@ This guide covers building a custom flight controller using a high-performance S
 
 This example utilizes the [WeAct Studio STM32F405RGT6](https://github.com/WeActStudio/WeActStudio.STM32F4_64Pin_CoreBoard).
 
+![Image](../static/stm32-pinout-inner.jpg)
+![Image](../static/stm32-pinout-outer.jpg)
+
 ## Required Components
 
-* STM32F405RGT6 Dev Board
+* STM32F405RGT6 Breakout Board
 * MPU6500 IMU
 * FlySky FS-iA6B Receiver
 * Header pins (3 x 2-pin, 15 number length)

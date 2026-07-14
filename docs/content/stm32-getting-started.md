@@ -65,6 +65,9 @@ Download STM32 based firmware from [GitHub](https://github.com/oyegunmen/JanFlig
 
 (a) **Update the Pin Declaration:** Refer to your specific STM32 board's datasheet and pinout diagram to determine the correct pins for your needs. Navigate to the section 4 of the code and change the pin assignments to match your respective board.
 
+![Image](../static/stm32-pinout-inner.jpg)
+![Image](../static/stm32-pinout-outer.jpg)
+
 b) **Adjust the Control Mixer:** Locate the `controlMixer()` function. This is where your radio control inputs map to the motor pins you just defined. Leave the default for a standard QuadX drone, or simply change the plus and minus signs inside this function to match your custom motor layout and rotation setup.
 
 ## 4. Calibrate
