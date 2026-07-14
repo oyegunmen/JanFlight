@@ -129,7 +129,7 @@ Connect components as outlined in the image/table below:
 
 ## Firmware Flash & Verification
 
-1. Connect the board to your laptop via USB and flash the [Janflight firmware](ttps://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
+1. Connect the STM32 to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 
 2. Blue LED Indicators:
     * Three quick blinks indicating the start of the setup.

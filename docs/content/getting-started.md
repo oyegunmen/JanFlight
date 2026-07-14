@@ -9,7 +9,7 @@
 
 See guide according to your breakout board to build your flight controller.
 
-| Dev Board | Link |
+| Breakout Board | Link |
 |-------------|-----------------|
 | **STM32** | [Guide](stm32-getting-started.md) |
 | **ESP32** | [Guide](esp32-getting-started.md) |

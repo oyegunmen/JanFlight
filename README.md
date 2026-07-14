@@ -10,7 +10,16 @@ Read the [Documentation](https://oyegunmen.github.io/JanFlight/#/)
 * **Breakout Board:** STM32/ESP32/RP2350
 * **IMU Sensor:** MPU6500
 
-and other required drone related parts.
+and other drone related parts.
+
+> [!Info]
+> This firmware is tested on the following boards, but should support the broader STM32, ESP32, and Raspberry Pi microcontroller families. Update the pin definitions in the code to match your specific board's hardware datasheet.
+
+| MCU Family | Breakout Board | Clock | Flash | RAM | Price |
+|-------------|-----------------|-----------------|-----------------|-----------------|-----------------|
+| **STM32** | [WeAct Studio STM32F405RGT6](https://github.com/WeActStudio/WeActStudio.STM32F4_64Pin_CoreBoard) | 168MHz | 1MB | 128KB | ₹1000/$7/€7 |
+| **ESP32** | [ESP32 DevKitC](https://docs.espressif.com/projects/esp-dev-kits/en/latest/esp32/esp32-devkitc/user_guide.html) | 240MHz | 4MB | 520KB | ₹450/$5/€5 |
+| **RP2350** | (Coming Soon) | 240 MHz (overclock 300MHz) | 4MB | 520KB | ₹540/$6/€6 |
 
 ## Software Requirements
 JanFlight is compiled and flashed using the standard Arduino IDE. Detailed steps are included in the JanFlight documentation website.
