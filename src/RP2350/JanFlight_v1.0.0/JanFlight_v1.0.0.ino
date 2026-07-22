@@ -4,7 +4,7 @@ Project Start: 19/05/2026
 Last Updated: 03/07/2026
 Licence: GPL-3.0
 Version: v1.0.0
-Board: STM32
+Board: RP2350/RP2040
 */
 
 //========================================================================================================================//
@@ -110,19 +110,23 @@ const int data_print_rate = 50;
 // Based on STM32F405 Nomenclature (WeAct Studio Dev Board)
 
 // Radio Receiver Pins
-const int PPM_Pin = PA8; // PPM Input
+const int PPM_Pin = 2; // PPM Input
 
 // LED Pin
-const int ledPin = PB2; // The Blue LED
+const int ledPin = 25; // The LED
+
+//Pin for I2C
+const int SCL_Pin = 5;
+const int SDA_Pin = 4;
 
 // Pin for SPI
-const int MPU_CS_PIN = PB12; // SCL: PB13, SDA: PB15, ADO: PB14 and NCS: PB12
+const int MPU_CS_PIN = 1; // SCL: GP18, SDA: GP19, ADO: GP16 and NCS: GP1
 
 // ESC Pins (More Servo and Motor pins will be defined in coming release)
-const int m1Pin = PA0;
-const int m2Pin = PA2;
-const int m3Pin = PA6;
-const int m4Pin = PB0;
+const int m1Pin = 6;
+const int m2Pin = 7;
+const int m3Pin = 8;
+const int m4Pin = 9;
 
 // Servo Pins
 //const int servo1Pin = PA3;
@@ -164,8 +168,10 @@ float error_roll, integral_roll, integral_roll_prev, derivative_roll, roll_PID =
 float error_pitch, integral_pitch, integral_pitch_prev, derivative_pitch, pitch_PID = 0;
 float error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw, yaw_PID = 0;
 
-// SPI Pins
-SPIClass mySPI(PB15, PB14, PB13); // MOSI, MISO, SCK
+// SPI Object Declaration
+#if defined USE_MPU6500_SPI
+SPIClass &mySPI = SPI;
+#endif
 
 // Command pulses
 
@@ -313,7 +319,7 @@ void loop() {
   // Print Data at 50hz (Uncomment one by one for troubleshooting)
   // printRadioData(); // print Variables: channel_x_pc; Value Range: 1000-2000
   // printDesiredState(); // print Variables: thro_des. roll_des, pitch_des, yaw_des; Value Range: 0-1, -30 to 30, -30 to 30 and -120 to 120 
-  // printRollPitchYaw(); // print Variables : roll_IMU, pitch_IMU, yaw_IMU; Value Range: gives absolute angle relative to gravity vector
+   printRollPitchYaw(); // print Variables : roll_IMU, pitch_IMU, yaw_IMU; Value Range: gives absolute angle relative to gravity vector
   // printGyrodata(); //Prints filtered Gyroscope data direct from IMU
   // printAccdata(); //Prints filtered Accelerometer data direct from IMU
   // printScaledCommands(); // print Variables : mx_command_scaled; Value Range: Combination of throttle, roll, pitch and yaw PID value
@@ -377,8 +383,8 @@ void writeRegisterSPI(uint8_t reg, uint8_t data) {
 // communicating with the MPU6500 using I2C protocol.
 void IMUinit() {
   #if defined USE_MPU6500_I2C
-    Wire.setSCL(PB8); 
-    Wire.setSDA(PB7);
+    Wire.setSCL(SCL_Pin); 
+    Wire.setSDA(SDA_Pin);
     Wire.begin();
     Wire.setClock(400000); // 400kHz I2C speed
     

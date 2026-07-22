@@ -1,17 +1,19 @@
 # ESP32
 
 1. Get the required hardware
-2. Setup Arduino IDE development environment
+2. Development Environment
 3. Configuration
 4. Calibrate
 5. Compile & Upload
 6. FLY!
 
 ## 1. Get the required hardware
-* ESP32 Development Board (30-pin or 38-pin)
+* ESP32 Breakout Board (30-pin or 38-pin)
 * MPU6500 IMU module
 
-and other compatible drone related components.
+![Image](../static/parts_esp32.jpg)
+
+and other drone related parts.
 
 See this [guide](esp32-hardware-setup.md) to build your flight controller hardware.
 

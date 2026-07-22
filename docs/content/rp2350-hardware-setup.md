@@ -1,14 +1,14 @@
-# ESP32 Hardware Setup
+# Raspberry Pi Pico Hardware Setup
 
-This guide covers building a custom flight controller using an ESP32 breakout board.
+This guide covers building a custom flight controller using a Raspberry Pi Pico 2 (RP2350).
 
-This example uses a generic **ESP32 DevKitC** (38-pin breakout, sometimes labeled "ESP32 DevKitC" or "ESP32-DevKitV1").
+This example uses the [Raspberry Pi Pico 2](https://www.raspberrypi.com/documentation/microcontrollers/pico-series.html#pico2).
 
-![Image](../static/esp32-pinout.webp)
+![Image](../static/rp2350-pinout.webp)
 
 ## Required Components
 
-* ESP32 DevKitC
+* Raspberry Pi Pico 2
 * MPU6500 IMU
 * FlySky FS-iA6B Receiver (or any PPM-output receiver)
 * Header pins
@@ -18,11 +18,11 @@ This example uses a generic **ESP32 DevKitC** (38-pin breakout, sometimes labele
 
 1. Get the required parts.
 
-![Image](../static/parts_esp32.jpg)
+![Image](../static/parts_rp2350.jpg)
 
-2. Solder header pins to the board, matching the pin groups used in the wiring table below.
+2. Solder header pins along both GPIO rows, matching the pin groups used in the wiring table below.
 
-Solder a dedicated 5V/GND power supply from your Power Distribution Board (PDB) to the ESP32's `VIN`/`GND` pins (or a spare 5V/GND header pair) to prevent voltage sags.
+Solder a dedicated 5V/GND power supply from your Power Distribution Board (PDB) to the Pico 2's `VSYS`/`GND` pins (or a spare 5V/GND header pair) to prevent voltage sags.
 
 !> Ensure heat shrink tubes are used to avoid short circuit while keeping wiring clean.
 
@@ -51,11 +51,11 @@ Connect components as outlined in the table below:
       <td>GND</td>
     </tr>
     <tr>
-      <td>GPIO22</td>
+      <td>GP5</td>
       <td>SCL</td>
     </tr>
     <tr>
-      <td>GPIO21</td>
+      <td>GP4</td>
       <td>SDA</td>
     </tr>
     <tr>
@@ -68,24 +68,24 @@ Connect components as outlined in the table below:
       <td>GND</td>
     </tr>
     <tr>
-      <td>GPIO18</td>
+      <td>GP18</td>
       <td>SCL</td>
     </tr>
     <tr>
-      <td>GPIO23</td>
+      <td>GP19</td>
       <td>SDA</td>
     </tr>
     <tr>
-      <td>GPIO19</td>
+      <td>GP16</td>
       <td>ADO</td>
     </tr>
     <tr>
-      <td>GPIO5</td>
+      <td>GP1</td>
       <td>NCS</td>
     </tr>
     <tr>
       <td rowspan="4"><strong>Radio</strong></td>
-      <td>GPIO4</td>
+      <td>GP2</td>
       <td>PPM/CH1</td>
       <td rowspan="4">PPM</td>
     </tr>
@@ -103,20 +103,20 @@ Connect components as outlined in the table below:
     </tr>
     <tr>
       <td rowspan="4"><strong>ESC</strong></td>
-      <td>GPIO25</td>
+      <td>GP6</td>
       <td>SIGNAL (ESC1)</td>
       <td rowspan="4">PWM/OneShot125</td>
     </tr>
     <tr>
-      <td>GPIO26</td>
+      <td>GP7</td>
       <td>SIGNAL (ESC2)</td>
     </tr>
     <tr>
-      <td>GPIO32</td>
+      <td>GP8</td>
       <td>SIGNAL (ESC3)</td>
     </tr>
     <tr>
-      <td>GPIO33</td>
+      <td>GP9</td>
       <td>SIGNAL (ESC4)</td>
     </tr>
   </tbody>
@@ -126,14 +126,12 @@ Connect components as outlined in the table below:
 
 ## Firmware Flash & Verification
 
-1. Connect the ESP32 to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight/blob/main/src/ESP32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
+1. Connect the RP2340 to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 
-2. Blue LED Indicators:
+2. Onboard LED Indicators (GP25 on a plain Pico 2):
     * Three quick blinks indicating the start of the setup.
     * Two quick blinks indicating the start of the main loop.
     * Consistent 1-second interval blinking confirming the loop is running.
-
-!> **Warning:** On the 38-pin ESP32 DevKitC, the onboard blue LED is physically hardwired to GPIO 1, which is the exact same pin used for the USB Serial Transmit (TX) line. You cannot use both simultaneously. Attempting to blink the onboard LED while sending data to the Serial Monitor will cause signal collisions and one of the function will work.
 
 3. Open the code in the Arduino IDE, scroll down to the main loop, and uncomment the following debug functions one by one, flashing the code each time to verify data in the Serial Monitor:
     * `printRadioData()`
@@ -142,6 +140,6 @@ Connect components as outlined in the table below:
 
 If you are seeing data being printed in your serial monitor then your connections are fine.
 
-Congratulations, your ESP32 based flight controller is ready for flying!
+Congratulations, your RP2350-based flight controller is ready for flying!
 
-*Last Updated: 13th July 2026*
+*Last Updated: 20th July 2026*

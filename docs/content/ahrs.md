@@ -16,15 +16,6 @@ JanFlight uses the standard NED (North-East-Down) notation, with its origin as t
 - Y-axis points right (East)
 - Z-axis points down (Down)
 
-When we pass the raw sensor data into the Mahony filter in the main loop, you will notice specific positive and negative signs:
-
-```C++
-// Uses IMU data to estimate absolute vehicle attitude
-Mahony(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt);
-```
-
-!> Think why these signs may have been added after seeing the following mathematical breakdown.
-
 ## 2. Mathematical Breakdown
 
 #### 1. Unit Conversion & Normalization is performed.
@@ -115,5 +106,16 @@ Calculates the quaternion derivative $\dot{\mathbf{q}} = \frac{1}{2} \mathbf{q} 
 roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2) * 57.29577951; // ...
 ```
 Converts the 4D quaternion into human-readable 3D Roll, Pitch, and Yaw angles. The output is converted from radians to degrees (multiplied by $180/\pi$) for the flight control mixer.
+
+#### Question
+
+When we pass the raw sensor data into the Mahony filter in the main loop, you will notice specific positive and negative signs:
+
+```C++
+// Uses IMU data to estimate absolute vehicle attitude
+Mahony(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt);
+```
+
+!> Think why these signs may have been added after seeing the mathematical breakdown. **Hint**: Take a look at the reference system of MPU6500.
 
 *Last Updated: 14th July 2026*

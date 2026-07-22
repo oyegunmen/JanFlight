@@ -1,7 +1,7 @@
 # STM32
 
 1. Get the required hardware
-2. Setup Arduino IDE development environment
+2. Development Environment
 3. Configuration
 4. Calibrate
 5. Compile & Upload
@@ -31,7 +31,7 @@ An ordered list of STM32 microcontrollers found in commercial flight controllers
 
 ![Image](../static/parts.jpg)
 
-and other compatible drone related components.
+and other drone related parts.
 
 See this [guide](stm32-hardware-setup.md) to build your flight controller hardware.
 

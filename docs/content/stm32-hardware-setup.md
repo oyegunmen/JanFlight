@@ -1,6 +1,6 @@
 # STM32 Hardware Setup
 
-This guide covers building a custom flight controller using a high-performance STM32 development board.
+This guide covers building a custom flight controller using STM32 breakout board.
 
 This example utilizes the [WeAct Studio STM32F405RGT6](https://github.com/WeActStudio/WeActStudio.STM32F4_64Pin_CoreBoard).
 
@@ -11,8 +11,8 @@ This example utilizes the [WeAct Studio STM32F405RGT6](https://github.com/WeActS
 
 * STM32F405RGT6 Breakout Board
 * MPU6500 IMU
-* FlySky FS-iA6B Receiver
-* Header pins (3 x 2-pin, 15 number length)
+* FlySky FS-iA6B Receiver (or any PPM-output receiver)
+* Header pins
 * Soldering iron, flux, soldering wire, jumper wires, and cutting plier
 
 ## Soldering
@@ -33,9 +33,7 @@ Solder a dedicated 5V/GND power supply from your Power Distribution Board (PDB) 
 
 ## Wiring
 
-Connect components as outlined in the image/table below:
-
-![Image](../static/schematic.png)
+Connect components as outlined in the table below:
 
 <table>
   <thead>
@@ -91,10 +89,10 @@ Connect components as outlined in the image/table below:
       <td>NCS</td>
     </tr>
     <tr>
-      <td rowspan="3"><strong>Radio</strong></td>
+      <td rowspan="4"><strong>Radio</strong></td>
       <td>PA8</td>
       <td>PPM/CH1</td>
-      <td rowspan="3">PPM</td>
+      <td rowspan="4">PPM</td>
     </tr>
     <tr>
       <td>5 V</td>
@@ -103,6 +101,10 @@ Connect components as outlined in the image/table below:
     <tr>
       <td>GND</td>
       <td>GND</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
       <td rowspan="4"><strong>ESC</strong></td>

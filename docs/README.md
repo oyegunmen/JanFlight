@@ -1,6 +1,6 @@
 ![Image](static/janflight-banner.jpg)
 
-JanFlight is a guide or toolkit to build DIY Flight Controller for any [High Performance](https://www.st.com/en/microcontrollers-microprocessors/stm32-32-bit-arm-cortex-mcus.html) STM32, ESP32 and RP2350 boards.
+JanFlight is a guide or toolkit to build DIY Flight Controller for any STM32, ESP32 and Raspberry Pi Pico boards.
 
 Highly readable, intutive and single file Arduino based Flight Stabilizer code is also provided to support rapid prototyping and development.
 
@@ -17,35 +17,24 @@ flowchart TD
     Code --> D(Stable Drone)
 ```
 
-If I just wanted to fly drones, off-the-shelf stuff would have been fine. But I wanted to build drones, make custom tweaks and test by weirdest ideas cheaply (In terms of time and money); which meant I needed to understand every single detail at hardware and software level.
+If I just wanted to fly drones, off-the-shelf hardware/software would have been fine. But I wanted to build drones and test by weirdest ideas cheaply (In terms of time and money).
 
-The problem is, most mainstream autopilots are way too complex for a beginner to learn anything useful cheaply. I really needed something DIY that felt intuitive and approachable for a beginner.
+The problem is, most mainstream autopilots are way too complex for a **beginner** to learn anything useful cheaply. I really needed something DIY that felt intuitive and approachable for a beginner.
 
 ## Why?
 
 You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why [re-invent the wheel](https://programmerhumor.io/memes/reinventing-the-wheel)?
 
 * To understand the physics and math at the hardware and software levels.
-* I learn way more by building than by reading.
-* Scarsity of teensy boards.
-* To increase **cool factor** of my content creation ;)
-
-btw square wheels are better in terms of comfort, so why not re-invent them? /s 
+* Unavailability of teensy boards.
+* To increase the **cool factor** of my content creation ;)
 
 ## Example
 
-The code is not yet tested on any working vehicle. Testing is planned for following standard configurations.
+The code is tested on following builds. Future builds and results will be published on this site and my instagram handle.
 
-- [ ] QuadCopter (The build is complete; PID Tuning ongoing)
+- [x] QuadCopter (Will publish a video soon)
 - [ ] Plane
-
-## Safety
-
-By default JanFlight has these safety features enabled:
-
-* **Radio Failsafe**: Automatically shifts to predefined failsafe values, if the drone loses its radio signal or receives a glitched command.
-
-* **Kill Switch**: A dedicated emergency switch that instantly cuts all power to the motors, overriding all other flight commands immediately.
 
 ## Disclamier
 
