@@ -1,8 +1,10 @@
 ![Image](static/janflight-banner.jpg)
 
-JanFlight is a guide or toolkit to build DIY Flight Controller for any STM32, ESP32 and Raspberry Pi Pico boards.
+JanFlight is a guide and toolkit for building DIY flight controllers using STM32, ESP32, or Raspberry Pi Pico boards. Flight tested Arduino-based and readable code along with documentation is also provided to support rapid prototyping and development.
 
-Highly readable, intutive and single file Arduino based Flight Stabilizer code is also provided to support rapid prototyping and development.
+This is for hobbyists, tinkerers, DIY enthusiasts and ofcourse, non-coders too. There's also a theoretical [guide](content/basics.md) covering the fundamentals of drones, with beautiful block diagrams for absolute beginners. Everything here is kept as simple and approachable as possible. That said, don't just blindly copy-paste I encourage you to ask why things are done a certain way to understand low level working. 
+
+The goal is anyone should be able to build a working flight controller for under $10, using off the shelf development boards and sensor breakout boards.
 
 ## Problem
 
@@ -17,9 +19,9 @@ flowchart TD
     Code --> D(Stable Drone)
 ```
 
-If I just wanted to fly drones, off-the-shelf hardware/software would have been fine. But I wanted to build drones and test by weirdest ideas cheaply (In terms of time and money).
+If I just wanted to fly drones, off-the-shelf hardware/software would have been fine. But I wanted to build drones, while understanding that `magic`, to test my ideas cheaply (In terms of time and money).
 
-The problem is, most mainstream autopilots are way too complex for a **beginner** to learn anything useful cheaply. I really needed something DIY that felt intuitive and approachable for a beginner.
+The problem is, most mainstream autopilots are very complex for a **beginner** to learn anything useful cheaply. I really needed something DIY that felt intuitive and approachable for a beginner.
 
 ## Why?
 
@@ -33,7 +35,7 @@ You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why [re-in
 
 The code is tested on following builds. Future builds and results will be published on this site and my instagram handle.
 
-- [x] QuadCopter (Will publish a video soon)
+- [x] QuadCopter (Publishing video soon)
 - [ ] Plane
 
 ## Disclamier
@@ -42,4 +44,4 @@ This code is a shared, open source flight controller for small micro aerial vehi
 
 !> THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-*Last Updated: 4th July 2026*
+*Last Updated: 27th July 2026*

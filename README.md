@@ -1,8 +1,10 @@
 ![Image](docs/static/janflight-banner.jpg)
 
-JanFlight is a guide or toolkit to build DIY Flight Controller for any STM32, ESP32 and Raspberry Pi Pico boards.
+JanFlight is a guide and toolkit for building DIY flight controllers using STM32, ESP32, or Raspberry Pi Pico boards. Flight tested Arduino-based and readable code along with documentation is also provided to support rapid prototyping and development.
 
-Highly readable, intutive and single file Arduino based Flight Stabilizer code is also provided to support rapid prototyping and development.
+This is for hobbyists, tinkerers, DIY enthusiasts and ofcourse, non-coders too. There's also a theoretical [guide](https://oyegunmen.github.io/JanFlight/#/content/basics) covering the fundamentals of drones, with beautiful block diagrams for absolute beginners. Everything here is kept as simple and approachable as possible. That said, don't just blindly copy-paste I encourage you to ask why things are done a certain way to understand low level working. 
+
+The goal is anyone should be able to build a working flight controller for under $10, using off the shelf development boards and sensor breakout boards.
 
 Read the [Documentation](https://oyegunmen.github.io/JanFlight/#/)
 
@@ -26,7 +28,7 @@ JanFlight is compiled and flashed using the standard Arduino IDE. Detailed steps
 
 ## Testing
 The code is tested on following builds. Future builds and results will be published on the documentation site and my instagram handle.
-- [x] QuadCopter (Will publish a video soon)
+- [x] QuadCopter (Publishing video soon)
 - [ ] Plane
 
 ## License

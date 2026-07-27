@@ -4,4 +4,8 @@ This project is licensed under the [GPL-3.0 License](https://github.com/oyegunme
 
 Special thanks to **Nicholas Rehm** and his [dRehmFlight](https://github.com/nickrehm/dRehmFlight) project. You and your project both are awesome, thanks for sharing your work.
 
-*Last Updated: 22nd May 2026*
+## Contact
+
+I am [Dikshit](https://dikshitmakwana.in/), Engineer and Tinkerer. I can be reached at <a href="mailto:dikshitdesign@gmail.com">dikshitdesign@gmail.com</a>   .
+
+*Last Updated: 27th July 2026*

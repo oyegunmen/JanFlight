@@ -29,12 +29,12 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //#define USE_IBUS_RX //Implementation Pending
 
 // Choose IMU communication protocol
-//#define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
-#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
+#define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
+//#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
 
 // Choose ESC Communication Protocol
-//#define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
-#define USE_ONESHOT_PC // Signal Length from 125-250 us; 8xFaster than PWM
+#define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
+//#define USE_ONESHOT_PC // Signal Length from 125-250 us; 8xFaster than PWM
 
 // Choose full scale gyro range (deg/sec)
 #define GYRO_250DPS // Default
@@ -97,8 +97,8 @@ float Kp_pitch_angle = 0.16, Ki_pitch_angle = 0.25, Kd_pitch_angle = 0.04;
 float Kp_yaw = 0.3, Ki_yaw = 0.05, Kd_yaw = 0.00015;
 
 // IMU Error Offsets (Run calculate_IMU_error() once to get these, then hardcode)
-float AccErrorX = 0.00, AccErrorY = 0.00, AccErrorZ = 0.00;
-float GyroErrorX = 0.00, GyroErrorY = 0.00, GyroErrorZ = 0.00;
+float AccErrorX = -0.01, AccErrorY = -0.01, AccErrorZ = 0.09;
+float GyroErrorX = -1.99, GyroErrorY = 5.49, GyroErrorZ = 1.63;
 
 // Data Logging frequency for troubleshooting (Higher the value, higher the stress on your MCU)
 const int data_print_rate = 50;
@@ -117,6 +117,10 @@ const int ledPin = PB2; // The Blue LED
 
 // Pin for SPI
 const int MPU_CS_PIN = PB12; // SCL: PB13, SDA: PB15, ADO: PB14 and NCS: PB12
+
+//Pin for I2C
+const int SCL_Pin = PB8;
+const int SDA_Pin = PB7;
 
 // ESC Pins (More Servo and Motor pins will be defined in coming release)
 const int m1Pin = PA0;
@@ -213,7 +217,7 @@ int s1_command_PWM, s2_command_PWM;
 #if defined USE_PWM_PC
   #define loopcycle 400
 #elif defined USE_ONESHOT_PC
-  #define loopcycle 1200
+  #define loopcycle 1600
 #endif
 
 //========================================================================================================================//
@@ -314,8 +318,8 @@ void loop() {
   // printRadioData(); // print Variables: channel_x_pc; Value Range: 1000-2000
   // printDesiredState(); // print Variables: thro_des. roll_des, pitch_des, yaw_des; Value Range: 0-1, -30 to 30, -30 to 30 and -120 to 120 
   // printRollPitchYaw(); // print Variables : roll_IMU, pitch_IMU, yaw_IMU; Value Range: gives absolute angle relative to gravity vector
-  // printGyrodata(); //Prints filtered Gyroscope data direct from IMU
-  // printAccdata(); //Prints filtered Accelerometer data direct from IMU
+  // printGyrodata(); //Prints filtered Gyroscope data directly from IMU
+  // printAccdata(); //Prints filtered Accelerometer data directly from IMU
   // printScaledCommands(); // print Variables : mx_command_scaled; Value Range: Combination of throttle, roll, pitch and yaw PID value
   // printMotorCommands(); // print Variables : mx_command_pc; Value Range: 1000-2000 or 125-250
   // printServoCommands(); // print Variables : sx_command_scaled; Value Range: Combination of throttle, roll, pitch and yaw PID value
@@ -339,8 +343,9 @@ void loop() {
 
   // Scale motor/actuator commands to required ranges
   scaleCommands();
-
+  
   // Set motor commands to minimum if kill switch is engaged
+  
   throttleCut();
 
   // Send exact pulse widths to ESCs and Servos
@@ -352,7 +357,7 @@ void loop() {
   getCommands();
 
   // Check validity of radio commands and overwrite with failsafe if bad
-  failSafe();
+  failSafe(); 
 
   // Idle until loop boundary is reached
   loopRate(loopcycle); 
@@ -365,7 +370,7 @@ void loop() {
 // Helper function to write to MPU6500 registers over SPI
 #if defined USE_MPU6500_SPI
 void writeRegisterSPI(uint8_t reg, uint8_t data) {
-  mySPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE3));
+  mySPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE3));
   digitalWrite(MPU_CS_PIN, LOW);
   mySPI.transfer(reg);
   mySPI.transfer(data);
@@ -377,8 +382,8 @@ void writeRegisterSPI(uint8_t reg, uint8_t data) {
 // communicating with the MPU6500 using I2C protocol.
 void IMUinit() {
   #if defined USE_MPU6500_I2C
-    Wire.setSCL(PB8); 
-    Wire.setSDA(PB7);
+    Wire.setSCL(SCL_Pin); 
+    Wire.setSDA(SDA_Pin);
     Wire.begin();
     Wire.setClock(400000); // 400kHz I2C speed
     
