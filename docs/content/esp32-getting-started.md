@@ -15,7 +15,7 @@
 
 and other drone related parts.
 
-See this [guide](../content/esp32-hardware-setup.md) to build your flight controller hardware.
+See this [guide](content/esp32-hardware-setup.md) to build your flight controller hardware.
 
 ## 2. Development Environment
 Download the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.
@@ -43,7 +43,7 @@ https://espressif.github.io/arduino-esp32/package_esp32_index.json
 !> **Info**: Your laptop might need the Virtual COM Port driver installed if it doesn't automatically detect the board when flashing; just the standard [CP210x](https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads)/[CH340](https://sparks.gogo.co.nz/ch340.html) driver for your OS if your board isn't detected automatically.
 
 ## 3. Configuration
-Download STM32 based firmware from [GitHub](https://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
+Download ESP32 based firmware from [GitHub](https://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 
 (a) **Update the Pin Declaration:** Refer to your specific STM32 board's datasheet and pinout diagram to determine the correct pins for your needs. Navigate to the section 4 of the code and change the pin assignments to match your respective board.
 

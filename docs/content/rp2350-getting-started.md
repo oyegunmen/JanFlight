@@ -15,7 +15,7 @@
 
 and other drone related parts.
 
-See this [guide](../content/rp2350-hardware-setup.md) to build your flight controller hardware.
+See this [guide](content/rp2350-hardware-setup.md) to build your flight controller hardware.
 
 ## 2. Development Environment
 Download the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.
@@ -39,7 +39,7 @@ https://github.com/earlephilhower/arduino-pico/releases/download/global/package_
 ![Image](../static/rp2350-tools.png)
 
 ## 3. Configuration
-Download STM32 based firmware from [GitHub](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/JanFlight_v1.0.0/JanFlight_v1.0.0.ino)
+Download RP2350 based firmware from [GitHub](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/JanFlight_v1.0.0/JanFlight_v1.0.0.ino)
 
 (a) **Update the Pin Declaration**: Refer to your specific board's datasheet and pinout diagram to determine the correct pins for your needs. Navigate to the section 4 of the code and change the pin assignments to match your respective board.
 
