@@ -33,7 +33,7 @@ An ordered list of STM32 microcontrollers found in commercial flight controllers
 
 and other drone related parts.
 
-See this [guide](stm32-hardware-setup.md) to build your flight controller hardware.
+See this [guide](../content/stm32-hardware-setup.md) to build your flight controller hardware.
 
 ## 2. Development Environment
 Download the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.

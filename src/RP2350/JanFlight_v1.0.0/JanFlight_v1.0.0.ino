@@ -29,8 +29,8 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //#define USE_IBUS_RX //Implementation Pending
 
 // Choose IMU communication protocol
-//#define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
-#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
+#define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
+//#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
 
 // Choose ESC Communication Protocol
 //#define USE_PWM_PC // Signal Length from 1000-2000 us; Slower

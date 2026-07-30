@@ -15,7 +15,7 @@
 
 and other drone related parts.
 
-See this [guide](esp32-hardware-setup.md) to build your flight controller hardware.
+See this [guide](../content/esp32-hardware-setup.md) to build your flight controller hardware.
 
 ## 2. Development Environment
 Download the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.
