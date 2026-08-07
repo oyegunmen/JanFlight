@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://git.io/typing-svg">
-    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=18&pause=4000&center=true&vCenter=true&width=1000&lines=DIY+%26+Open+Flight+Controller+for+RP2350%2FRP2040%2FESP32%2FSTM32" alt="Typing SVG" width="100%" />
+    <img src="https://readme-typing-svg.demolab.com?font=Inter&weight=600&size=18&pause=4000&center=true&vCenter=true&width=380&height=50&lines=DIY+%26+Open+Flight+Controller+for+RP2350%2FRP2040%2FESP32%2FSTM32" alt="Typing SVG" width="100%" />
   </a>
 </p>
 
