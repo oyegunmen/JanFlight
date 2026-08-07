@@ -14,6 +14,6 @@
 * **ADDITIONAL**
   * [Basics](content/basics.md)
   * [AHRS](content/ahrs.md)
-  * [Acknowledgement](content/acknowledgment.md)
+  * [Licence](content/licence-contact.md)
 
 * [**Github** ↗&#xFE0E;](https://github.com/oyegunmen/JanFlight)
