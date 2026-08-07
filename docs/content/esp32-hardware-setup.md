@@ -1,18 +1,118 @@
-# ESP32 Hardware Setup
+# ESP32 / ESP32-S3 Hardware Setup
 
 This guide covers building a custom flight controller using an ESP32 breakout board.
 
-This example uses a generic **ESP32 DevKitC** (38-pin breakout, sometimes labeled "ESP32 DevKitC" or "ESP32-DevKitV1").
+This example uses a generic **ESP32 DevKitC**.
 
-![Image](../static/esp32-pinout.webp)
+## Parts List
 
-## Required Components
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Specs</th>
+      <th>Price* (₹)</th>
+      <th>Purchase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="4">ESP32</td>
+      <td>38-Pin Type-C CP2102 Driver (Recommended)</td>
+      <td>599</td>
+      <td><a href="https://www.flyrobo.in/esp32-38-pin-development-board-cp2102-type-c-wifi-and-bluetooth?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>38-Pin Micro USB CP2102 Driver</td>
+      <td>599</td>
+      <td><a href="https://www.flyrobo.in/esp32-38-pin-development-board-dual-core-wifi-bluetooth-micro-usb?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>38-Pin Micro-USB CH9102 Driver</td>
+      <td>599</td>
+      <td><a href="https://www.flyrobo.in/esp32-development-board-wifibluetooth-dual-core-38-pin-ch9102-micro-soldered?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>30-Pin Micro-USB CH9102 Driver</td>
+      <td>499</td>
+      <td><a href="https://www.flyrobo.in/esp32-development-board-wifibluetooth-dual-core-30-pin-ch9102-micro-soldered?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td rowspan="2">MPU6500</td>
+      <td>-</td>
+      <td>237</td>
+      <td><a href="https://www.flyrobo.in/mpu6500-gy-6500-6dof-6-axis-accelerometer-gyro-sensor?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td rowspan="12">Miscellaneous</td>
+      <td>Soldering Iron</td>
+      <td>265</td>
+      <td><a href="https://www.flyrobo.in/solder-iron-25w-yellow?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Soldering Wire</td>
+      <td>245</td>
+      <td><a href="https://www.flyrobo.in/solder-wire-40-gsm-for-most-electrical-repair-soldering-purpose?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Soldering Flux</td>
+      <td>21</td>
+      <td><a href="https://www.flyrobo.in/noel-yellow-soldering-flux-paste-10gm?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Single Side Perf Board</td>
+      <td>31</td>
+      <td><a href="https://www.flyrobo.in/12_x_18cm_pcb_prototyping_printed_circuit?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Double Side Perf Board</td>
+      <td>43</td>
+      <td><a href="https://www.flyrobo.in/5-x-7-cm-double-side-universal-pcb-prototype-board?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Male To Male Jumper Wire</td>
+      <td>53</td>
+      <td><a href="https://www.flyrobo.in/10cm_male_to_male_jumper_cable_wire_for_arduino?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Female To Female Jumper Wire</td>
+      <td>53</td>
+      <td><a href="https://www.flyrobo.in/40pcs_10cm_female_to_female_jumper_cable_wire_for_arduino?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Male To Female Jumper Wire</td>
+      <td>53</td>
+      <td><a href="https://www.flyrobo.in/10cm_male_to_female_jumper_cable_wire_for_arduino?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Wire Cutter</td>
+      <td>60</td>
+      <td><a href="https://www.flyrobo.in/wire-stripper-and-cutter?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Male Double Row Header Pins</td>
+      <td>7 x 5</td>
+      <td><a href="https://www.flyrobo.in/2.54mm-double-row-straight-male-header-strip-2x40p?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Male Single Row Header Pins</td>
+      <td>8 x 5</td>
+      <td><a href="https://www.flyrobo.in/40-pin-male-header-connector-strip-breakable-5pcs?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Female Single Row Header Pins</td>
+      <td>17 x 5</td>
+      <td><a href="https://www.flyrobo.in/2mm-pitch-female-burg-strip-40-pin-5-pcs?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+    </tr>
+  </tbody>
+</table>
 
-* ESP32 DevKitC
-* MPU6500 IMU
-* FlySky FS-iA6B Receiver (or any PPM-output receiver)
-* Header pins
-* Soldering iron, flux, soldering wire, jumper wires, and cutting plier
+**prices as of 7th Aug 2026*
 
 ## Soldering
 
@@ -21,10 +121,6 @@ This example uses a generic **ESP32 DevKitC** (38-pin breakout, sometimes labele
 ![Image](../static/parts_esp32.jpg)
 
 2. Solder header pins to the board, matching the pin groups used in the wiring table below.
-
-Solder a dedicated 5V/GND power supply from your Power Distribution Board (PDB) to the ESP32's `VIN`/`GND` pins (or a spare 5V/GND header pair) to prevent voltage sags.
-
-!> Ensure heat shrink tubes are used to avoid short circuit while keeping wiring clean.
 
 ## Wiring
 
@@ -122,18 +218,20 @@ Connect components as outlined in the table below:
   </tbody>
 </table>
 
+![Image](../static/esp32-pinout.webp)
+
 !> **Warning**: Cut or remove the positive (red) power wire from all ESC signal connectors. Connecting them directly to the board will cause voltage back-feeding, potentially damaging your ESCs or the MCU.
 
 ## Firmware Flash & Verification
 
 1. Connect the ESP32 to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight/blob/main/src/ESP32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 
-2. Blue LED Indicators:
+2. Onboard LED Indicators:
     * Three quick blinks indicating the start of the setup.
     * Two quick blinks indicating the start of the main loop.
     * Consistent 1-second interval blinking confirming the loop is running.
 
-!> **Warning:** On the 38-pin ESP32 DevKitC, the onboard blue LED is physically hardwired to GPIO 1, which is the exact same pin used for the USB Serial Transmit (TX) line. You cannot use both simultaneously. Attempting to blink the onboard LED while sending data to the Serial Monitor will cause signal collisions and one of the function will work.
+!> **Warning:** On the 38-pin ESP32 DevKitC, the onboard blue LED is physically hardwired to GPIO 1, which is the exact same pin used for the USB Serial Transmit (TX) line. You cannot use both simultaneously. Attempting to blink the onboard LED while sending data to the Serial Monitor may not print data.
 
 3. Open the code in the Arduino IDE, scroll down to the main loop, and uncomment the following debug functions one by one, flashing the code each time to verify data in the Serial Monitor:
     * `printRadioData()`
@@ -144,4 +242,4 @@ If you are seeing data being printed in your serial monitor then your connection
 
 Congratulations, your ESP32 based flight controller is ready for flying!
 
-*Last Updated: 13th July 2026*
+*Last Updated: 7th Aug 2026*

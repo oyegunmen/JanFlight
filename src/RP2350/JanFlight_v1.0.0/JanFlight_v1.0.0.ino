@@ -33,8 +33,8 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
 
 // Choose ESC Communication Protocol
-//#define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
-#define USE_ONESHOT_PC // Signal Length from 125-250 us; 8xFaster than PWM
+#define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
+//#define USE_ONESHOT_PC // Signal Length from 125-250 us; 8x Faster than PWM
 
 // Choose full scale gyro range (deg/sec)
 #define GYRO_250DPS // Default
@@ -107,7 +107,7 @@ const int data_print_rate = 50;
 //                                                   4. PIN DECLARATION                                                   //
 //========================================================================================================================//
 
-// Based on STM32F405 Nomenclature (WeAct Studio Dev Board)
+// Based on RP2350 Nomenclature
 
 // Radio Receiver Pins
 const int PPM_Pin = 2; // PPM Input
@@ -120,7 +120,7 @@ const int SCL_Pin = 5;
 const int SDA_Pin = 4;
 
 // Pin for SPI
-const int MPU_CS_PIN = 1; // SCL: GP18, SDA: GP19, ADO: GP16 and NCS: GP1
+const int MPU_CS_PIN = 17; // SCL: GP18, SDA: GP19, ADO: GP16 and NCS: GP17
 
 // ESC Pins (More Servo and Motor pins will be defined in coming release)
 const int m1Pin = 6;
@@ -170,7 +170,7 @@ float error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw
 
 // SPI Object Declaration
 #if defined USE_MPU6500_SPI
-SPIClass &mySPI = SPI;
+SPIClassRP2040 &mySPI = SPI;
 #endif
 
 // Command pulses
@@ -425,7 +425,9 @@ void IMUinit() {
   #elif defined USE_MPU6500_SPI
     pinMode(MPU_CS_PIN, OUTPUT);
     digitalWrite(MPU_CS_PIN, HIGH);
-    
+    SPI.setRX(16);
+    SPI.setTX(19);
+    SPI.setSCK(18);
     mySPI.begin();
     
     // Wake IMU

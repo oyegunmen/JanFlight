@@ -1,10 +1,12 @@
 ![Image](static/janflight-banner.jpg)
 
-JanFlight is a guide and toolkit for building DIY flight controllers using STM32, ESP32, or Raspberry Pi Pico boards. Flight tested Arduino-based and readable code along with documentation is also provided to support rapid prototyping and development.
+JanFlight is a toolkit for building DIY flight controllers using STM32, ESP32, or Raspberry Pi Pico boards. Flight tested Arduino-based code along with documentation is also provided to support rapid prototyping and development.
 
-This is for hobbyists, tinkerers, DIY enthusiasts and ofcourse, non-coders too. There's also a theoretical [guide](content/basics.md) covering the fundamentals of drones, with beautiful block diagrams for absolute beginners. Everything here is kept as simple and approachable as possible. That said, don't just blindly copy-paste I encourage you to ask why things are done a certain way to understand low level working. 
+This is for hobbyists, tinkerers, DIY enthusiasts and ofcourse, non-coders too. There's also a theoretical [guide](https://janflight.in/#/content/basics) covering the fundamentals of drones, explained with block diagrams for absolute beginners. Everything is kept as simple and approachable as possible. That said, don't just blindly copy-paste, I encourage you to ask why things are done in a certain way, to understand low level working. 
 
-The goal is anyone should be able to build a working flight controller for under $10, using off the shelf development boards and sensor breakout boards.
+The goal is anyone should be able to build a working flight controller for under $10, using off the shelf development boards and sensor breakout boards and learn the basics.
+
+If you like JanFlight, please give it a ☆ star on [GitHub](https://github.com/oyegunmen/JanFlight).
 
 ## Problem
 
@@ -25,7 +27,7 @@ The problem is, most mainstream autopilots are very complex for a **beginner** t
 
 ## Why?
 
-You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why [re-invent the wheel](https://programmerhumor.io/memes/reinventing-the-wheel)?
+You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why re-invent the wheel?
 
 * To understand the physics and math at the hardware and software levels.
 * Unavailability of teensy boards.
@@ -33,10 +35,10 @@ You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why [re-in
 
 ## Example
 
-The code is tested on following builds. Future builds and results will be published on this site and my instagram handle.
+The code is tested on following builds.
 
 - [x] QuadCopter (Publishing video soon)
-- [ ] Plane
+- [x] Plane
 
 ## Disclamier
 
@@ -44,4 +46,4 @@ This code is a shared, open source flight controller for small micro aerial vehi
 
 !> THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-*Last Updated: 27th July 2026*
+*Last Updated: 7th Aug 2026*

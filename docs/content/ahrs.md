@@ -1,8 +1,8 @@
 # AHRS
 
-The Attitude and Heading Reference System (AHRS) is the mathematical core of the flight controller. It takes the raw, noisy data from the IMU and fuses it together to calculate the drone's orientation in 3D space.
+The Attitude and Heading Reference System (AHRS) takes raw, noisy sensor data from the IMU and fuses it together to calculate the drone's orientation in 3D space.
 
-JanFlight uses the [Mahony Filter](https://ahrs.readthedocs.io/en/latest/filters/mahony.html), it leverages a Proportional-Integral (PI) controller to correct gyroscope drift using the accelerometer's gravity vector.
+JanFlight implements the [Mahony Filter](https://ahrs.readthedocs.io/en/latest/filters/mahony.html), which uses a Proportional-Integral (PI) controller to continuously correct gyroscope drift using the accelerometer's gravity vector as a reference.
 
 Here is a breakdown of how the Mahony filter is implemented in the JanFlight.
 
@@ -107,7 +107,7 @@ roll_IMU = atan2(q0*q1 + q2*q3, 0.5f - q1*q1 - q2*q2) * 57.29577951; // ...
 ```
 Converts the 4D quaternion into human-readable 3D Roll, Pitch, and Yaw angles. The output is converted from radians to degrees (multiplied by $180/\pi$) for the flight control mixer.
 
-#### Question
+## Question
 
 When we pass the raw sensor data into the Mahony filter in the main loop, you will notice specific positive and negative signs:
 
@@ -116,6 +116,8 @@ When we pass the raw sensor data into the Mahony filter in the main loop, you wi
 Mahony(GyroX, -GyroY, -GyroZ, -AccX, AccY, AccZ, dt);
 ```
 
-!> Think why these signs may have been added after seeing the mathematical breakdown. **Hint**: Take a look at the reference system of MPU6500.
+Think why these signs may have been added after seeing the mathematical breakdown
 
-*Last Updated: 14th July 2026*
+!> **Hint**: Take a look at the reference system of MPU6500.
+
+*Last Updated: 7th Aug 2026*
