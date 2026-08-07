@@ -78,6 +78,8 @@
   </tbody>
 </table>
 
+**prices as of 7th Aug 2026*
+
 ## 2. Development Environment
 Download the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.
 
