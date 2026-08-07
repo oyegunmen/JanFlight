@@ -160,10 +160,24 @@ Download [RP2350](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/Ja
 
 (a) **Update the Pin Declaration:** Refer to your board's pinout diagram to determine the correct pins for your needs. Navigate to the section 4 of the code and change the pin assignments to match your respective board.
 
+<!-- tabs:start -->
+
+#### **RP2040 / RP2350**
+
+![Image](../static/rp2040-pinout.webp)
 ![Image](../static/rp2350-pinout.webp)
+
+#### **ESP32 / ESP32-S3**
+
 ![Image](../static/esp32-pinout.webp)
+![Image](../static/esp32-s3-pinout.webp)
+
+#### **STM32**
+
 ![Image](../static/stm32-pinout-inner.jpg)
 ![Image](../static/stm32-pinout-outer.jpg)
+
+<!-- tabs:end -->
 
 b) **Adjust the Control Mixer:** Locate the `controlMixer()` function. This is where your radio control inputs map to the motor pins you just defined. Leave the default for a standard QuadX drone, or simply change the plus and minus signs inside this function to match your custom motor layout and rotation setup.
 
