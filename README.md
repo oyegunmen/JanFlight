@@ -2,10 +2,10 @@
 
 <p align="center">
   <a href="https://janflight.in/" title="JanFlight Docs">
-    <img src="https://img.shields.io/badge/JanFlight-Docs-2B7ADB?style=for-the-badge&logo=gitbook&logoColor=white" alt="JanFlight Docs" />
+    <img src="https://img.shields.io/badge/JanFlight-Docs-2B7ADB?style=for-the-badge&logo=docsify&logoColor=white" alt="JanFlight Docs" />
   </a>
-  <a href="mailto:dikshitdesign@gmail.com" title="Reach Out">
-    <img src="https://img.shields.io/badge/Email-Me-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Reach Out Email" />
+  <a href="https://github.com/oyegunmen/JanFlight?tab=GPL-3.0-1-ov-file" title="Licence">
+    <img src="https://img.shields.io/badge/License-GPLv3-yellow.svg?style=for-the-badge&logo=opensourcehardware&logoColor=white" alt="Licence" />
   </a>
 </p>
 
