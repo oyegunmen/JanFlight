@@ -20,7 +20,7 @@ See guide according to your breakout board to build your flight controller.
 | **FPU** | 2 core FPU | 1 core FPU | 1 core FPU |
 | **RAM** | 520K | 320K data, 132K instruction, 64K cache | 192K SRAM |
 | **Flash** | 4M QuadSPI | 2-16M QuadSPI | 1024K Flash |
-| **Link** | [Guide](content/rp2350-getting-started.md) | [Guide](content/esp32-getting-started.md) | [Guide](content/stm32-getting-started.md) |
+| **Link** | [Guide](content/rp2350-hardware-setup.md) | [Guide](content/esp32-hardware-setup.md) | [Guide](content/stm32-hardware-setup.md) |
 
 Pre-configured code for these default boards is readily available, while other boards from the same family may require modifications.
 
