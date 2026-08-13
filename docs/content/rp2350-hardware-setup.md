@@ -112,6 +112,8 @@ This example uses the [Raspberry Pi Pico 2](https://www.raspberrypi.com/document
 
 2. Solder header pins along both GPIO rows, matching the pin groups used in the wiring table below.
 
+![Image](../static/rp2350-zeropcb.png)
+
 ## Wiring
 
 Connect components as outlined in the table below:
@@ -166,7 +168,7 @@ Connect components as outlined in the table below:
       <td>ADO</td>
     </tr>
     <tr>
-      <td>GP1</td>
+      <td>GP17</td>
       <td>NCS</td>
     </tr>
     <tr>

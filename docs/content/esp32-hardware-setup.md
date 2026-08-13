@@ -122,6 +122,8 @@ This example uses a generic **ESP32 DevKitC**.
 
 2. Solder header pins to the board, matching the pin groups used in the wiring table below.
 
+![Image](../static/esp32-zeropcb.png)
+
 ## Wiring
 
 Connect components as outlined in the table below:

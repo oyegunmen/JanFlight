@@ -8,7 +8,7 @@
   * [STM32](content/stm32-hardware-setup.md)
   * [Firmware](content/firmware.md)
 
-* **EXAMPLE**
+* **EXAMPLES**
   * [Quadcopter](content/quadcopter.md)
 
 * **ADDITIONAL**

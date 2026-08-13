@@ -23,7 +23,7 @@ flowchart TD
 
 If I just wanted to fly drones, off-the-shelf hardware/software would have been fine. But I wanted to build drones, while understanding that `magic`, to test my ideas cheaply (In terms of time and money).
 
-The problem is, most mainstream autopilots are very complex for a **beginner** to learn anything useful cheaply. I really needed something DIY that felt intuitive and approachable for a beginner.
+Trying to learn drone fundamentals from a fully mature autopilot is like learning to code by reading an enterprise framework. The sheer volume of nested files and system dependencies introduces decent learning curve and may feel daunting. This guide and codebase provide a readable, low-overhead platform to help you master the essentials first before transitioning to industry-standard software.
 
 ## Why?
 
@@ -37,7 +37,7 @@ You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why re-inv
 
 The code is tested on following builds.
 
-- [x] QuadCopter (Publishing video soon)
+- [x] [QuadCopter](https://janflight.in/#/content/quadcopter.md) (Publishing video soon)
 - [x] Plane
 
 ## Disclamier

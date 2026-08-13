@@ -32,4 +32,6 @@ These are affiliate links; purchasing through them earns me a small commission a
 
 You're free to buy your parts from wherever you prefer, but using these links is a great way to support this project and help me create more projects. I appreciate any and all support. Cheers!
 
+!> Yes, I know F450 frames, SimonK ESCs and some other parts belong in a drone museum. Fair enough. But, this guide isn't for building an industrial enterprise rig; it’s for tinkerers learning core flight mechanics. I listed these parts because every local electronics shop is still flooded with them. If you’ve found a modern alternative that is just as cheap and universally available, pull requests are open!
+
 *Last Updated: 7th Aug 2026*
