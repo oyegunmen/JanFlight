@@ -1,10 +1,31 @@
 # Quick Start
 
-See guide according to your breakout board to build your flight controller.
+Welcome to the JanFlight DIY Flight controller guide. 
 
-![Image](../static/breakout-boards.jpg)
+### Reading this Guide
+
+This documentation is split into three main sections:
+
+- **JanFlight**: Hardware guides for building your flight controller. Pick your microcontroller and follow that specific guide (you can skip the rest).
+- **Examples**: Step-by-step build guides for various drone configurations and projects using the DIY controller.
+- **Additional**: Supporting technical guides, mathematical breakdowns, and reference material.
+
+#### Recommended Learning Paths
+
+1. **For Beginners & Non-Coders**
+- Step 1: Read the [Basics Guide](content/basics.md) first to master fundamentals.
+- Step 2: Pick a [Default Board](#default-janflight-breakout-boards) under `JanFlight` section and grab those parts (this avoids configuration headaches).
+- Step 3: Follow [quadcopter](content/quadcopter.md) guide from `Examples` section to build your first quad.
+- Step 4: If you're curious to learn more, check out the supporting guides under the `Additional` section.
+
+2. **For Developers & Experienced Tinkers**
+- Step 1: Grab the JanFlight component list for your preferred microcontroller.
+- Step 2: Pick a project from `Examples` to build or make something unique.
+- Step 3: Refer to `Additional` section to explore the low-level math, filters, and code logic.
 
 ### Default JanFlight Breakout Boards
+
+![Image](../static/breakout-boards.jpg)
 
 | Board | Raspberry Pi Pico 2 | ESP32 DevKitC | STM32F405RGT6 |
 |-------------|-----------------|-----------------|-----------------|
@@ -22,7 +43,13 @@ See guide according to your breakout board to build your flight controller.
 | **Flash** | 4M QuadSPI | 2-16M QuadSPI | 1024K Flash |
 | **Link** | [Guide](content/rp2350-hardware-setup.md) | [Guide](content/esp32-hardware-setup.md) | [Guide](content/stm32-hardware-setup.md) |
 
-Pre-configured code for these default boards is readily available, while other boards from the same family may require modifications.
+Pre-configured code for these default boards is available, while other boards from the same family may require modifications.
+
+### Showcase
+
+I’d love to see what you build! Feel free to share photos or videos of your builds with me on [Instagram](https://www.instagram.com/dikshit_makwana/). I regularly post my own projects, tutorials, and theoretical breakdowns there if you want to follow along.
+
+If you’ve built a unique project that isn't covered here yet and want it featured in the documentation, feel free to submit a Pull Request on [GitHub](https://github.com/oyegunmen/JanFlight)!
 
 ### Parts
 
