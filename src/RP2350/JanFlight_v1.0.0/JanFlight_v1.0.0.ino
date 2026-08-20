@@ -1,7 +1,7 @@
 /*
 Author: Dikshit Makwana
 Project Start: 19/05/2026
-Last Updated: 03/07/2026
+Last Updated: 20/08/2026
 Licence: GPL-3.0
 Version: v1.0.0
 Board: RP2350/RP2040
@@ -31,6 +31,14 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 // Choose IMU communication protocol
 #define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
 //#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
+
+// Choose I2C peripheral for IMU (Uncomment only one)
+#define USE_I2C0 // Default
+//#define USE_I2C1
+
+// Choose SPI peripheral for IMU (Uncomment only one)
+#define USE_SPI0 // Default
+//#define USE_SPI1
 
 // Choose ESC Communication Protocol
 #define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
@@ -110,17 +118,20 @@ const int data_print_rate = 50;
 // Based on RP2350 Nomenclature
 
 // Radio Receiver Pins
-const int PPM_Pin = 2; // PPM Input
+const int PPM_Pin = 28; // PPM Input
 
 // LED Pin
 const int ledPin = 25; // The LED
 
 //Pin for I2C
-const int SCL_Pin = 5;
-const int SDA_Pin = 4;
+const int SCL_Pin = 21;
+const int SDA_Pin = 20;
 
 // Pin for SPI
-const int MPU_CS_PIN = 17; // SCL: GP18, SDA: GP19, ADO: GP16 and NCS: GP17
+const int MPU_CS_PIN = 17;
+const int MPU_MISO_PIN = 16 ; 
+const int MPU_MOSI_PIN = 19; 
+const int MPU_SCK_PIN  = 18; 
 
 // ESC Pins (More Servo and Motor pins will be defined in coming release)
 const int m1Pin = 6;
@@ -128,9 +139,10 @@ const int m2Pin = 7;
 const int m3Pin = 8;
 const int m4Pin = 9;
 
+
 // Servo Pins
-//const int servo1Pin = PA3;
-//const int servo2Pin = PB1;
+//const int servo1Pin = 10;
+//const int servo2Pin = 11;
 
 //Servo servo1;
 //Servo servo2;
@@ -170,7 +182,18 @@ float error_yaw, error_yaw_prev, integral_yaw, integral_yaw_prev, derivative_yaw
 
 // SPI Object Declaration
 #if defined USE_MPU6500_SPI
-SPIClassRP2040 &mySPI = SPI;
+  #if defined USE_SPI0
+    SPIClassRP2040 &mySPI = SPI;
+  #elif defined USE_SPI1
+    SPIClassRP2040 &mySPI = SPI1;
+  #endif
+#endif
+
+// I2C Object Declaration
+#if defined USE_I2C0
+  #define IMU_WIRE Wire
+#elif defined USE_I2C1
+  #define IMU_WIRE Wire1
 #endif
 
 // Command pulses
@@ -217,7 +240,7 @@ int s1_command_PWM, s2_command_PWM;
 
 // Loop Cycle
 #if defined USE_PWM_PC
-  #define loopcycle 400
+  #define loopcycle 350
 #elif defined USE_ONESHOT_PC
   #define loopcycle 1200
 #endif
@@ -229,7 +252,7 @@ int s1_command_PWM, s2_command_PWM;
 // pre-flight checklist
 void setup() {
   // Establish serial connection to onboard USB
-  Serial.begin(500000);
+  Serial.begin(115200);
   //while (!Serial) {
   //  delay(10);
   //}
@@ -319,7 +342,7 @@ void loop() {
   // Print Data at 50hz (Uncomment one by one for troubleshooting)
   // printRadioData(); // print Variables: channel_x_pc; Value Range: 1000-2000
   // printDesiredState(); // print Variables: thro_des. roll_des, pitch_des, yaw_des; Value Range: 0-1, -30 to 30, -30 to 30 and -120 to 120 
-   printRollPitchYaw(); // print Variables : roll_IMU, pitch_IMU, yaw_IMU; Value Range: gives absolute angle relative to gravity vector
+  // printRollPitchYaw(); // print Variables : roll_IMU, pitch_IMU, yaw_IMU; Value Range: gives absolute angle relative to gravity vector
   // printGyrodata(); //Prints filtered Gyroscope data direct from IMU
   // printAccdata(); //Prints filtered Accelerometer data direct from IMU
   // printScaledCommands(); // print Variables : mx_command_scaled; Value Range: Combination of throttle, roll, pitch and yaw PID value
@@ -383,51 +406,51 @@ void writeRegisterSPI(uint8_t reg, uint8_t data) {
 // communicating with the MPU6500 using I2C protocol.
 void IMUinit() {
   #if defined USE_MPU6500_I2C
-    Wire.setSCL(SCL_Pin); 
-    Wire.setSDA(SDA_Pin);
-    Wire.begin();
-    Wire.setClock(400000); // 400kHz I2C speed
+    IMU_WIRE.setSCL(SCL_Pin); 
+    IMU_WIRE.setSDA(SDA_Pin);
+    IMU_WIRE.begin();
+    IMU_WIRE.setClock(400000); // 400kHz I2C speed
     
     // Wake IMU
-    Wire.beginTransmission(0x68);
-    Wire.write(0x6B);
-    Wire.write(0x00);
-    Wire.endTransmission();
+    IMU_WIRE.beginTransmission(0x68);
+    IMU_WIRE.write(0x6B);
+    IMU_WIRE.write(0x00);
+    IMU_WIRE.endTransmission();
     
     // Set Gyro Config
-    Wire.beginTransmission(0x68);
-    Wire.write(0x1B);
+    IMU_WIRE.beginTransmission(0x68);
+    IMU_WIRE.write(0x1B);
     #if defined GYRO_250DPS
-      Wire.write(0x00);
+      IMU_WIRE.write(0x00);
     #elif defined GYRO_500DPS
-      Wire.write(0x08);
+      IMU_WIRE.write(0x08);
     #elif defined GYRO_1000DPS
-      Wire.write(0x10);
+      IMU_WIRE.write(0x10);
     #elif defined GYRO_2000DPS
-      Wire.write(0x18);
+      IMU_WIRE.write(0x18);
     #endif
-    Wire.endTransmission();
+    IMU_WIRE.endTransmission();
     
     // Set Accel Config (2G)
-    Wire.beginTransmission(0x68);
-    Wire.write(0x1C);
+    IMU_WIRE.beginTransmission(0x68);
+    IMU_WIRE.write(0x1C);
     #if defined ACCEL_2G
-      Wire.write(0x00);
+      IMU_WIRE.write(0x00);
     #elif defined ACCEL_4G
-      Wire.write(0x08);
+      IMU_WIRE.write(0x08);
     #elif defined ACCEL_8G
-      Wire.write(0x10);
+      IMU_WIRE.write(0x10);
     #elif defined ACCEL_16G
-      Wire.write(0x18);
+      IMU_WIRE.write(0x18);
     #endif
-    Wire.endTransmission();
+    IMU_WIRE.endTransmission();
 
   #elif defined USE_MPU6500_SPI
     pinMode(MPU_CS_PIN, OUTPUT);
     digitalWrite(MPU_CS_PIN, HIGH);
-    SPI.setRX(16);
-    SPI.setTX(19);
-    SPI.setSCK(18);
+    mySPI.setRX(MPU_MISO_PIN);
+    mySPI.setTX(MPU_MOSI_PIN);
+    mySPI.setSCK(MPU_SCK_PIN);
     mySPI.begin();
     
     // Wake IMU
@@ -467,18 +490,18 @@ void getIMUdata() {
   int16_t AcX, AcY, AcZ, Temp, GyX, GyY, GyZ;
 
   #if defined USE_MPU6500_I2C
-    Wire.beginTransmission(0x68);
-    Wire.write(0x3B);
-    Wire.endTransmission(false);
-    Wire.requestFrom(0x68, 14, true);
+    IMU_WIRE.beginTransmission(0x68);
+    IMU_WIRE.write(0x3B);
+    IMU_WIRE.endTransmission(false);
+    IMU_WIRE.requestFrom(0x68, 14, true);
 
-    AcX = Wire.read() << 8 | Wire.read();
-    AcY = Wire.read() << 8 | Wire.read();
-    AcZ = Wire.read() << 8 | Wire.read();
-    Temp = Wire.read() << 8 | Wire.read();
-    GyX = Wire.read() << 8 | Wire.read();
-    GyY = Wire.read() << 8 | Wire.read();
-    GyZ = Wire.read() << 8 | Wire.read();
+    AcX = IMU_WIRE.read() << 8 | IMU_WIRE.read();
+    AcY = IMU_WIRE.read() << 8 | IMU_WIRE.read();
+    AcZ = IMU_WIRE.read() << 8 | IMU_WIRE.read();
+    Temp = IMU_WIRE.read() << 8 | IMU_WIRE.read();
+    GyX = IMU_WIRE.read() << 8 | IMU_WIRE.read();
+    GyY = IMU_WIRE.read() << 8 | IMU_WIRE.read();
+    GyZ = IMU_WIRE.read() << 8 | IMU_WIRE.read();
 
   #elif defined USE_MPU6500_SPI
     mySPI.beginTransaction(SPISettings(10000000, MSBFIRST, SPI_MODE3));
@@ -626,7 +649,7 @@ void controlMixer() {
   s2_command_scaled = 0.5; // Centered
 }
 
-// Scale motor mixer outputs into OneShot125 microsecond ranges
+// Scale motor mixer outputs into OneShot125/PWM microsecond ranges
 void scaleCommands() {
   m1_command_pc = constrain(m1_command_scaled*ESC_COMMAND_LT + ESC_COMMAND_LT, ESC_COMMAND_LT, ESC_COMMAND_UT);
   m2_command_pc = constrain(m2_command_scaled*ESC_COMMAND_LT + ESC_COMMAND_LT, ESC_COMMAND_LT, ESC_COMMAND_UT);

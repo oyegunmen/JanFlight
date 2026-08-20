@@ -121,13 +121,13 @@ https://espressif.github.io/arduino-esp32/package_esp32_index.json
 
 3. Go to **Tools > Board > ESP32 Arduino** and select **ESP32 Dev Module** (this matches most generic WROOM-32 DevKit boards; pick your board's exact name if listed separately).
 
-4. Go to **Tools > Upload Speed** and set it to **921600**. If you see repeated "Connecting..." failures during upload, drop this to **115200**.
+4. Go to **Tools > Upload Speed** and set it to **115200**.
 
 5. Go to **Tools > Port** and select the COM port your board enumerates as once connected via USB.
 
 ![Image](../static/esp32-tools.png)
 
-!> **Info**: Your laptop might need the Virtual COM Port driver installed if it doesn't automatically detect the board when flashing; just the standard [CP210x](https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads)/[CH340](https://sparks.gogo.co.nz/ch340.html) driver for your OS if your board isn't detected automatically.
+!> **Info**: Your laptop might need the Virtual COM Port driver installed if it doesn't automatically detect the board when flashing; the standard [CP210x](https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads)/[CH340](https://sparks.gogo.co.nz/ch340.html) driver for your OS should solve the detect issue.
 
 #### **STM32**
 
@@ -156,16 +156,16 @@ https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectron
 <!-- tabs:end -->
 
 ## 3. Configuration
-Download [RP2350](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/JanFlight_v1.0.0/JanFlight_v1.0.0.ino)/[ESP32](https://github.com/oyegunmen/JanFlight/blob/main/src/ESP32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino)/[STM32](https://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) based firmware from GitHub.
+Download [RP2350](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) / [ESP32](https://github.com/oyegunmen/JanFlight/blob/main/src/ESP32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) / [STM32](https://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) based firmware from GitHub.
 
-(a) **Update the Pin Declaration:** Refer to your board's pinout diagram to determine the correct pins for your needs. Navigate to the section 4 of the code and change the pin assignments to match your respective board.
+(a) **Update the Pin Declaration (Optional):** If you are using the default wiring, no changes are needed. If you are using custom pins, refer to your board’s pinout diagram, navigate to `Section 4` of the code, and update the pin declarations accordingly.
 
 <!-- tabs:start -->
 
 #### **RP2040 / RP2350**
 
-![Image](../static/rp2040-pinout.webp)
 ![Image](../static/rp2350-pinout.webp)
+![Image](../static/rp2040-pinout.webp)
 
 #### **ESP32 / ESP32-S3**
 
@@ -179,21 +179,23 @@ Download [RP2350](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/Ja
 
 <!-- tabs:end -->
 
-b) **Adjust the Control Mixer:** Locate the `controlMixer()` function. This is where your radio control inputs map to the motor pins you just defined. Leave the default for a standard QuadX drone, or simply change the plus and minus signs inside this function to match your custom motor layout and rotation setup.
+b) **Adjust the Control Mixer (Optional):** Keep the default settings if you are building a standard QuadX drone. Locate the `controlMixer()` function and modify the `+ / -` signs to reflect your custom motor placement.
 
 ## 4. Calibrate
-Connect your board via USB, select your COM port, and click Upload. Once complete, keep the IMU perfectly flat and uncomment `calculate_IMU_error()` in `setup()`.
+- Keep your IMU flat on a level surface.
+- In `setup()`, uncomment the `calculate_IMU_error()` function.
+- Connect your board via USB, select your COM port, and click Upload.
 
-Open the Serial Monitor to read your calibration offsets, data will be printed in bottom output panel, copy those numbers into the error variables at the top of your file, and then comment out `calculate_IMU_error()` function.
+Open the Serial Monitor, copy the printed offset values into the error variables in `section 3` of your code, and comment out `calculate_IMU_error()`.
 
 !> Ensure the initial IMU offset errors in Section 3 are set to zero to allow for accurate calibration.
 
 ## 5. Compile & Upload
-Reconnect your board via USB and Upload the code once more with calibrated IMU offset data.
+Reconnect your board via USB and Upload the code again with calibrated IMU offset data.
 
 !> You may need to tune the PID parameters in Section 3 to achieve optimal flight stability. If the drone feels sluggish or unresponsive, adjust these values to suit your specific build.
 
 ## 6. FLY!
-Disconnect from your computer, double-check your failsafe and throttle cut switches with propellers off, verify the orientation, mount your gears, and head out for a test flight.
+Disconnect from your computer, double-check your failsafe and throttle cut switches with propellers off, verify the orientation, connect your sensors, motors and radio, and head out for a test flight.
 
 *Last Updated: 7th Aug 2026*

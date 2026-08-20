@@ -17,7 +17,7 @@ Activate venv
 venv\Scripts\activate
 
 Run:
-    python imu_visualizer.py --port COM4 --baud 500000
+    python imu_visualizer.py --port COM3 --baud 115200
 """
 
 import argparse
@@ -39,7 +39,7 @@ parser.add_argument("--baud", type=int, default=500000, help="Baud rate (match S
 parser.add_argument("--fps", type=int, default=40, help="Visual refresh rate (independent of IMU data rate)")
 args = parser.parse_args()
 
-YAW_OFFSET_DEG = 135
+YAW_OFFSET_DEG = 90
 
 # ------------------------------------------------------------------
 # 2. SHARED STATE (updated by serial thread, read by plot thread)

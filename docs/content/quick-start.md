@@ -18,7 +18,7 @@ This documentation is split into three main sections:
 - Step 3: Follow [quadcopter](content/quadcopter.md) guide from `Examples` section to build your first quad.
 - Step 4: If you're curious to learn more, check out the supporting guides under the `Additional` section.
 
-2. **For Developers & Experienced Tinkers**
+2. **For Developers & Experienced Tinkerers**
 - Step 1: Grab the JanFlight component list for your preferred microcontroller.
 - Step 2: Pick a project from `Examples` to build or make something unique.
 - Step 3: Refer to `Additional` section to explore the low-level math, filters, and code logic.
@@ -59,6 +59,6 @@ These are affiliate links; purchasing through them earns me a small commission a
 
 You're free to buy your parts from wherever you prefer, but using these links is a great way to support this project and help me create more projects. I appreciate any and all support. Cheers!
 
-!> Yes, I know F450 frames, SimonK ESCs and some other parts belong in a drone museum. Fair enough. But, this guide isn't for building an industrial enterprise rig; it’s for tinkerers learning core flight mechanics. I listed these parts because every local electronics shop is still flooded with them. If you’ve found a modern alternative that is just as cheap and universally available, pull requests are open!
+!> Yes, I know F450 frames, SimonK ESCs and some other parts belong in a drone museum. Fair enough. But, this guide isn't for building an industrial enterprise rig; it’s for tinkerers learning core flight mechanics. I listed these parts because every local electronics shop is still flooded with them.
 
 *Last Updated: 7th Aug 2026*

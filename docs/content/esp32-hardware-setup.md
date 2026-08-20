@@ -226,6 +226,8 @@ Connect components as outlined in the table below:
 
 ## Firmware Flash & Verification
 
+Go to the [Initial Setup Guide](content/quadcopter.md#_2-development-environment), select your board ESP32, complete initial setup. Once done, follow the verification steps below to ensure everything works.
+
 1. Connect the ESP32 to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight/blob/main/src/ESP32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 
 2. Onboard LED Indicators:

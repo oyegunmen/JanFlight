@@ -1,7 +1,7 @@
 /*
 Author: Dikshit Makwana
 Project Start: 19/05/2026
-Last Updated: 03/07/2026
+Last Updated: 20/08/2026
 Licence: GPL-3.0
 Version: v1.0.0
 Board: ESP32
@@ -29,8 +29,8 @@ https://ahrs.readthedocs.io/en/latest/filters/mahony.html
 //#define USE_IBUS_RX //Implementation Pending
 
 // Choose IMU communication protocol
-//#define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
-#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
+#define USE_MPU6500_SPI // Default; Runs at 10 MHZ data read frequency (250 times faster data read)
+//#define USE_MPU6500_I2C // Runs at 400 kHZ data read frequency
 
 // Choose ESC Communication Protocol
 #define USE_PWM_PC // Signal Length from 1000-2000 us; Slower
@@ -101,7 +101,7 @@ float AccErrorX = 0.00, AccErrorY = 0.00, AccErrorZ = 0.00;
 float GyroErrorX = 0.00, GyroErrorY = 0.00, GyroErrorZ = 0.00;
 
 // Data Logging frequency for troubleshooting (Higher the value, higher the stress on your MCU)
-const int data_print_rate = 1;
+const int data_print_rate = 25;
 
 //========================================================================================================================//
 //                                                   4. PIN DECLARATION                                                   //
@@ -117,6 +117,10 @@ const int ledPin = 2; // The Blue LED (Pin 1 is tied to serial Transmit which ca
 
 // Pin for SPI
 const int MPU_CS_PIN = 5; // SCL: 18, SDA: 23, ADO: 19 and NCS: 5
+const int MPU_MOSI_PIN = 23;
+const int MPU_MISO_PIN = 19;
+const int MPU_SCL_PIN = 18;
+
 
 // ESC Pins (More Servo and Motor pins will be defined in coming release)
 const int m1Pin = 25;
@@ -230,24 +234,24 @@ void setup() {
   delay(1000);
 
   //Indicate entering setup loop with 3 blinks
-  //pinMode(ledPin, OUTPUT);
-  //ledBlink(3,250,150);
-  Serial.println("--- Boot Begins ---");
+  pinMode(ledPin, OUTPUT);
+  ledBlink(3,250,150);
+  //Serial.println("--- Boot Begins ---");
   
   // Initialize all pins
-  Serial.print("Initializing Pins... ");
+  //Serial.print("Initializing Pins... ");
   pinMode(m1Pin, OUTPUT);
   pinMode(m2Pin, OUTPUT);
   pinMode(m3Pin, OUTPUT);
   pinMode(m4Pin, OUTPUT);
   //servo1.attach(servo1Pin, 900, 2100);
   //servo2.attach(servo2Pin, 900, 2100);
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Initialize communication with desired radio type
-  Serial.print("Configuring Radio... ");
+  //Serial.print("Configuring Radio... ");
   radioSetup();
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Failsafe setup: Default to safe values before main loop starts
   channel_1_pc = channel_1_fs;
@@ -258,9 +262,9 @@ void setup() {
   channel_6_pc = channel_6_fs;
 
   // Initialize IMU
-  Serial.print("Initializing IMU... ");
+  //Serial.print("Initializing IMU... ");
   IMUinit();
-  Serial.println("Done.");
+  //Serial.println("Done.");
   delay(50);
 
   // Get IMU error offset (Uncomment to calibrate, then write them into section 3 under IMU Error Offsets and re-comment)
@@ -275,7 +279,7 @@ void setup() {
   //Serial.println("Done.");
 
   // Arm Motors (Write lowest valid pulse)
-  Serial.print("Arming ESCs... ");
+  //Serial.print("Arming ESCs... ");
   m1_command_pc = ESC_COMMAND_LT;
   m2_command_pc = ESC_COMMAND_LT;
   m3_command_pc = ESC_COMMAND_LT;
@@ -284,16 +288,16 @@ void setup() {
     commandMotors();
     delay(2);
   }
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   // Warms up IMU filter before entering main loop
-  Serial.print("Calibrating Attitude... ");
+  //Serial.print("Calibrating Attitude... ");
   calibrateAttitude();
-  Serial.println("Done.");
+  //Serial.println("Done.");
 
   //Indicate entering main loop with 2 quick blinks
-  Serial.println("--- Entering Main Loop ---");
-  //ledBlink(2,250,150);
+  //Serial.println("--- Entering Main Loop ---");
+  ledBlink(2,250,150);
   delay(800);
   current_time = micros();
 }
@@ -308,7 +312,7 @@ void loop() {
   prev_time = current_time;
   current_time = micros();      
   dt = (current_time - prev_time) / 1000000.0;
-  //loopBlink(1300, 200);
+  loopBlink(1300, 200);
 
   // Print Data at 50hz (Uncomment one by one for troubleshooting)
   // printRadioData(); // print Variables: channel_x_pc; Value Range: 1000-2000
@@ -416,7 +420,7 @@ void IMUinit() {
     pinMode(MPU_CS_PIN, OUTPUT);
     digitalWrite(MPU_CS_PIN, HIGH);
     
-    mySPI.begin(18, 19, 23, 5);
+    mySPI.begin(MPU_SCL_PIN, MPU_MISO_PIN, MPU_MOSI_PIN, MPU_CS_PIN);
     
     // Wake IMU
     writeRegisterSPI(0x6B, 0x00);

@@ -173,7 +173,7 @@ Connect components as outlined in the table below:
     </tr>
     <tr>
       <td rowspan="4"><strong>Radio</strong></td>
-      <td>GP2</td>
+      <td>GP28</td>
       <td>PPM/CH1</td>
       <td rowspan="4">PPM</td>
     </tr>
@@ -190,7 +190,7 @@ Connect components as outlined in the table below:
       <td>-</td>
     </tr>
     <tr>
-      <td rowspan="4"><strong>ESC</strong></td>
+      <td rowspan="4"><strong>ESC*</strong></td>
       <td>GP6</td>
       <td>SIGNAL (ESC1)</td>
       <td rowspan="4">PWM/OneShot125</td>
@@ -210,12 +210,16 @@ Connect components as outlined in the table below:
   </tbody>
 </table>
 
+**The RP2040 and RP2350 support up to 16 PWM channels (as shown in their pinout diagrams), allowing you to connect up to 16 individual motors or servos.*
+
 ![Image](../static/rp2350-pinout.webp)
 ![Image](../static/rp2040-pinout.webp)
 
 !> **Warning**: Cut or remove the positive (red) power wire from all ESC signal connectors. Connecting them directly to the board will cause voltage back-feeding, potentially damaging your ESCs or the MCU.
 
 ## Firmware Flash & Verification
+
+Go to the [Initial Setup Guide](content/quadcopter.md#_2-development-environment), select your board RP2350, complete initial setup. Once done, follow the verification steps below to ensure everything works.
 
 1. Connect the RP2340 to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 
