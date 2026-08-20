@@ -220,6 +220,8 @@ Connect components as outlined in the table below:
   </tbody>
 </table>
 
+**This ESP32 can support up to 8 PWM channels (as shown in their pinout diagrams), allowing you to connect up to 8 individual motors or servos.*
+
 ![Image](../static/esp32-pinout.webp)
 
 !> **Warning**: Cut or remove the positive (red) power wire from all ESC signal connectors. Connecting them directly to the board will cause voltage back-feeding, potentially damaging your ESCs or the MCU.
