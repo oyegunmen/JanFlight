@@ -6,24 +6,37 @@ Welcome! This guide walks you through the fundamentals of the drones like how it
 
 | Acronym | Full Name | Plain-English Meaning |
 |---------|-----------|----------------------|
-| **AUW** | All-Up Weight | The total weight of the drone at any moment in flight (frame + battery + payload + everything) |
-| **AWG** | American Wire Gauge | A wire-thickness standard. Lower number = thicker wire. AWG 10 is thicker than AWG 18. |
-| **BEC** | Battery Eliminator Circuit | A small voltage regulator that steps down the high battery voltage (e.g. 22V) to the safe 5V used by electronics |
-| **CAN** | Controller Area Network | A highly reliable communication bus used to connect sensors and smart devices; resistant to electrical noise |
-| **ESC** | Electronic Speed Controller | The device between the battery and the motor. It translates a "speed command" from the flight controller into actual motor rotation |
-| **FC** | Flight Controller | The circuit board that is the brain of the drone. It reads sensors and adjusts motor speeds to keep the vehicle stable |
-| **IMU** | Inertial Measurement Unit | A chip that combines a gyroscope (rotation) and accelerometer (tilt/movement) to know orientation in 3D space |
-| **INS** | Inertial Navigation System | A system tracking position and motion relative to a starting point using internal sensors, to allow operation in GPS-denied areas. |
-| **I2C** | Inter-Integrated Circuit | A two-wire communication protocol for connecting sensors at short distances |
-| **KV** | Motor Velocity Constant | How many RPM a motor spins per 1 Volt applied (with no load). Higher KV = faster but less torque |
-| **mAh** | Milliampere-hour | A measure of battery capacity, how much energy is stored. |
-| **MCU** | Microcontroller Unit | The main processor chip on the FC (e.g. STM32 H7). Think of it as the CPU |
-| **PDB** | Power Distribution Board | Distributes high-current power from the battery to each ESC/motor individually |
-| **Sag** | Voltage Sag | The temporary drop in battery voltage when motors demand a lot of current at once |
-| **SPI** | Serial Peripheral Interface | A high-speed, synchronous communication protocol used to connect sensors to the MCU; faster than I2C. |
-| **TWR** | Thrust-to-Weight Ratio | Total maximum thrust divided by total weight. A 2:1 TWR means the drone can produce twice its own weight in thrust |
-| **UART** | Universal Async Receiver/Transmitter | A serial communication port on the FC used to connect GPS, telemetry radios, etc |
-| **VTOL** | Vertical Take-Off and Landing | Any aircraft that can lift straight up, hover, and land straight down. Quadcopters are a common example |
+| **AUW** | All-Up Weight | The total weight of the drone at any given moment during flight, including frame, battery, sensors, and payload. |
+| **AWG** | American Wire Gauge | A standard for measuring wire thickness. Lower numbers mean thicker wires that can handle more current. |
+| **BEC** | Battery Eliminator Circuit | A small voltage regulator that drops high battery voltage down to a safe level (like 5V) to power sensitive electronics. |
+| **CAN** | Controller Area Network | A highly reliable communication protocol used to connect sensors and peripherals while resisting electrical noise. |
+| **DShot** | DShot | A modern digital communication protocol used between the flight controller and ESCs. It offers low latency and supports two-way communication. |
+| **ESC** | Electronic Speed Controller | The device sitting between the battery and the motor. It translates speed commands from the flight controller into rapid power cycles to spin brushless motors. |
+| **FC** | Flight Controller | The central circuit board and brain of the drone. It processes sensor data and constantly adjusts motor speeds to keep the aircraft stable. |
+| **HAL** | Hardware Abstraction Layer | A software layer that provides a simplified, developer-friendly interface to a microcontroller's registers and peripherals, isolating application code from specific hardware details. |
+| **IMU** | Inertial Measurement Unit | A chip combining a gyroscope and accelerometer to track the drone’s rotation, tilt, and movement in 3D space. |
+| **INS** | Inertial Navigation System | A setup that uses internal sensors to estimate position and movement without needing GPS, useful in GPS-denied environments. |
+| **I2C** | Inter-Integrated Circuit | A simple two-wire protocol used for short-distance communication between the main board and small sensors. |
+| **KV** | Motor Velocity Constant | Indicates how many RPM a motor spins per applied volt with no load attached. Higher KV means faster speed but lower torque. |
+| **Li-ion** | Lithium-Ion | A battery chemistry that offers high energy density for longer flight times, though with lower discharge rates and moderate voltage sag compared to LiPo. |
+| **LiPo** | Lithium Polymer | The dominant battery chemistry for drones due to its ability to release energy rapidly for high-power demands. |
+| **mAh** | Milliampere-hour | The unit used to measure battery capacity, indicating how much total energy a battery holds. |
+| **MAVLink** | MAVLink | A lightweight bidirectional communication protocol used by autopilots to send flight data, telemetry, and waypoint commands. |
+| **MCU** | Microcontroller Unit | The primary processor chip on the flight controller that runs the firmware and performs calculations. |
+| **OneShot** | OneShot | An analog ESC communication protocol that sends rapid speed commands to motors, operating significantly faster than traditional PWM to reduce control latency. |
+| **PDB** | Power Distribution Board | The board that receives raw high-current power from the battery and splits it up to each individual ESC. |
+| **PID** | Proportional-Integral-Derivative | A control loop algorithm used by the flight controller to continuously correct orientation errors and keep the flight smooth. |
+| **PPM** | Pulse Position Modulation | An analog signal protocol that sends multiple channels of control information over a single signal wire by encoding each channel's value in the timing between pulses. |
+| **Protocol** | Protocol | A standardized set of rules that allows different electronics, sensors, or systems to talk to each other reliably. |
+| **Prop** | Propeller | A rotating airfoil that spins to push air downward, creating the upward lift required for flight. |
+| **PWM** | Pulse-Width Modulation | An analog control signal that uses the width of a periodic electrical pulse to communicate commands to ESCs or servos. |
+| **RTK GPS** | Real-Time Kinematic GPS | A satellite navigation technique using a ground base station to achieve centimeter-level positioning accuracy. |
+| **Sag** | Voltage Sag | The temporary drop in battery voltage caused when the motors suddenly draw a high amount of current. |
+| **SPI** | Serial Peripheral Interface | A fast communication protocol used to connect high-speed sensors directly to the processor. |
+| **Telemetry** | Telemetry | The wireless transmission of live flight data like battery voltage, altitude, and GPS coordinates from the drone back to the pilot. |
+| **TWR** | Thrust-to-Weight Ratio | Total maximum motor thrust divided by total drone weight. A 2:1 ratio is standard for stable flight. |
+| **UART** | Universal Asynchronous Receiver-Transmitter | A serial port on the flight controller used to attach external hardware like GPS modules or telemetry radios. |
+| **VTOL** | Vertical Take-Off and Landing | Any aircraft capable of taking off, hovering, and landing vertically without requiring a runway. |
 
 ## How a Drone Works
 
@@ -87,7 +100,7 @@ The propulsion system has three parts that must be selected together: the **Moto
 
 ```mermaid
 flowchart TD
-    BAT["🔋 Battery\n12.6V DC"] --> ESC["⚡ ESC\nConverts DC → 3-Phase AC\nControls speed"] --> MOT["🔄 Brushless Motor\nSpins the shaft"] --> PROP["🌀 Propeller\nPushes air downward"]
+    BAT["🔋 Battery\n12.6V DC"] --> ESC["⚡ ESC\nConverts DC → 3-Phase Pulses\nControls speed"] --> MOT["🔄 Brushless Motor\nSpins the shaft"] --> PROP["🌀 Propeller\nPushes air downward"]
     FC["🧠 Flight Controller"] -->|"Speed commands"| ESC
 ```
 
@@ -177,7 +190,7 @@ flowchart TD
     FC["🧠 FC\nSends Speed commands"]
     FC -->|Speed Command| ESC
     BAT -->|Raw Power| ESC
-    ESC -->|3-Phase AC| MOT
+    ESC -->|3-Phase Signal| MOT
 ```
 
 #### ESC Communication Protocols

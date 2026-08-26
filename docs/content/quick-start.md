@@ -14,7 +14,7 @@ This documentation is split into three main sections:
 
 1. **For Beginners & Non-Coders**
 - Step 1: Read the [Basics Guide](content/basics.md) first to master fundamentals.
-- Step 2: Pick a [Default Board](#default-janflight-breakout-boards) under `JanFlight` section and grab those parts (this avoids configuration headaches).
+- Step 2: Pick a [Default Board](#default-janflight-breakout-boards) under `JanFlight` section and grab those parts. you can also follow the [Video Tutorials](#video-tutorials).
 - Step 3: Follow [quadcopter](content/quadcopter.md) guide from `Examples` section to build your first quad.
 - Step 4: If you're curious to learn more, check out the supporting guides under the `Additional` section.
 
@@ -22,6 +22,15 @@ This documentation is split into three main sections:
 - Step 1: Grab the JanFlight component list for your preferred microcontroller.
 - Step 2: Pick a project from `Examples` to build or make something unique.
 - Step 3: Refer to `Additional` section to explore the low-level math, filters, and code logic.
+
+### Video Tutorials
+
+I’ve put together a two-part video series demonstrating the full build:
+
+- Part 1: Building Flight Controller - [Watch on Youtube](https://youtu.be/UC-dCg-xkyM)
+- Part 2: Hardware Setup - [Watch on Youtube](https://youtu.be/ZeuBOIA3NoE)
+
+> I used the ESP32 build for the video,but the overall workflow, configuration, and calibration steps apply equally to the Raspberry Pi Pico and STM32 builds.
 
 ### Default JanFlight Breakout Boards
 
@@ -47,9 +56,7 @@ Pre-configured code for these default boards is available, while other boards fr
 
 ### Showcase
 
-I’d love to see what you build! Feel free to share photos or videos of your builds with me on [Instagram](https://www.instagram.com/dikshit_makwana/). I regularly post my own projects, tutorials, and theoretical breakdowns there if you want to follow along.
-
-If you’ve built a unique project that isn't covered here yet and want it featured in the documentation, feel free to submit a Pull Request on [GitHub](https://github.com/oyegunmen/JanFlight)!
+I’d love to see what you build! You may share photos or videos of your builds with me on [Instagram](https://www.instagram.com/dikshit_makwana/). I regularly post my own projects, tutorials, and theoretical breakdowns there if you want to follow along.
 
 ### Parts
 
@@ -61,4 +68,4 @@ You're free to buy your parts from wherever you prefer, but using these links is
 
 !> Yes, I know F450 frames, SimonK ESCs and some other parts belong in a drone museum. Fair enough. But, this guide isn't for building an industrial enterprise rig; it’s for tinkerers learning core flight mechanics. I listed these parts because every local electronics shop is still flooded with them.
 
-*Last Updated: 7th Aug 2026*
+*Last Updated: 26th Aug 2026*
