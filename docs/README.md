@@ -23,22 +23,51 @@ flowchart TD
 
 If I just wanted to fly drones, off-the-shelf hardware/software would have been fine. But I wanted to build drones, while understanding that `magic`, to test my ideas cheaply (In terms of time and money).
 
-Trying to learn drone fundamentals from a fully mature autopilot is like learning to code by reading an enterprise framework. The sheer volume of nested files and system dependencies introduces decent learning curve and may feel daunting. This guide and codebase provide a readable, low-overhead platform to help you master the essentials first before transitioning to industry-standard software.
+Trying to learn drone fundamentals from a fully mature autopilot felt really daunting. The sheer volume of nested files and system dependencies introduces decent learning curve. This guide and codebase provide a readable, low-overhead platform to help you master the essentials first before transitioning to industry-standard software.
 
 ## Why?
 
 You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why re-invent the wheel?
 
-* To understand the physics and math at the hardware and software levels.
+* To learn and teach fundamentals of drone related physics, maths and electronics.
 * Unavailability of teensy boards.
 * To increase the **cool factor** of my content creation ;)
+
+## What this is not?
+
+- This is not a substitute for production-grade flight stacks like Betaflight, ArduPilot, or PX4.
+- It should not be used for commercial operations, payload delivery, or high-reliability professional builds.
+- It isn't designed to skip the fundamentals; you will need to configure code, debug hardware, and understand the core working.
+
+If you just want to fly without caring how the PID loops work, a commercial flight controller will serve you much better.
 
 ## Example
 
 The code is tested on following builds.
 
-- [x] [QuadCopter](https://janflight.in/#/content/quadcopter.md) (Publishing video soon)
+- [x] QuadCopter
 - [x] Plane
+
+Other configurations are also planned, full list and build status can be [found here](content/initial-setup.md#examples).
+
+## Functions
+
+Here’s the current feature roadmap and build status:
+
+- Control Mode
+    - [x] Angle
+    - [ ] Acro
+    - [ ] Horizon
+- ESC Protocol
+    - [X] PWM
+    - [X] OneShot125
+    - [ ] DShot
+- Radio Protocol
+    - [X] PPM
+    - [ ] i-BUS 
+- AHRS
+    - [X] Mahony
+    - [ ] EKF 
 
 ## Disclamier
 
@@ -46,4 +75,4 @@ This code is a shared, open source flight controller for small micro aerial vehi
 
 !> THIS SOFTWARE IS PROVIDED BY THE CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-*Last Updated: 7th Aug 2026*
+*Last Updated: 14th Sept 2026*

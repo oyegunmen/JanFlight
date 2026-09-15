@@ -10,12 +10,12 @@ This documentation is split into three main sections:
 - **Examples**: Step-by-step build guides for various drone configurations and projects using the DIY controller.
 - **Additional**: Supporting technical guides, mathematical breakdowns, and reference material.
 
-#### Recommended Learning Paths
+#### Recommended Paths
 
 1. **For Beginners & Non-Coders**
-- Step 1: Read the [Basics Guide](content/basics.md) first to master fundamentals.
-- Step 2: Pick a [Default Board](#default-janflight-breakout-boards) under `JanFlight` section and grab those parts. you can also follow the [Video Tutorials](#video-tutorials).
-- Step 3: Follow [quadcopter](content/quadcopter.md) guide from `Examples` section to build your first quad.
+- Step 1: Read the [Basics Guide](content/basics.md) first to understand fundamentals.
+- Step 2: Pick a [Default Board](#default-janflight-breakout-boards) under `JanFlight` section and grab those parts to build FC. you can also follow the [Video Tutorials](#video-tutorials).
+- Step 3: Follow [Quadcopter](content/quadcopter.md) guide from `Examples` section to build your first quad.
 - Step 4: If you're curious to learn more, check out the supporting guides under the `Additional` section.
 
 2. **For Developers & Experienced Tinkerers**
@@ -30,7 +30,7 @@ I’ve put together a two-part video series demonstrating the full build:
 - Part 1: Building Flight Controller - [Watch on Youtube](https://youtu.be/UC-dCg-xkyM)
 - Part 2: Hardware Setup - [Watch on Youtube](https://youtu.be/ZeuBOIA3NoE)
 
-> I used the ESP32 build for the video,but the overall workflow, configuration, and calibration steps apply equally to the Raspberry Pi Pico and STM32 builds.
+> I used the ESP32 build for the video, but the overall workflow, configuration, and calibration steps apply equally to the Pico and STM32 builds.
 
 ### Default JanFlight Breakout Boards
 
@@ -62,10 +62,10 @@ I’d love to see what you build! You may share photos or videos of your builds 
 
 The flight controller build guide or example build includes direct purchase links of parts.
 
-These are affiliate links; purchasing through them earns me a small commission at no extra cost to you. I personally buy my components from [FlyRobo](https://www.flyrobo.in/) and have been really happy with their quality of parts and service.
+These are affiliate links; purchasing through them earns me a small commission at no extra cost to you.
 
-You're free to buy your parts from wherever you prefer, but using these links is a great way to support this project and help me create more projects. I appreciate any and all support. Cheers!
+You're free to buy your parts from wherever you prefer, but using these links is a great way to support this project and help me create more projects. I appreciate any and all support.
 
-!> Yes, I know F450 frames, SimonK ESCs and some other parts belong in a drone museum. Fair enough. But, this guide isn't for building an industrial enterprise rig; it’s for tinkerers learning core flight mechanics. I listed these parts because every local electronics shop is still flooded with them.
+Cheers!
 
 *Last Updated: 26th Aug 2026*

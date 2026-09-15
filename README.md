@@ -19,9 +19,9 @@ If you like JanFlight, please give it a ☆ star on [GitHub](https://github.com/
 
 ## Hardware Requirements
 * **Breakout Board:** STM32/ESP32/RP2350
-* **IMU Sensor:** MPU6500
+* **IMU Sensor:** MPU6500/MPU6050
 
-and other drone related parts.
+and other drone [related parts](https://janflight.in/#/content/quadcopter).
 
 | MCU Family | Breakout Board | Clock | Flash | RAM | Price |
 |-------------|-----------------|-----------------|-----------------|-----------------|-----------------|
@@ -35,6 +35,41 @@ and other drone related parts.
 ## Software Requirements
 JanFlight is compiled and flashed using the Arduino IDE. Detailed steps are included in the JanFlight documentation website.
 
+## Why?
+
+You could use [dRehmFlight](https://github.com/nickrehm/dRehmFlight), why re-invent the wheel?
+
+* To learn and teach fundamentals of drone related physics, maths and electronics.
+* Unavailability of teensy boards.
+* To increase the **cool factor** of my content creation ;)
+
+## What this is not?
+
+- This is not a substitute for production-grade flight stacks like Betaflight, ArduPilot, or PX4.
+- It should not be used for commercial operations, payload delivery, or high-reliability professional builds.
+- It isn't designed to skip the fundamentals; you will need to configure code, debug hardware, and understand the core working.
+
+If you just want to fly without caring how the PID loops work, a commercial flight controller will serve you much better.
+
+## Functions
+
+Here’s the current feature roadmap and build status:
+
+- Control Mode
+    - [x] Angle
+    - [ ] Acro
+    - [ ] Horizon
+- ESC Protocol
+    - [X] PWM
+    - [X] OneShot125
+    - [ ] DShot
+- Radio Protocol
+    - [X] PPM
+    - [ ] i-BUS 
+- AHRS
+    - [X] Mahony
+    - [ ] EKF 
+
 ## Testing
 The code is tested on following builds.
 - [x] QuadCopter (Publishing video soon)
@@ -44,8 +79,8 @@ The code is tested on following builds.
 
 I’ve put together a two-part video series demonstrating the full build:
 
-- Part 1: Building Flight Controller - [Watch on Youtube](https://youtu.be/UC-dCg-xkyM)
-- Part 2: Hardware Setup - [Watch on Youtube](https://youtu.be/ZeuBOIA3NoE)
+- [Part 1: Building Flight Controller](https://youtu.be/UC-dCg-xkyM)
+- [Part 2: Hardware Setup](https://youtu.be/ZeuBOIA3NoE)
 
 > [!NOTE]
 > I used the ESP32 build for the video,but the overall workflow, configuration, and calibration steps apply equally to the Raspberry Pi Pico and STM32 builds.

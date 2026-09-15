@@ -11,39 +11,60 @@ This example uses a generic **ESP32 DevKitC**.
     <tr>
       <th>Part</th>
       <th>Specs</th>
-      <th>Price* (₹)</th>
-      <th>Purchase</th>
+      <th>Qty</th>
+      <th>Price*<br>(₹)</th>
+      <th>Link<br>(India)</th>
+      <th>Price*<br>($)</th>
+      <th>Link<br>(Global)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td rowspan="4">ESP32</td>
-      <td>38-Pin Type-C CP2102 Driver (Recommended)</td>
+      <td rowspan="4">Dev Board<br><i>(Buy Any One)<i></td>
+      <td>ESP32 38-Pin Type-C (Recommended)</td>
+      <td>1</td>
       <td>599</td>
       <td><a href="https://www.flyrobo.in/esp32-38-pin-development-board-cp2102-type-c-wifi-and-bluetooth?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>3.92</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c2zoOAuH" target="_blank">Buy</a></td>
     </tr>
     <tr>
-      <td>38-Pin Micro USB CP2102 Driver</td>
+      <td>ESP32 38-Pin Micro USB</td>
+      <td>1</td>
       <td>599</td>
       <td><a href="https://www.flyrobo.in/esp32-38-pin-development-board-dual-core-wifi-bluetooth-micro-usb?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>3.83</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c2zoOAuH" target="_blank">Buy</a></td>
     </tr>
     <tr>
-      <td>38-Pin Micro-USB CH9102 Driver</td>
+      <td>ESP32 38-Pin Micro-USB</td>
+      <td>1</td>
       <td>599</td>
       <td><a href="https://www.flyrobo.in/esp32-development-board-wifibluetooth-dual-core-38-pin-ch9102-micro-soldered?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
-      <td>30-Pin Micro-USB CH9102 Driver</td>
+      <td>ESP32 30-Pin Micro-USB</td>
+      <td>1</td>
       <td>499</td>
       <td><a href="https://www.flyrobo.in/esp32-development-board-wifibluetooth-dual-core-30-pin-ch9102-micro-soldered?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
-      <td rowspan="2">MPU6500</td>
-      <td>-</td>
+      <td rowspan="2">IMU</td>
+      <td>MPU6500</td>
+      <td>1</td>
       <td>237</td>
       <td><a href="https://www.flyrobo.in/mpu6500-gy-6500-6dof-6-axis-accelerometer-gyro-sensor?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c42M3wvf" target="_blank">Buy</a></td>
     </tr>
     <tr>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
       <td>-</td>
       <td>-</td>
       <td>-</td>
@@ -51,68 +72,104 @@ This example uses a generic **ESP32 DevKitC**.
     <tr>
       <td rowspan="12">Miscellaneous</td>
       <td>Soldering Iron</td>
+      <td>1</td>
       <td>265</td>
       <td><a href="https://www.flyrobo.in/solder-iron-25w-yellow?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>5.66</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4STxyiD" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Soldering Wire</td>
+      <td>1</td>
       <td>245</td>
       <td><a href="https://www.flyrobo.in/solder-wire-40-gsm-for-most-electrical-repair-soldering-purpose?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c2QgiDwl" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Soldering Flux</td>
+      <td>1</td>
       <td>21</td>
       <td><a href="https://www.flyrobo.in/noel-yellow-soldering-flux-paste-10gm?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
-    </tr>
-    <tr>
-      <td>Single Side Perf Board</td>
-      <td>31</td>
-      <td><a href="https://www.flyrobo.in/12_x_18cm_pcb_prototyping_printed_circuit?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3cgdyod" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Double Side Perf Board</td>
+      <td>1</td>
       <td>43</td>
       <td><a href="https://www.flyrobo.in/5-x-7-cm-double-side-universal-pcb-prototype-board?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3gO30rj" target="_blank">Buy</a></td>
     </tr>
     <tr>
-      <td>Male To Male Jumper Wire</td>
-      <td>53</td>
-      <td><a href="https://www.flyrobo.in/10cm_male_to_male_jumper_cable_wire_for_arduino?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
-    </tr>
-    <tr>
-      <td>Female To Female Jumper Wire</td>
-      <td>53</td>
-      <td><a href="https://www.flyrobo.in/40pcs_10cm_female_to_female_jumper_cable_wire_for_arduino?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
-    </tr>
-    <tr>
-      <td>Male To Female Jumper Wire</td>
-      <td>53</td>
-      <td><a href="https://www.flyrobo.in/10cm_male_to_female_jumper_cable_wire_for_arduino?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>Black Silicon Wire (1 Meter, 24 AWG)</td>
+      <td>1</td>
+      <td>19</td>
+      <td><a href="https://www.flyrobo.in/24awg-high-quality-black-silicon-wire-1meter?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3EOY7Oz" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Wire Cutter</td>
+      <td>1</td>
       <td>60</td>
       <td><a href="https://www.flyrobo.in/wire-stripper-and-cutter?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
-    </tr>
-    <tr>
-      <td>Male Double Row Header Pins</td>
-      <td>7 x 5</td>
-      <td><a href="https://www.flyrobo.in/2.54mm-double-row-straight-male-header-strip-2x40p?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4cew2tX" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Male Single Row Header Pins</td>
-      <td>8 x 5</td>
+      <td>5</td>
+      <td>40</td>
       <td><a href="https://www.flyrobo.in/40-pin-male-header-connector-strip-breakable-5pcs?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4k7jl01" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Female Single Row Header Pins</td>
-      <td>17 x 5</td>
+      <td>5</td>
+      <td>85</td>
       <td><a href="https://www.flyrobo.in/2mm-pitch-female-burg-strip-40-pin-5-pcs?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4MWwULb" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>4 Pin Male JST Connector</td>
+      <td>1</td>
+      <td>2</td>
+      <td><a href="https://quartzcomponents.com/collections/all/products/4-pin-jst-xh-male-connector-5-24mm-pitch?sca_ref=12138096.It1xJN1aww" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4B2jwtf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>4 Pin Female JST Connector</td>
+      <td>1</td>
+      <td>13</td>
+      <td><a href="https://quartzcomponents.com/collections/all/products/4-pin-jst-sm-connector-with-wire-5-24mm-pitch?sca_ref=12138096.It1xJN1aww" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4B2jwtf" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Heat Shrink Tube</td>
+      <td>1</td>
+      <td>18</td>
+      <td><a href="https://quartzcomponents.com/collections/all/products/heat-shrink-tube-6mm-diameter-black-1-meter?sca_ref=12138096.It1xJN1aww" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c2vbHvI9" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>3 Pin Female to Female Jumper Wire</td>
+      <td>1</td>
+      <td>24</td>
+      <td><a href="https://www.flyrobo.in/70cm-3-pin-female-female-dupont-cable-for-3d-printer?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>0.49</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4l7Dkzr" target="_blank">Buy</a></td>
     </tr>
   </tbody>
 </table>
 
-**prices as of 7th Aug 2026*
+**prices as of 14th Sept 2026*
 
 ## Soldering
 
@@ -228,7 +285,7 @@ Connect components as outlined in the table below:
 
 ## Firmware Flash & Verification
 
-Go to the [Initial Setup Guide](content/quadcopter.md#_2-development-environment), select your board ESP32, complete initial setup. Once done, follow the verification steps below to ensure everything works.
+Go to the [Initial Setup Guide](content/initial-setup.md), select your board ESP32, complete initial setup. Once done, follow the verification steps below to ensure everything works as intended.
 
 1. Connect the ESP32 to your laptop via USB and flash the [Janflight firmware](https://github.com/oyegunmen/JanFlight/blob/main/src/ESP32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino).
 

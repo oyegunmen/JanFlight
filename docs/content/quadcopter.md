@@ -1,7 +1,11 @@
 # Quadcopter
 
+In this example we will build standard quadX drone.
+
+Make sure you've completed the [Initial Setup](content/initial-setup.md) Guide before proceeding with the steps below.
+
 1. Get the required hardware
-2. Development Environment
+2. Make Connections
 3. Configuration
 4. Calibrate
 5. Compile & Upload
@@ -9,151 +13,276 @@
 
 ## 1. Get the required hardware
 
-#### Bill of Material
+<!-- tabs:start -->
+
+#### **Decent Build**
 
 <table>
   <thead>
     <tr>
       <th>Part</th>
       <th>Specs</th>
-      <th>Price* (₹)</th>
-      <th>Purchase</th>
+      <th>Qty</th>
+      <th>Price*<br>(₹)</th>
+      <th>Link<br>(India)</th>
+      <th>Price*<br>($)</th>
+      <th>Link<br>(Global)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Flight Controller</td>
       <td>Build guide for <a href="/content/rp2350-getting-started.md">RP2350</a>/<a href="/content/esp32-getting-started.md">ESP32</a>/<a href="/content/stm32-getting-started.md">STM32</a></td>
+      <td>1</td>
+      <td>-</td>
+      <td>-</td>
       <td>-</td>
       <td>-</td>
     </tr>
     <tr>
       <td>Radio</td>
       <td>FlySky FS-i6 2.4G TX with FS-iA6B RX</td>
+      <td>1</td>
       <td>5459</td>
       <td><a href="https://www.flyrobo.in/flysky-fs-i6-2.4g-6ch-afhds-transmitter-with-fs-ia6b-receiver-for-rc-fpv-drone?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>59.85</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3IpqH2N" target="_blank">Buy</a></td>
     </tr>
     <tr>
-      <td>Battery</td>
+      <td>Battery with Charger</td>
       <td>3S Lipo 2200mAh</td>
-      <td>1619</td>
-      <td><a href="https://www.flyrobo.in/absd-lipo-battery-11.1v-2200mah-3s-30c?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1</td>
+      <td>1899</td>
+      <td><a href="https://www.flyrobo.in/11.1v-2200mah-lipo-battery-with-imax-b3-lipo-balance-charger?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>17.06</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4FYRYaD" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Frame</td>
       <td>F450</td>
+      <td>1</td>
       <td>599</td>
       <td><a href="https://www.flyrobo.in/dji-f450-quadcopter-frame-kit-with-integrated-pcb?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>14.01</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c36SA5Cv" target="_blank">Buy</a></td>
     </tr>
     <tr>
       <td>Power Module</td>
       <td>XT60 Connector</td>
+      <td>1</td>
       <td>570</td>
       <td><a href="https://www.flyrobo.in/apm_pixhawk_power_module_with_xt60?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>5.92</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3ZEQCTb" target="_blank">Buy</a></td>
     </tr>
     <tr>
-      <td>ESC x 4</td>
-      <td>30A</td>
-      <td>388</td>
-      <td><a href="https://www.flyrobo.in/simonk_30a_2-3s_brushless_esc_for_rc?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>ESC</td>
+      <td>60A BLHELI_S 4IN1 3-6S ESC</td>
+      <td>1</td>
+      <td>4,448</td>
+      <td><a href="https://www.flyrobo.in/60a-blheli_s-4in1-3-6s-brushless-esc?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>38.98</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3m2vKq1" target="_blank">Buy</a></td>
     </tr>
     <tr>
-      <td>Brushless Motors x 4</td>
-      <td>A2212 1000KV</td>
-      <td>413</td>
-      <td><a href="https://www.flyrobo.in/a2212_1000kv_brushless_motor_for_rc_airplane?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td rowspan="3">BLDC Motors</td>
+      <td>EMAX 935KV CCW MT2213 with 1045 Propeller</td>
+      <td>2</td>
+      <td>1398</td>
+      <td><a href="https://www.flyrobo.in/emax-935kv-multicopter-motor-mt2213-with-propeller-pair-1045-brushless-motor?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
-      <td>Propellers x 2</td>
-      <td>1045</td>
-      <td>58</td>
-      <td><a href="https://www.flyrobo.in/1045_propeller_10in_10x4.5_for_drone?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>EMAX 935KV CW MT2213 with 1045 Propeller</td>
+      <td>2</td>
+      <td>1398</td>
+      <td><a href="https://www.flyrobo.in/emax-935kv-cw-multicopter-motor-mt2213-with-propeller-pair-1045?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Set of EMAX 935KV CW/CCW MT2213 with 1045 Propeller</td>
+      <td>1</td>
+      <td>-</td>
+      <td>-</td>
+      <td>53.26</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3cqtllT" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Propellers</td>
+      <td>Already Included with Motors</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
     </tr>
     <tr>
       <td>Battery Strap</td>
-      <td>30 cm</td>
+      <td>20/30 cm</td>
+      <td>1</td>
       <td>63</td>
       <td><a href="https://www.flyrobo.in/readytosky-30cm-nylon-strap-belt-for-rc-lipo-battery?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>0.39</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4BgY7kZ" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Black Silicon Wire</td>
+      <td>1 Meter, 20 AWG</td>
+      <td>1</td>
+      <td>26</td>
+      <td><a href="https://www.flyrobo.in/20awg-high-flexible-black-silicone-wire-1-meter?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3EOY7Oz" target="_blank">Buy</a></td>
     </tr>
   </tbody>
 </table>
 
-**prices as of 7th Aug 2026*
+#### **Low Cost Build**
 
-## 2. Development Environment
-Download the latest version of the [Arduino IDE](https://www.arduino.cc/en/software/) for your operating system.
+<table>
+  <thead>
+    <tr>
+      <th>Part</th>
+      <th>Specs</th>
+      <th>Qty</th>
+      <th>Price*<br>(₹)</th>
+      <th>Link<br>(India)</th>
+      <th>Price*<br>($)</th>
+      <th>Link<br>(Global)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Flight Controller</td>
+      <td>Build guide for <a href="/content/rp2350-getting-started.md">RP2350</a>/<a href="/content/esp32-getting-started.md">ESP32</a>/<a href="/content/stm32-getting-started.md">STM32</a></td>
+      <td>1</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+      <td>-</td>
+    </tr>
+    <tr>
+      <td>Radio</td>
+      <td>FlySky FS-i6 2.4G TX with FS-iA6B RX</td>
+      <td>1</td>
+      <td>5459</td>
+      <td><a href="https://www.flyrobo.in/flysky-fs-i6-2.4g-6ch-afhds-transmitter-with-fs-ia6b-receiver-for-rc-fpv-drone?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>59.85</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3IpqH2N" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Battery with Charger</td>
+      <td>3S Lipo 2200mAh</td>
+      <td>1</td>
+      <td>1899</td>
+      <td><a href="https://www.flyrobo.in/11.1v-2200mah-lipo-battery-with-imax-b3-lipo-balance-charger?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>17.06</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4FYRYaD" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Frame</td>
+      <td>F450</td>
+      <td>1</td>
+      <td>599</td>
+      <td><a href="https://www.flyrobo.in/dji-f450-quadcopter-frame-kit-with-integrated-pcb?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>14.01</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c36SA5Cv" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Power Module</td>
+      <td>XT60 Connector</td>
+      <td>1</td>
+      <td>570</td>
+      <td><a href="https://www.flyrobo.in/apm_pixhawk_power_module_with_xt60?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>5.92</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3ZEQCTb" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>ESC</td>
+      <td>Emax BLHeli 20A</td>
+      <td>4</td>
+      <td>712</td>
+      <td><a href="https://www.flyrobo.in/emax-blheli-20a-brushless-esc-for-rc-modelhigh-quality?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>9.23</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4qHP1ot" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Brushless Motors</td>
+      <td>A2212, 1000KV</td>
+      <td>4</td>
+      <td>413</td>
+      <td><a href="https://www.flyrobo.in/a2212_1000kv_brushless_motor_for_rc_airplane?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>7.28</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3MGVv7J" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Propellers</td>
+      <td>1045</td>
+      <td>3</td>
+      <td>58</td>
+      <td><a href="https://www.flyrobo.in/1045_propeller_10in_10x4.5_for_drone?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.24</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4FyVCfT" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Battery Strap</td>
+      <td>20/30 cm</td>
+      <td>1</td>
+      <td>63</td>
+      <td><a href="https://www.flyrobo.in/readytosky-30cm-nylon-strap-belt-for-rc-lipo-battery?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>0.39</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4BgY7kZ" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Bullet Connectors</td>
+      <td>3.5mm Female</td>
+      <td>12</td>
+      <td>13</td>
+      <td><a href="https://www.flyrobo.in/3.5mm-gold-plated-female-cross-bullet-banana-connector?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>0.26</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c4LuDjOl" target="_blank">Buy</a></td>
+    </tr>
+    <tr>
+      <td>Black Silicon Wire</td>
+      <td>1 Meter, 20 AWG</td>
+      <td>1</td>
+      <td>26</td>
+      <td><a href="https://www.flyrobo.in/20awg-high-flexible-black-silicone-wire-1-meter?tracking=RlWmZUVohGHCRsAhWTrZyDfyKC3myArPWKC9tC7cAxOjEeW8PFqjN5SbOiOkNscf" target="_blank">Buy</a></td>
+      <td>1.09</td>
+      <td><a href="https://s.click.aliexpress.com/e/_c3EOY7Oz" target="_blank">Buy</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- tabs:end -->
+
+**prices as of 14th Sept 2026*
+
+## 2. Make Connections
+
+Make connections as per the following diagram.
+
+The guide uses ESP32 as an example but it works similarly for Pico and STM32 Boards.
 
 <!-- tabs:start -->
 
-#### **RP2040 / RP2350**
+#### **Decent Build**
 
-Open your Arduino IDE and follow these steps to add RP2350 support:
+![Image](../static/quad-decent-build.png)
 
-1. Open Arduino IDE, go to **File > Preferences**. Under the Settings tab, locate the **Additional boards manager URLs** field and paste this exact link:
+#### **Low Cost Build**
 
-```Arduino
-https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
-```
-
-![Image](../static/rp2350-pref.png)
-
-2. Open **Tools > Board > Boards Manager**. In the search bar, type **rp2040**. Locate **Raspberry Pi Pico/RP2040/RP2350** by Earle F. Philhower, III and click **Install**.
-
-3. Go to **Tools > Board > Raspberry Pi RP2040/RP2350 Boards** and select **Raspberry Pi Pico 2**.
-
-4. Go to **Tools > Port** and select the port your board enumerates.
-
-![Image](../static/rp2350-tools.png)
-
-#### **ESP32 / ESP32-S3**
-
-Open your Arduino IDE and follow these steps to add ESP32 support:
-
-1. Open Arduino IDE, go to **File > Preferences**. Under the Settings tab, locate the **Additional boards manager URLs** field and paste this exact link:
-
-```Arduino
-https://espressif.github.io/arduino-esp32/package_esp32_index.json
-```
-
-![Image](../static/esp32-pref.png)
-
-2. Open **Tools > Board > Boards Manager**. In the search bar, type **esp32**. Locate **esp32 by Espressif Systems** and click **Install**.
-
-3. Go to **Tools > Board > ESP32 Arduino** and select **ESP32 Dev Module** (this matches most generic WROOM-32 DevKit boards; pick your board's exact name if listed separately).
-
-4. Go to **Tools > Upload Speed** and set it to **115200**.
-
-5. Go to **Tools > Port** and select the COM port your board enumerates as once connected via USB.
-
-![Image](../static/esp32-tools.png)
-
-!> **Info**: Your laptop might need the Virtual COM Port driver installed if it doesn't automatically detect the board when flashing; the standard [CP210x](https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads)/[CH340](https://sparks.gogo.co.nz/ch340.html) driver for your OS should solve the detect issue.
-
-#### **STM32**
-
-Open your Arduino IDE and follow these steps to add STM32 support:
-
-1. Open Arduino IDE, Go to **File > Preferences** Under the Settings tab, locate the **Additional boards manager URLs** field and paste this exact link:
-
-```Arduino
-https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectronics_index.json
-```
-
-![Image](../static/stm32-pref.png)
-
-2. Open **Tools > Board > Boards Manager**. In the search bar, type **STM32**. Locate STM32 MCU based boards by **STMicroelectronics** and click **Install**.
-
-3. Go to **Tools > Board > STM32 Boards (STM32Duino)** and select **Generic STM32F4** series.
-
-4. Go to **Tools > Board part number** and select **Generic F405RGTx**.
-
-5. Go to **Tools > U(S)ART support** and change the setting to **Enabled (generic 'Serial')**. This activates USB CDC support so you can stream raw telemetry directly through your USB cable.
-
-![Image](../static/stm32-tools.png)
-
-!> **Info**: Your laptop might need the [Virtual COM Port driver](https://www.st.com/en/development-tools/stsw-stm32102.html) installed if it doesn't automatically detect the board when flashing via DFU.
+![Image](../static/quad-low-cost.png)
 
 <!-- tabs:end -->
+
+Refer to following diagram for the orientation of the drone.
+
+![Image](../static/quad-orientation.png)
+
+For connecting ESC signal wires to flight controller refer to tables ([Pico](content/rp2350-hardware-setup?id=wiring) / [ESP32](content/esp32-hardware-setup?id=wiring) / [STM32](http://localhost:3000/#/content/stm32-hardware-setup?id=wiring)) of your target board.
 
 ## 3. Configuration
 Download [RP2350](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) / [ESP32](https://github.com/oyegunmen/JanFlight/blob/main/src/ESP32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) / [STM32](https://github.com/oyegunmen/JanFlight/blob/main/src/STM32/JanFlight_v1.0.0/JanFlight_v1.0.0.ino) based firmware from GitHub.
@@ -182,20 +311,23 @@ Download [RP2350](https://github.com/oyegunmen/JanFlight/blob/main/src/RP2350/Ja
 b) **Adjust the Control Mixer (Optional):** Keep the default settings if you are building a standard QuadX drone. Locate the `controlMixer()` function and modify the `+ / -` signs to reflect your custom motor placement.
 
 ## 4. Calibrate
-- Keep your IMU flat on a level surface.
+
+- Keep your Flight-Controller/IMU flat on a level surface.
 - In `setup()`, uncomment the `calculate_IMU_error()` function.
-- Connect your board via USB, select your COM port, and click Upload.
+- Connect your board via USB Data Cable, select your COM port, and click Upload.
+
+> To enter bootloader mode on an RP2040 or RP2350, hold the BOOTSEL button while plugging it into your computer, then release it once the drive appears. For an ESP32, just plug the cable, the board automatically handles this when you flash your code.
 
 Open the Serial Monitor, copy the printed offset values into the error variables in `section 3` of your code, and comment out `calculate_IMU_error()`.
 
 !> Ensure the initial IMU offset errors in Section 3 are set to zero to allow for accurate calibration.
 
 ## 5. Compile & Upload
-Reconnect your board via USB and Upload the code again with calibrated IMU offset data.
+Connect your board via USB and Upload the code with calibrated IMU offset data.
 
-!> You may need to tune the PID parameters in Section 3 to achieve optimal flight stability. If the drone feels sluggish or unresponsive, adjust these values to suit your specific build.
+!> You may need to tune the PID parameters in `Section 3` of the code to achieve optimal flight stability. If the drone feels sluggish or unresponsive, adjust these values to suit your specific build.
 
 ## 6. FLY!
-Disconnect from your computer, double-check your failsafe and throttle cut switches with propellers off, verify the orientation, connect your sensors, motors and radio, and head out for a test flight.
+Disconnect from your computer, double-check your failsafe and throttle cut switches with propellers off, verify the orientation, mount propellers, and head out for a test flight.
 
 *Last Updated: 7th Aug 2026*

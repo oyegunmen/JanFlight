@@ -9,6 +9,7 @@
   * [Firmware](content/firmware.md)
 
 * **EXAMPLES**
+  * [Initial Setup](content/initial-setup.md)
   * [Quadcopter](content/quadcopter.md)
 
 * **ADDITIONAL**
