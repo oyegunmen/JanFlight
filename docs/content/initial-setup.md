@@ -82,7 +82,7 @@ https://github.com/stm32duino/BoardManagerFiles/raw/main/package_stmicroelectron
 
 This completes your initial setup. From here on, all examples assume you have successfully completed this setup.
 
-## Examples
+## Example Guides
 
 Here are the current and planned build guides list:
 
