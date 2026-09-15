@@ -48,7 +48,7 @@ The code is tested on following builds.
 - [x] QuadCopter
 - [x] Plane
 
-Other configurations are also planned, full list and build status can be [found here](content/initial-setup.md#examples).
+Other configurations are also planned, full list and build status can be [found here](content/initial-setup.md?id=examples).
 
 ## Functions
 

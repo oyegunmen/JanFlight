@@ -75,6 +75,8 @@ The code is tested on following builds.
 - [x] QuadCopter (Publishing video soon)
 - [x] Plane
 
+Other configurations are also planned, full list and build status can be [found here](www.janflight.in/#/content/initial-setup.md?id=examples).
+
 ## Video Tutorials
 
 I’ve put together a two-part video series demonstrating the full build:
