@@ -1,4 +1,4 @@
-# Quadcopter
+# 5 Inch FPV
 
 In this example we will build 5 Inch FPV drone.
 
