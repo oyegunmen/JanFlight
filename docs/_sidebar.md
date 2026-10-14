@@ -11,6 +11,7 @@
 * **EXAMPLES**
   * [Initial Setup](content/initial-setup.md)
   * [Quadcopter](content/quadcopter.md)
+  * [5 Inch FPV](content/5-inch-fpv.md)
 
 * **ADDITIONAL**
   * [Basics](content/basics.md)

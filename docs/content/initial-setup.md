@@ -87,7 +87,7 @@ This completes your initial setup. From here on, all examples assume you have su
 Here are the current and planned build guides list:
 
 - [x] [Quadcopter](content/quadcopter.md)
-- [ ] 5 Inch FPV 
+- [x] [5 Inch FPV](content/5-inch-fpv.md) 
 - [ ] Plane 
 - [ ] Tricopter
 - [ ] Monocopter
